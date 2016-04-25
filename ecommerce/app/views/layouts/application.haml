@@ -1,0 +1,80 @@
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %title= content_for?(:title) ? yield(:title) : "Demo"
+    = javascript_include_tag "https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application" 
+   
+ 
+  %body
+    .navbar.navbar-default.navbar-static-top
+      .container 
+        %a.navbar-brand(href="/") 
+          %p
+            = "eCommerce"
+            %b  Demo
+        %ul.nav.navbar-nav.navbar-right 
+          - if (!current_user)
+            %li
+              %a{:href => new_user_session_path} Sign In
+          - else
+            %li.dropdown
+              %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                %span.glyphicon.glyphicon-user
+                = current_user["email"]
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  %a{:href => "#"} My Profile
+                %li
+                  %a{:href => "#"} My Cart
+               
+                %li.divider{:role => "separator"}
+
+
+                %li
+                  =link_to('Logout', destroy_user_session_path, :method => :delete)
+    .container-fluid
+      .row
+        .col-lg-9
+          = yield
+        .col-lg-3
+
+          - if current_user
+            .panel.panel-default
+              .panel-heading
+                %b Shopping Cart
+              .panel-body
+                %ul.nav.nav-list
+                  %table(class="table table-bordered table-striped")
+                    %thead
+                      %tr
+                        %th #
+                        %th Description
+                        %th.text-align Cost
+                    %tbody
+                      - Cart.get_current_cart(current_user).items.each  do |item|
+                        %tr
+                          %td #{item.quantity.to_i}
+                          %td=link_to("#{item.product.name}", item.product)
+                          %td.text-align #{number_to_currency((item.quantity * item.product.price), unit: "$")}
+                          %td
+                            %a{href: item_path(item)}(data-method="delete")
+                              %span.glyphicon.glyphicon-remove
+                    %tfooter
+                      %td.text-align(colspan="2")
+                        %b Total:
+                      %td.text-align= number_to_currency(Cart.get_current_cart(current_user).total.to_f, unit: "$")
+                .panel-footer.text-align
+                  %a{href: new_gateway_sale_path(cart_id=Cart.get_current_cart(current_user).id), class: "btn btn-warning"}
+                    %span.glyphicon.glyphicon-credit-card
+                    Checkout
+                  %a{href: "#", class: "btn btn-danger"}
+                    %span.glyphicon.glyphicon-trash
+                    Clean
+

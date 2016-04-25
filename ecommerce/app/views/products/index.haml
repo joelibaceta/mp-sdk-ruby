@@ -1,0 +1,19 @@
+.container-fluid
+  - @products.each_slice(3) do |items|
+    .row
+      - items.each do |item|
+        .col-md-4
+          .thumbnail
+            .pic-thumb{style: "background-image: url('#{item.picture.url}')"} 
+            .caption 
+              %h4= "#{item.name}"
+              %small= item.description
+              .container-fluid.caption-bottom
+                .row
+                  .col-md-6
+                    %h4=  number_to_currency(item.price, unit: "$")
+                  .col-md-6.to-right
+                    %a{href: new_item_path(product_id: item.id), class: "btn btn-warning btn-sm"} 
+                      %span.glyphicon.glyphicon-shopping-cart
+                      Add to Cart
+
