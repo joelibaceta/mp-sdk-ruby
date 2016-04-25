@@ -14,8 +14,10 @@
   %body
     .navbar.navbar-default.navbar-static-top
       .container 
-        %a.navbar-brand(href="/") 
+        %a.navbar-brand(href="/")
+
           %p
+            =image_tag("eCommerce-icon.png", width: "50px")
             = "eCommerce"
             %b  Demo
         %ul.nav.navbar-nav.navbar-right 
@@ -29,19 +31,13 @@
                 = current_user["email"]
                 %span.caret
               %ul.dropdown-menu
-                %li
-                  %a{:href => "#"} My Profile
-                %li
-                  %a{:href => "#"} My Cart
-               
                 %li.divider{:role => "separator"}
-
-
-                %li
-                  =link_to('Logout', destroy_user_session_path, :method => :delete)
+                %li=link_to('Logout', destroy_user_session_path, :method => :delete)
     .container-fluid
       .row
         .col-lg-9
+          %br
+          %br
           = yield
         .col-lg-3
 

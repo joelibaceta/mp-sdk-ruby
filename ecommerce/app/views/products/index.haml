@@ -7,7 +7,7 @@
             .pic-thumb{style: "background-image: url('#{item.picture.url}')"} 
             .caption 
               %h4= "#{item.name}"
-              %small= item.description
+              %small= truncate item.description, length: 200
               .container-fluid.caption-bottom
                 .row
                   .col-md-6
