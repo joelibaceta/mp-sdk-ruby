@@ -10,8 +10,19 @@ Rails.application.routes.draw do
   resources :products
   resources :items
 
+
+
   namespace :gateway do
-    resources :sales
+    resources :cards do
+      collection do
+        get  :payment_form
+      end
+    end
+    resources :sales do
+      collection do
+        get  :payment_form
+      end
+    end
   end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

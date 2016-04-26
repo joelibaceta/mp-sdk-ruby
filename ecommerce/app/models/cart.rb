@@ -3,6 +3,7 @@ class Cart < ActiveRecord::Base
 
   has_many :items
   belongs_to :user
+  belongs_to :sale
 
   def self.get_current_cart(user)
     current_cart = Cart.where("state = 'created' AND user_id = ?", user.id).last

@@ -5,7 +5,7 @@
 
 .payment-ways-container {
   margin: 10px;
-  padding: 30px;
+  padding: 40px;
 
   -webkit-box-shadow: 0px 0px 3px 0.5px rgba(0,0,0,0.2);
   -moz-box-shadow: 0px 0px 3px 0.5px rgba(0,0,0,0.2);
@@ -16,8 +16,14 @@
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
-
-  img {
+  a {
     padding: 20px;
   }
+
+  a.btn {
+    padding: 8px;
+    margin: 5px;
+  }
+
+  img:hover { transform: scale(1.1); }
 }

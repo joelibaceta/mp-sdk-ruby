@@ -1,0 +1,23 @@
+.row
+  .col-md-1
+  .col-md-5
+    .payment-ways-container.shadow-box
+      %h4 Save new card
+      %hr
+      %center
+        .card-wrapper
+      %br
+      =render partial: 'form'
+  .col-md-5
+    .payment-ways-container.shadow-box
+      %center
+        %a{href: payment_form_gateway_sales_path(payment_provider: "mango")}
+          =image_tag("mango-logo-black", width: "150px")
+        %hr
+      =render partial: 'table'
+
+:javascript
+
+  payForm = new mangoPaymentForm(".simple_form");
+  $(".alert").hide();
+

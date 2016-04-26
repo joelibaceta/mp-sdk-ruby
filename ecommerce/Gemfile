@@ -26,6 +26,12 @@ gem 'paperclip'
 gem 'state_machine'
 gem 'devise'
 
+# Payment Providers
+
+gem 'mango-ruby'
+gem 'mercadopago-sdk'
+gem 'stripe'
+
 #  Optional: I prefer use simple_form to simplify the views
 gem 'simple_form'         
 #  Optional: I prefer use haml for views

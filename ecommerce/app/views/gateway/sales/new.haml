@@ -1,15 +1,17 @@
 %center
   .container-fluid
     .row
-      .col-md-3
-      .col-md-6
+      .col-md-2
+      .col-md-8
         .payment-ways-container.shadow-box
           %h4 Seleccione su proveedor de pagos
           %br
-          = image_tag("logo-mercadopago", width: "200px")
-          = image_tag("mango-logo-black")
-          = image_tag("stripe-logo", width: "120px")
+          %a{href: payment_form_gateway_sales_path(payment_provider: "mp")}
+            =image_tag("logo-mercadopago", width: "160px")
+          %a{href: payment_form_gateway_sales_path(payment_provider: "mango")}
+            =image_tag("mango-logo-black")
+          %a{href: payment_form_gateway_sales_path(payment_provider: "stripe")}
+            =image_tag("stripe-logo", width: "100px")
         %br
         %small El proceso podria estar sujeto a las restricciones y/o comisiones de cada proveedor de pago.
-
-      .col-md-3
+      .col-md-2
