@@ -4,6 +4,7 @@
     .payment-ways-container.shadow-box
       %h4 Save new card
       %hr
+      .alert.alert-danger
       %center
         .card-wrapper
       %br
@@ -17,7 +18,6 @@
       =render partial: 'table'
 
 :javascript
-
   payForm = new mangoPaymentForm(".simple_form");
   $(".alert").hide();
 

@@ -4,33 +4,46 @@
 %hr
 
 = simple_form_for([:gateway, @sale], html: { class: 'form-horizontal' }) do |f|
+
+
   %input{:name => "kindOfOperation", :type => "hidden", :value => "card"}
   %fieldset
     %br
     .form-group
-      %input#amount.form-control{:name => "amount", :type => "hidden", :value => @sale.cart.total}/
-    .form-group
       %label.col-sm-3.control-label{:for => "email"} Email
       .col-sm-9
-        %input.form-control{:name => "email", :placeholder => "your email", :type => "email", :value => current_user["email"]}
+        %input.form-control{:name => "email", :placeholder => "your email", :type => "email", :value => current_user["email"], value: current_user.email}
+
     .form-group
+      %label.col-sm-3.control-label{:for => "email"} Tarjeta
+      .col-sm-9
+        %select.form-control#card_token(name= "card_token")
+          - @cards.each do |card|
+            %option{value: card.card_token, first6: card.first6}= "#{card.provider_prefix} - **** **** **** **** #{card.last4}"
+          %option(value="0") Otra tarjeta
+    %hr.custom
+    .form-group
+      %input#amount.form-control{:name => "amount", :type => "hidden", :value => @sale.cart.total}/
+
+    .form-group.custom
       %label.col-sm-3.control-label{:for => "cardNumber"} Credit card number:
       .col-sm-9
         %input.form-control#cardNumber{"data-checkout" => "cardNumber", :placeholder => "4509 9535 6623 3704", :type => "text", autocomplete: "cc-number"}
-    .form-group
+    .form-group.custom
       %label.col-sm-3.control-label{:for => "cardExpirationMonth"} Expiration:
       .col-sm-3
         %input.right-align.form-control#cardExpirationMonth{"data-checkout" => "cardExpirationMonth", :placeholder => "08", :type => "number"}
       .col-sm-3
         %input.right-align.form-control#cardExpirationYear{"data-checkout" => "cardExpirationYear", :placeholder => "2015", :type => "number"}
-    .form-group
+    .form-group.custom
       %label.col-sm-3.control-label{:for => "securityCode"} Security code:
       .col-sm-3
         %input.right-align.form-control#securityCode{"data-checkout" => "securityCode", :placeholder => "123", :type => "number"}
-    .form-group
+    .form-group.custom
       %label.col-sm-3.control-label{:for => "cardholderName"} Card holder name:
       .col-sm-9
         %input.form-control#cardholderName{"data-checkout" => "cardholderName", :placeholder => "APRO", :type => "text"}
+    %hr.custom
     .form-group
       %label.col-sm-3.control-label{:for => "docType"} Document type:
       .col-sm-9
@@ -64,3 +77,20 @@
 
     Mercadopago.getIdentificationTypes();
     payForm = new paymentForm(".simple_form");
+
+    $(".custom").hide();
+
+    $("#card_token").on("change", function(){
+      if ($(this).val() == "0"){
+        $(".custom").show();
+      } else {
+        p_id = $("#card_token :selected").text().split(" - ")[0].trim();
+        console.log(p_id);
+        Mercadopago.getIssuers(p_id, payForm.showCardIssuersFn);
+
+        //addEvent(getInputFromID("issuer"), 'change', payForm.setInstallmentInfoFn());
+        $(".custom").hide();
+      }
+    });
+
+

@@ -1,12 +1,10 @@
 %table.table.table-bordered
   %thead
     %th
-    %th
-    %th Token
+    %th Last 4 Digits
     %th
   %tbody
     - @cards.each do |card|
       %tr
         %td= image_tag(card.provider_prefix, width: "50px")
-        %td
-        %td= card.card_token
+        %td= "#{card.first6.to_s[0..3]} #{card.first6.to_s[4..5]}** **** #{card.last4}"

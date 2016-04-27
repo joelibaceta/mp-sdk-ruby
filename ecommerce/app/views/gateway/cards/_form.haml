@@ -3,6 +3,8 @@
     %input{:type => "hidden", name: "provider", value: @payment_provider}/
     %input#cardExpirationMonth{:type => "hidden", "data-checkout" => "cardExpirationMonth", "data-stripe"=>"exp_month"}/
     %input#cardExpirationYear{:type => "hidden", "data-checkout" => "cardExpirationYear", "data-stripe"=>"exp_year"}/
+    %input#last4{name: "last4", :type => "hidden"}/
+    %input#first6{name: "first6", :type => "hidden"}/
     .form-group
       %label.col-md-4{:for => "type"} Tipo de tarjeta
       .col-md-8
@@ -43,6 +45,10 @@
 :javascript
 
 
+  $("#cardNumber").keyup(function(){
+    $("#last4").val($("#cardNumber").val().substr(-5).replace(/\s+/g, ''));
+    $("#first6").val($("#cardNumber").val().substr(0,7).replace(/\s+/g, ''));
+  });
 
   $("#expiry").keyup(function(){
     expireString = ($("#expiry").val()).split(" / ");

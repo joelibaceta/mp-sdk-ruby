@@ -11,6 +11,8 @@ class Gateway::SalesController < ApplicationController
     @sale = Sale.new
     @sale.cart = Cart.get_current_cart(current_user)
     @payment_provider = params[:payment_provider]
+    @cards = Card.where(payment_provider: params[:payment_provider])
+
     render 'payment_form'
   end
 

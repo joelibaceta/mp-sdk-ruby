@@ -13,7 +13,12 @@ class Gateway::CardsController < ApplicationController
   end
 
   def create
-    @card = Card.create({card_token: params[:token], user_id: current_user.id, provider_prefix: params[:paymentMethodId], payment_provider: params[:provider]})
+    @card = Card.create({card_token: params[:token],
+                         user_id: current_user.id,
+                         provider_prefix: params[:paymentMethodId],
+                         payment_provider: params[:provider],
+                         last4: params[:last4],
+                         first6: params[:first6]})
     redirect_to "/gateway/cards/payment_form?payment_provider=#{params[:provider]}"
   end
 end

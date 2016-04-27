@@ -1,0 +1,23 @@
+.navbar.navbar-default.navbar-static-top
+  .container
+    %a.navbar-brand(href="/")
+
+      %p
+        =image_tag("eCommerce-icon.png", width: "52px")
+        = "eCommerce"
+        %b  Demo
+    %ul.nav.navbar-nav.navbar-right
+      - if (!current_user)
+        %li
+          %a{:href => new_user_session_path} Sign In
+      - else
+        %li.dropdown
+          %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %span.glyphicon.glyphicon-user
+            = current_user["email"]
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              %a{:href => gateway_cards_path} My Wallet
+            %li.divider{:role => "separator"}
+            %li=link_to('Logout', destroy_user_session_path, :method => :delete)

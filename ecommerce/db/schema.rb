@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426153146) do
+ActiveRecord::Schema.define(version: 20160426194242) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20160426153146) do
     t.string   "provider_prefix"
     t.string   "payment_provider"
     t.integer  "last4"
+    t.integer  "first6"
   end
 
   create_table "carts", force: :cascade do |t|

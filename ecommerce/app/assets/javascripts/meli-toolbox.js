@@ -143,6 +143,18 @@ var paymentForm = function(formSelector){
         }
     };
 
+    this.showCardIssuersFn = function(status, issuers) {
+        return showCardIssuers(status, issuers);
+    };
+
+    this.setInstallmentInfoFn = function(bin, amount) {
+        Mercadopago.getInstallments({
+            "bin": bin,
+            "amount": amount
+        }, setInstallmentInfo);
+    };
+
+
     var showCardIssuers = function(status, issuers) {
         console.log(issuers);
         var issuersSelector = getInputFromID("issuer");
