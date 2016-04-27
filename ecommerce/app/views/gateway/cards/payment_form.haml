@@ -1,0 +1,21 @@
+.container-fluid.wallets
+
+  %center
+    - case @payment_provider
+      - when "mp"
+        =render partial: "mp_form"
+      - when "mango"
+        =render partial: "mango_form"
+      - when "stripe"
+        =render partial: "stripe_form"
+
+  :javascript
+
+    var card = new Card({
+      form: 'form',
+      container: '.card-wrapper',
+
+      formSelectors: {
+        nameInput: 'input[name="name"]'
+      }
+    });

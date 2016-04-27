@@ -1,0 +1,73 @@
+%center
+  %a{href: payment_form_gateway_sales_path(payment_provider: "mango")}
+    =image_tag("mango-logo-black")
+%hr
+
+.alert.alert-danger
+
+= simple_form_for([:gateway, @sale], html: { class: 'form-horizontal' }) do |f|
+  %fieldset
+    .form-group
+      %label.col-md-4{:for => "email"} Email
+      .col-md-8
+        %input.form-control#email{:name => "email", :required => "", :type => "email"}/
+    .form-group
+      %label.col-sm-4{:for => "email"} Tarjeta
+      .col-sm-8
+        %select.form-control#card_token(name= "card_token")
+          - @cards.each do |card|
+            %option{value: card.card_token, first6: card.first6}= "#{card.provider_prefix} - **** **** **** #{card.last4}"
+          %option(value="0") Otra tarjeta
+    %input{:name => "amount", :type => "hidden"}/
+    .form-group.custom
+      %label.col-md-4{:for => "holdername"} Nombre
+      .col-md-8
+        %input.form-control#holdername{:required => "", :type => "text"}/
+    .form-group.custom
+      %label.col-md-4{:for => "type"} Tipo de tarjeta
+      .col-md-8
+        %select.form-control#cardType
+          %option{:value => "visa"} Visa
+          %option{:value => "amex"} American Express
+          %option{:value => "mastercard"} Master Card
+          %option{:value => "diners"} Diners Club
+          %option{:value => "naranja"} Naranja
+          %option{:value => "shopping"} Shopping
+    .form-group.custom
+      %label.col-md-4{:for => "card"} Número de la tarjeta
+      .col-md-8
+        %input.form-control#cardNumber{:maxlength => "16", :required => "", :type => "number"}/
+
+    .form-group.custom
+      %label.col-md-4{:for => "month"} Mes y Año de expiración
+      .col-md-4
+        %input.form-control#cardExpirationMonth{:maxlength => "2", :required => "", :type => "number"}/
+      .col-md-4
+        %input.form-control#cardExpirationYear{:maxlength => "4", :required => "", :type => "number"}/
+    .form-group.custom
+      %label.col-md-4{:for => "ccv"} Código de seguridad
+      .col-md-4
+        %input.form-control#securityCode{:required => "", :type => "text"}/
+    .form-group
+      %label.col-md-4{:for => "type"} Cuotas
+      .col-md-8
+        %select.form-control#installments
+  %center
+    %br
+    %input{:type => "submit", :value => "Pagar ahora!", class: "btn btn-success"}/
+
+
+:javascript
+
+  $(".custom").hide();
+
+  $("#card_token").on("change", function(){
+    if ($(this).val() == "0"){
+      $(".custom").show();
+    } else {
+      $(".custom").hide();
+    }
+  });
+
+  payForm = new mangoPaymentForm(".simple_form");
+  $(".alert").hide();

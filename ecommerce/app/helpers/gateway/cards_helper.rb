@@ -1,0 +1,2 @@
+module Gateway::CardsHelper
+end

@@ -2,18 +2,26 @@
 @import 'bootstrap';
 @import 'products';
 @import 'carts';
+@import 'sales';
 
 body {
-  background-color: #FFCC6F;
+  background-color: #FFCF6E;
 }
+
+
 
 $bgDefault      : #fff;
 $bgHighlight    : #fff;
 $colDefault     : #333;
 $colHighlight   : #333;
 .navbar-default {
+
   background-color: $bgDefault;
   border-color: $bgHighlight;
+  -webkit-box-shadow: 0px 0px 3px 0.5px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px 0px 3px 0.5px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 3px 0.5px rgba(0,0,0,0.2);
+
   .navbar-brand {
     color: $colDefault;
     &:hover, &:focus {

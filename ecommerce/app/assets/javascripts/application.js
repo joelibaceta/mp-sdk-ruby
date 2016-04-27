@@ -14,4 +14,19 @@
 //= require bootstrap
 //= require jquery_ujs
 //= require turbolinks
+//= require meli-toolbox
+//= require mango-toolbox
+//= require stripe-toolbox
+//= require card
 //= require_tree .
+
+
+function addEvent(el, eventName, handler){
+    if (el.addEventListener) {
+        el.addEventListener(eventName, handler);
+    } else {
+        el.attachEvent('on' + eventName, function(){
+            handler.call(el);
+        });
+    }
+};

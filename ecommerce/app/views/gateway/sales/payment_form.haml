@@ -1,0 +1,13 @@
+
+.container-fluid
+  .row
+    .col-md-2
+    .col-md-8
+      .payment-ways-container.shadow-box
+        - case @payment_provider
+          - when "mp"
+            =render partial: "mp_form"
+          - when "mango"
+            =render partial: "mango_form"
+          - when "stripe"
+            =render partial: "stripe_form"
