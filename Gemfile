@@ -32,9 +32,6 @@ gem 'mango-ruby', path: 'vendor/mango-ruby'
 gem 'mercadopago-sdk', '~> 0.3.4' , path: 'vendor/sdk-ruby'
 gem 'stripe', path: 'vendor/stripe-ruby'
 
-# Classes Diagramator
-
-gem 'umlify', path: 'vendor/umlify'
 
 #  Optional: I prefer use simple_form to simplify the views
 gem 'simple_form'         
