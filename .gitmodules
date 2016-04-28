@@ -7,3 +7,6 @@
 [submodule "ecommerce/vendor/mango-ruby"]
 	path = ecommerce/vendor/mango-ruby
 	url = git@github.com:joelibaceta/mango-ruby.git
+[submodule "ecommerce/vendor/umlify"]
+	path = ecommerce/vendor/umlify
+	url = git@github.com:joelibaceta/umlify.git
