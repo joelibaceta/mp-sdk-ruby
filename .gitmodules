@@ -1,12 +1,9 @@
 [submodule "ecommerce/vendor/sdk-ruby"]
 	path = ecommerce/vendor/sdk-ruby
-	url = git@github.com:joelibaceta/sdk-ruby.git
+	url = https://github.com/joelibaceta/sdk-ruby.git
 [submodule "ecommerce/vendor/stripe-ruby"]
 	path = ecommerce/vendor/stripe-ruby
-	url = git@github.com:joelibaceta/stripe-ruby.git
+	url = https://github.com/joelibaceta/stripe-ruby.git
 [submodule "ecommerce/vendor/mango-ruby"]
 	path = ecommerce/vendor/mango-ruby
-	url = git@github.com:joelibaceta/mango-ruby.git
-[submodule "ecommerce/vendor/umlify"]
-	path = ecommerce/vendor/umlify
-	url = git@github.com:joelibaceta/umlify.git
+	url = https://github.com/joelibaceta/mango-ruby.git
