@@ -26,6 +26,8 @@ gem 'paperclip'
 gem 'state_machine'
 gem 'devise'
 
+gem 'rubocop'
+
 # Payment Providers
 
 gem 'mango-ruby', path: 'vendor/mango-ruby'
