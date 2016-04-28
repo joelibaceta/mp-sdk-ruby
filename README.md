@@ -1,6 +1,8 @@
 # eCommerce demo
 
-Index
+[![Build Status](https://travis-ci.org/joelibaceta/ecommerce-demo.svg?branch=master)](https://travis-ci.org/joelibaceta/ecommerce-demo)
+
+**Index**
 - Setup
 - Payment Ways
 
