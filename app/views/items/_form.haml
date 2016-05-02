@@ -1,9 +1,0 @@
-= simple_form_for(@item, html: { class: 'form-horizontal' }) do |f|
-  = f.input :product_id, as: :hidden
-  = f.input :cart_id, as: :hidden
-  = f.label "Cantidad:"
-  .input-group
-    .input-group-addon $
-    = f.input :quantity, label: false, placeholder: "0.00", input_html: {class: "text-align"}
-  %hr
-  = f.submit "Add to Cart", class: "btn btn-warning float-right"

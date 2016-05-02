@@ -1,9 +1,0 @@
-[submodule "vendor/sdk-ruby"]
-	path = vendor/sdk-ruby
-	url = https://github.com/joelibaceta/sdk-ruby.git
-[submodule "vendor/stripe-ruby"]
-	path = vendor/stripe-ruby
-	url = https://github.com/joelibaceta/stripe-ruby.git
-[submodule "vendor/mango-ruby"]
-	path = vendor/mango-ruby
-	url = https://github.com/joelibaceta/mango-ruby.git

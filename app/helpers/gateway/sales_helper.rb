@@ -1,2 +1,0 @@
-module Gateway::SalesHelper
-end

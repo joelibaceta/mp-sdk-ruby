@@ -1,1 +1,0 @@
-Mango.api_key = ENV['secret_test_q09nqh4swivzyn6skwdj9vzc2rynvk62']
