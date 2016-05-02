@@ -1,0 +1,46 @@
+%center
+  %a{href: payment_form_gateway_sales_path(payment_provider: "stripe")}
+    =image_tag("stripe-logo", width: "120px")
+%hr
+= simple_form_for([:gateway, @sale], html: { class: 'form-horizontal' }) do |f|
+  %span.payment-errors
+  .form-group
+    %label.col-sm-4{:for => "email"} Tarjeta
+    .col-sm-8
+      %select.form-control#card_token(name= "card_token")
+        - @cards.each do |card|
+          %option{value: card.card_token, first6: card.first6}= "#{card.provider_prefix} - #{card.first6.to_s[0..3]} **** **** #{card.last4}"
+        %option(value="0") Otra tarjeta
+  %hr.custom
+  .form-group.custom
+    %label.col-md-4 Card Number
+    .col-md-8
+      %input.form-control{"data-stripe" => "number", :size => "20", :type => "text"}/
+  .form-group.custom
+    %label.col-md-4 Expiration (MM/YY)
+    .col-md-3.float-right
+      %input.form-control{"data-stripe" => "exp_month", :size => "2", :type => "text"}/
+    .col-md-3.float-right
+      %input.form-control{"data-stripe" => "exp_year", :size => "2", :type => "text"}/
+    .col-md-2
+
+  .form-group.custom
+    %label.col-md-4 CVC
+    .col-md-6.float-right
+      %input.form-control{"data-stripe" => "cvc", :size => "4", :type => "text"}/
+  %hr.custom
+  %center
+    %br
+    %input.submit{:type => "submit", :value => "Submit Payment", class: "btn btn-info"}/
+
+:javascript
+
+  $(".custom").hide();
+
+  $("#card_token").on("change", function(){
+      if ($(this).val() == "0"){
+        $(".custom").show();
+      } else {
+        $(".custom").hide();
+      }
+  });

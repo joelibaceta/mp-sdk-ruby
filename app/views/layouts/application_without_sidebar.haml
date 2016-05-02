@@ -1,0 +1,22 @@
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %title= content_for?(:title) ? yield(:title) : "Demo"
+    = javascript_include_tag "https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"
+    = javascript_include_tag "https://js.getmango.com/v1/mango.js"
+    = javascript_include_tag "https://js.stripe.com/v2/"
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+
+  %body
+    = render partial: "layouts/shared/header"
+    .container-fluid
+      .row
+        .col-lg-12
+          %br
+          = yield
+
