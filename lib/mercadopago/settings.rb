@@ -1,11 +1,16 @@
+require 'yaml'
+require 'logger'
+
 module MercadoPagoBlack
   module Settings
 
     # Default Configuration
     @config = {
-        base_url: "https://api.mercadopago.com",
-        sandbox_base_url: "",
-        sandbox_mode: true
+        base_url:       "https://api.mercadopago.com",
+        sandbox_mode:   true,
+        CLIENT_ID:      "",
+        CLIENT_SECRET:  "",
+        ACCESS_TOKEN:   ""
     }
 
     @valid_config_keys = @config.keys
@@ -24,7 +29,6 @@ module MercadoPagoBlack
       rescue Psych::SyntaxError
         log(:warning, "YAML configuration file contains invalid syntax. Using defaults."); return
       end
-
       configure(config)
     end
 
@@ -33,10 +37,9 @@ module MercadoPagoBlack
       response = @config[method] rescue nil
       if response
         return response
-      else
-        super
       end
     end
+
 
 
   end
