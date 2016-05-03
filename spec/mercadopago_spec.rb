@@ -1,5 +1,4 @@
 require_relative 'rspec_helper'
-require_relative '../lib/mercadopago'
 
 describe MercadoPagoBlack do
   context "Environment Setup" do
@@ -10,6 +9,7 @@ describe MercadoPagoBlack do
       expect(MercadoPagoBlack::Settings.CLIENT_ID).to eql("")
       expect(MercadoPagoBlack::Settings.CLIENT_SECRET).to eql("")
       expect(MercadoPagoBlack::Settings.ACCESS_TOKEN).to eql("")
+
     end
 
     it "should have default settings after a wrong setup" do

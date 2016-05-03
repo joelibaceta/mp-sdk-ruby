@@ -10,7 +10,13 @@ module MercadoPagoBlack
         sandbox_mode:   true,
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
-        ACCESS_TOKEN:   ""
+        ACCESS_TOKEN:   "",
+        callback_urls:  {
+            success_url: "localhost:3000",
+            pending_url: "localhost:3000",
+            failure_url: "localhost:3000"
+        },
+        notification_url:   ""
     }
 
     @valid_config_keys = @config.keys
