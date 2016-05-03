@@ -2,7 +2,7 @@ require_relative 'rspec_helper'
 require_relative '../lib/mercadopago'
 
 describe MercadoPagoBlack do
-  context "Setup" do
+  context "Environment Setup" do
 
     it "with default settings" do
       expect(MercadoPagoBlack::Settings.base_url).to eql("https://api.mercadopago.com")
@@ -36,9 +36,9 @@ describe MercadoPagoBlack do
 
     it "with custom settings from Yaml file" do
       MercadoPagoBlack::Settings.configure_with("./spec/settings.yml")
-      expect(MercadoPagoBlack::Settings.CLIENT_ID).to eql("FsCRk532W29YWNsHv7KR")
-      expect(MercadoPagoBlack::Settings.CLIENT_SECRET).to eql("rX3LxcveoGWq5EsTWggA")
-      expect(MercadoPagoBlack::Settings.ACCESS_TOKEN).to eql("yO2uwVwRGOyrh4UP5hXl")
+      expect(MercadoPagoBlack::Settings.CLIENT_ID).to eql("CLIENT_ID_YAML")
+      expect(MercadoPagoBlack::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET_YAML")
+      expect(MercadoPagoBlack::Settings.ACCESS_TOKEN).to eql("CLIENT_ACCESS_TOKEN_YAML")
     end
 
     it "should raise NoMethodError when require value from wrong key " do
@@ -50,4 +50,21 @@ describe MercadoPagoBlack do
     end
 
   end
+
+  context "User Setup" do
+
+    it "for a Basic Setup" do
+      MercadoPagoBlack::Settings.ACCESS_TOKEN = "ACCESS_TOKEN"
+      expect(MercadoPagoBlack::Settings.ACCESS_TOKEN).to eql("ACCESS_TOKEN")
+    end
+
+    it "for a Advanced Setup" do
+      MercadoPagoBlack::Settings.CLIENT_ID = "CLIENT_ID"
+      MercadoPagoBlack::Settings.CLIENT_SECRET = "CLIENT_SECRET"
+      expect(MercadoPagoBlack::Settings.CLIENT_ID).to eql("CLIENT_ID")
+      expect(MercadoPagoBlack::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET")
+    end
+
+  end
+
 end

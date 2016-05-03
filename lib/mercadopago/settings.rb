@@ -34,13 +34,20 @@ module MercadoPagoBlack
 
     # Method missing overwrite to allow call to keys in @config as a method
     def self.method_missing(method, *args, &block)
-      response = @config[method] rescue nil
-      if response
-        return response
+      has_equal_operator = (method[-1] == '=')
+      value = (has_equal_operator ? @config[method[0..-2].to_sym] : @config[method.to_sym]) rescue nil
+
+
+      if value
+        if has_equal_operator
+          @config[method[0..-2].to_sym] = args[0]
+
+        else
+          return value
+        end
       end
+
     end
-
-
 
   end
 end
