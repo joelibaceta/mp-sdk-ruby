@@ -11,6 +11,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   # Use color in STDOUT
   config.color = true
+
   FactoryGirl.find_definitions
 
   config.before(:each) do
