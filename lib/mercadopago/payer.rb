@@ -1,5 +1,6 @@
 module MercadoPagoBlack
-  class Item
+  class Payer
     include MercadopagoObject
+
   end
 end

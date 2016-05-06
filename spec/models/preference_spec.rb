@@ -4,7 +4,7 @@ describe MercadoPagoBlack do
   context "Preference" do
 
     it "get all" do
-      expect(MercadoPagoBlack::Preference.all).to eql(Array.new)
+      expect(MercadoPagoBlack::Preference.all.class).to eql(Array)
     end
 
     it "create one" do

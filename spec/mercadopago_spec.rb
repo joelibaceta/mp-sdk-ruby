@@ -9,7 +9,6 @@ describe MercadoPagoBlack do
       expect(MercadoPagoBlack::Settings.CLIENT_ID).to eql("")
       expect(MercadoPagoBlack::Settings.CLIENT_SECRET).to eql("")
       expect(MercadoPagoBlack::Settings.ACCESS_TOKEN).to eql("")
-
     end
 
     it "should have default settings after a wrong setup" do
@@ -32,6 +31,7 @@ describe MercadoPagoBlack do
       expect(MercadoPagoBlack::Settings.CLIENT_ID).to eql("RANDOM_ID")
       expect(MercadoPagoBlack::Settings.CLIENT_SECRET).to eql("RANDOM_SECRET")
       expect(MercadoPagoBlack::Settings.ACCESS_TOKEN).to eql("RANDOM_TOKEN")
+      MercadoPagoBlack::Settings.base_url = "https://api.mercadopago.com"
     end
 
     it "with custom settings from Yaml file" do
@@ -39,6 +39,7 @@ describe MercadoPagoBlack do
       expect(MercadoPagoBlack::Settings.CLIENT_ID).to eql("CLIENT_ID_YAML")
       expect(MercadoPagoBlack::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET_YAML")
       expect(MercadoPagoBlack::Settings.ACCESS_TOKEN).to eql("CLIENT_ACCESS_TOKEN_YAML")
+      MercadoPagoBlack::Settings.base_url = "https://api.mercadopago.com"
     end
 
     it "should raise NoMethodError when require value from wrong key " do
