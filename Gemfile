@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'bundler'
 gem 'rake'
 gem 'rspec'
-gem 'faker'
+gem 'faker', require: false
 gem 'activesupport'
 
 gem 'guard-rspec', require: false
@@ -11,4 +11,4 @@ gem 'factory_girl'
 
 gem 'sinatra', require: false #use to fake the API Rest
 
-gem 'webmock'
+gem 'webmock', require: false
