@@ -92,6 +92,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   bundler
   factory_girl
   faker

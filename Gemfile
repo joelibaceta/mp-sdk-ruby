@@ -4,7 +4,7 @@ gem 'bundler'
 gem 'rake'
 gem 'rspec'
 gem 'faker'
-gem 'active_support'
+gem 'activesupport'
 
 gem 'guard-rspec', require: false
 gem 'factory_girl'
