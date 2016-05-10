@@ -5,25 +5,19 @@ module MercadoPagoBlack
   module Settings
 
     # Default Configuration
-    @@config = {
-        base_url:       "api.mercadopago.com",
+    @config = {
+        base_url:       "https://api.mercadopago.com",
         sandbox_mode:   true,
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
-        ACCESS_TOKEN:   "",
-        callback_urls:  {
-            success_url: "localhost:3000",
-            pending_url: "localhost:3000",
-            failure_url: "localhost:3000"
-        },
-        notification_url:   ""
+        ACCESS_TOKEN:   ""
     }
 
-    @valid_config_keys = @@config.keys
+    @valid_config_keys = @config.keys
 
     # Configure using hash
     def self.configure(opts = {})
-      opts.each {|k,v| @@config[k.to_sym] = v if @valid_config_keys.include? k.to_sym}
+      opts.each {|k,v| @config[k.to_sym] = v if @valid_config_keys.include? k.to_sym}
     end
 
     # Configure through yaml file
@@ -41,12 +35,12 @@ module MercadoPagoBlack
     # Method missing overwrite to allow call to keys in @config as a method
     def self.method_missing(method, *args, &block)
       has_equal_operator = (method[-1] == '=')
-      value = (has_equal_operator ? @@config[method[0..-2].to_sym] : @@config[method.to_sym]) rescue nil
+      value = (has_equal_operator ? @config[method[0..-2].to_sym] : @config[method.to_sym]) rescue nil
 
 
       if value
         if has_equal_operator
-          @@config[method[0..-2].to_sym] = args[0]
+          @config[method[0..-2].to_sym] = args[0]
 
         else
           return value
