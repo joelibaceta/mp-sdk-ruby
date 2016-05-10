@@ -1,5 +1,4 @@
 module MercadoPagoBlack
-  class Item
-    include MercadopagoObject
+  class Item < ActiveREST::Base
   end
 end

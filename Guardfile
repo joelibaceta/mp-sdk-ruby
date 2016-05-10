@@ -34,7 +34,7 @@ guard :rspec, cmd: "rspec" do
   #watch(rspec.spec_support) { rspec.spec_dir }
   #watch(rspec.spec_files)
   watch(%r{^lib/mercadopago/.+\.rb$}) { "spec" }
-  watch(%r{^lib/mercadopago/toolbox/.+\.rb$}) { "spec" }
+  watch(%r{^lib/mercadopago/lib/.+\.rb$}) { "spec" }
   watch('spec/spec_helper.rb') { "spec" }
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^spec/factories.+_factory\.rb$})

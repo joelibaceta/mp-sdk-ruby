@@ -8,11 +8,18 @@ class FakeAPIHub < Sinatra::Base
 
   post '/v1/payment_method' do
     #json_response 200, 'payment_methods.json'
+  end
 
+  post '/v1/create' do
+    #json_response 200, 'payment_methods.json'
   end
 
   get '/v1/identification_types' do
     json_response 200, 'identification_types.json'
+  end
+
+  post '/checkout/preferences' do
+    json_response 200, 'preference_post.json'
   end
 
   private

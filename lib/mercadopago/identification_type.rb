@@ -1,8 +1,7 @@
 module MercadoPagoBlack
-  class IdentificationType
-    include MercadopagoObject
+  class IdentificationType < ActiveREST::Base
 
-    act_as_api_resource(list_url: '/v1/identification_types')
+    has_crud_rest_methods(list: '/v1/identification_types')
 
   end
 end

@@ -1,10 +1,20 @@
 module MercadoPagoBlack
-  class Preference
-    include MercadopagoObject
+  class Preference < ActiveREST::Base
 
-    act_as_api_resource(create_url: '/checkout/preferences',
-                        read_url:   '/checkout/preferences/:id',
-                        update_url: '/checkout/preferences/:id')
+
+    has_crud_rest_methods(create: '/checkout/preferences',
+                          read:   '/checkout/preferences/:id',
+                          update: '/checkout/preferences/:id')
+
+
+    set_http_param :address, "api.mercadopago.com"
+
+
+    def save
+      response = super
+      # add attributes after save
+      self.id  = response["id"] # Save the preference ID Locally
+    end
 
   end
 end

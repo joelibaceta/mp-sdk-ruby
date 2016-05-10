@@ -1,6 +1,4 @@
 module MercadoPagoBlack
-  class Payer
-    include MercadopagoObject
-
+  class Payer  < ActiveREST::Base
   end
 end

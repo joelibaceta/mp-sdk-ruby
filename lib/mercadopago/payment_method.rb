@@ -1,8 +1,7 @@
 module MercadoPagoBlack
-  class PaymentMethod
-    include MercadopagoObject
+  class PaymentMethod < ActiveREST::Base
 
-    act_as_api_resource(list_url: '/v1/payment_methods')
+    has_crud_rest_methods(list: '/v1/payment_methods')
 
   end
 end

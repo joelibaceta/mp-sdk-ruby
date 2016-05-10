@@ -6,7 +6,7 @@ module MercadoPagoBlack
 
     # Default Configuration
     @@config = {
-        base_url:       "https://api.mercadopago.com",
+        base_url:       "api.mercadopago.com",
         sandbox_mode:   true,
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
