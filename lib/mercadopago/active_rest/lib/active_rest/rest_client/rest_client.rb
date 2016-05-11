@@ -17,11 +17,8 @@ module ActiveREST
     end
 
     def set_http_param(param, value)
-
       http_conn = class_variable_get("@@http_connection") rescue self.class_variable_set("@@http_connection", Hash.new)
-
       http_conn[param] = value
-
       self.class_variable_set("@@http_connection", http_conn)
     end
     module_function :set_http_param

@@ -6,9 +6,9 @@ module ActiveREST
 
     attr_accessor :attrs
 
-    def self.inherited(sub)
-      sub.extend(ActiveREST)
-      sub.include(RESTClient)
+    def self.inherited(sub_class)
+      sub_class.extend(ActiveREST)
+      sub_class.include(RESTClient)
     end
 
     def initialize

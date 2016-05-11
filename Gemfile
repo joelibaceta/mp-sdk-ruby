@@ -8,6 +8,6 @@ gem 'activesupport'
  
 gem 'factory_girl'
 
-gem 'sinatra', require: false #use to fake the API Rest
+gem 'sinatra', require: false
 
 gem 'webmock', require: false
