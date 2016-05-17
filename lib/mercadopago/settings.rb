@@ -16,7 +16,7 @@ module MercadoPago
     
     def self.configuration
       result = Hash.new
-      @@config.map{|k, v| (result[k] = v) if configuration[k] != ""}
+      @@config.map{|k, v| (result[k] = v) if @@config[k] != ""}
       return result
     end
 
