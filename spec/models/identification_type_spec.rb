@@ -1,17 +1,22 @@
 require_relative '../rspec_helper'
+require 'pp'
 
-describe MercadoPagoBlack do
+describe MercadoPago do
   context "identification_type.rb" do
 
     it "get the list identification Type url" do
-      expect(MercadoPagoBlack::IdentificationType.list_url).to eql("/v1/identification_types")
-      MercadoPagoBlack::IdentificationType.populate_from_api
+      expect(MercadoPago::IdentificationType.list_url).to eql("/v1/identification_types")
+      MercadoPago::IdentificationType.populate_from_api
     end
 
     it "populate from API" do
-      MercadoPagoBlack::Settings.configure({base_url: "https://api.mercadopago.com"})
-      MercadoPagoBlack::IdentificationType.populate_from_api
-      expect(MercadoPagoBlack::IdentificationType.first.class).to eql(MercadoPagoBlack::IdentificationType)
+      MercadoPago::Settings.configure({base_url: "https://api.mercadopago.com"})
+      MercadoPago::IdentificationType.populate_from_api
+      expect(MercadoPago::IdentificationType.first.class).to eql(MercadoPago::IdentificationType)
+
+      pp MercadoPago::IdentificationType
+
+
     end
 
   end

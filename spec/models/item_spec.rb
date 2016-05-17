@@ -1,7 +1,9 @@
 require_relative '../rspec_helper'
 
-describe MercadoPagoBlack do
+describe MercadoPago do
   context "Item" do
 
   end
 end
+
+
