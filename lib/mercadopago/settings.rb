@@ -10,14 +10,15 @@ module MercadoPago
         sandbox_mode:   true,
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
-        ACCESS_TOKEN:   "",
-        callback_urls:  {
-            success_url: "localhost:3000",
-            pending_url: "localhost:3000",
-            failure_url: "localhost:3000"
-        },
+        ACCESS_TOKEN:   "", 
         notification_url:   ""
     }
+    
+    def self.configuration
+      result = Hash.new
+      @@config.map{|k, v| (result[k] => v) if configuration[k] != ""}
+      return result
+    end
 
     @valid_config_keys = @@config.keys
 
@@ -57,3 +58,4 @@ module MercadoPago
 
   end
 end
+ 
