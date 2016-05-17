@@ -3,7 +3,7 @@ require 'factory_girl'
 require 'support/fake_api_hub'
 require_relative '../lib/mercadopago'
 require 'faker'
-
+require 'colorize'
 require 'webmock/rspec'
 require 'active_support'
 
@@ -21,7 +21,7 @@ RSpec.configure do |config|
 end
 
 def with_default_api_configuration
-  MercadoPagoBlack::Settings.configure({base_url: "https://api.mercadopago.com"})
+  MercadoPago::Settings.configure({base_url: "https://api.mercadopago.com"})
 end
 
 def valid_items(n)

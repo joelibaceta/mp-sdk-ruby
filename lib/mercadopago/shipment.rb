@@ -1,5 +1,5 @@
-module MercadoPagoBlack
+module MercadoPago
   class Shipment
-    include MercadoPagoBlack
+    include MercadoPago
   end
 end

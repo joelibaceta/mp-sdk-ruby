@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :valid_payer, class: MercadoPagoBlack::Payer do
+  factory :valid_payer, class: MercadoPago::Payer do
     name Faker::Name.first_name
     surname Faker::Name.last_name
     email Faker::Internet.email

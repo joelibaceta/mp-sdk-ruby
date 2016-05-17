@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :preference_with_valid_data, class: MercadoPagoBlack::Preference do
+  factory :preference_with_valid_data, class: MercadoPago::Preference do
     notification_url      Faker::Internet.url
     external_reference    Faker::Lorem.word
     expires               Faker::Boolean.boolean

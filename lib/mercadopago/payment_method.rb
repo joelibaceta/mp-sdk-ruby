@@ -1,7 +1,7 @@
-module MercadoPagoBlack
+module MercadoPago
   class PaymentMethod < ActiveREST::Base
 
-    has_crud_rest_methods(list: '/v1/payment_methods')
+    has_rest_method list: '/v1/payment_methods'
 
   end
 end

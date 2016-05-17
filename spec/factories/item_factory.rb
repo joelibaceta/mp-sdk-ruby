@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :valid_item, class: MercadoPagoBlack::Item do
+  factory :valid_item, class: MercadoPago::Item do
     title Faker::Commerce.product_name
     currency_id "ARS"
     picture_url Faker::Avatar.image

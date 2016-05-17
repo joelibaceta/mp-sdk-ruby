@@ -1,7 +1,7 @@
 require 'yaml'
 require 'logger'
 
-module MercadoPagoBlack
+module MercadoPago
   module Settings
 
     # Default Configuration
