@@ -45,7 +45,7 @@ module MercadoPago
                 client_secret: @@config[:CLIENT_SECRET]}
       uri.query = URI.encode_www_form(params)
       res = Net::HTTP.get_response(uri)
-      
+      p res
       return res.is_a?(Net::HTTPSuccess) ? res.body : nil 
     end
 

@@ -53,8 +53,7 @@ module ActiveREST
       default = @@default_connection
       custom = _class.class_variable_get("@@http_connection")
       mixed = default.merge!(custom)
-
-
+      
       http = Net::HTTP.new(mixed[:address], mixed[:port])
       http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl]
       http.ssl_version = mixed[:ssl_version] if mixed[:ssl_version]
