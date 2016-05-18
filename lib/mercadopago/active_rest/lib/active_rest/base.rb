@@ -40,8 +40,8 @@ module ActiveREST
           msg += " ├─ Variables \n" 
           msg += " | \n" 
           class_variable_get("@@attr_header").each do |key, attr_hash|
-            msg += " | " + (" + " + key.to_s + "  ").ljust(30)  
-            msg += attr_hash.to_hash.map{ |k, v|  " #{k.to_s}"   + " : #{v.to_s}".ljust(20) }.join("      " )
+            msg += " | " + (" + " + key.to_s + "  ").ljust(30, '.')  
+            msg += attr_hash.to_hash.map{ |k, v|  (" #{k.to_s}:"  + "#{v.to_s}").ljust(30, '.') }.join("")
             msg += " \n" 
           end
           #msg += " ├─ Nested Models \n".yellow
