@@ -17,16 +17,32 @@ module ActiveREST
           class_variable_get("@@attr_header").map {|k, v| ["#{k}": v.to_hash]}.flatten
         end
 
+        # def self.friendly_print_structure
+       #    msg="\n"
+       #    msg += "#{self} \n".light_green
+       #    msg += " | \n".yellow
+       #    msg += " ├─ Variables \n".yellow
+       #    class_variable_get("@@attr_header").each do |key, attr_hash|
+       #      msg += " | ".yellow + (" ├─ " + key.to_s + " : \n").green
+       #      msg += " | ".yellow + " │".green + "  └── "
+       #      msg += attr_hash.to_hash.map{ |k, v|  " #{k.to_s}".light_white  + " : #{v.to_s}".ljust(20) }.join(" \n | ".yellow + " │".green + "  └── ")
+       #      msg += "\n"
+       #    end
+       #    #msg += " ├─ Nested Models \n".yellow
+       #    return msg
+       #
+       #  end
+       #
         def self.friendly_print_structure
           msg="\n"
-          msg += "#{self} \n".light_green
-          msg += " | \n".yellow
-          msg += " ├─ Variables \n".yellow
+          msg += "#{self} \n"  
+          msg += " | \n"  
+          msg += " ├─ Variables \n" 
+          msg += " | \n" 
           class_variable_get("@@attr_header").each do |key, attr_hash|
-            msg += " | ".yellow + (" ├─ " + key.to_s + " : \n").green
-            msg += " | ".yellow + " │".green + "  └── "
-            msg += attr_hash.to_hash.map{ |k, v|  " #{k.to_s}".light_white  + " : #{v.to_s}".ljust(20) }.join(" \n | ".yellow + " │".green + "  └── ")
-            msg += "\n"
+            msg += " | " + (" + " + key.to_s + "  ").ljust(30)  
+            msg += attr_hash.to_hash.map{ |k, v|  " #{k.to_s}"   + " : #{v.to_s}".ljust(20) }.join("      " )
+            msg += " \n" 
           end
           #msg += " ├─ Nested Models \n".yellow
           return msg
