@@ -51,8 +51,7 @@ module MercadoPago
       req = Net::HTTP::Post.new(uri.path, initheader = {'Content-Type' =>'application/json'}) 
       
       req.set_form_data(params)
-      res = https.request(req) 
-      p res.body
+      res = https.request(req)  
       return res.is_a?(Net::HTTPSuccess) ? res.body : nil 
     end
 
