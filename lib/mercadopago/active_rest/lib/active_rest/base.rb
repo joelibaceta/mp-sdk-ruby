@@ -57,8 +57,7 @@ module ActiveREST
     end
 
     def set_variable(attribute, value)
-
-      p class_header_attributes
+      
       definition = class_header_attributes[attribute.to_sym]
 
 
