@@ -18,6 +18,7 @@ module ActiveREST
     base.class_variable_set("@@list", Array.new)
     base.class_variable_set("@@attr_header", Hash.new)
     base.class_variable_set("@@dynamic_attributes", true)
+    base.class_variable_set("@@dynamic_relations", Hash.new)
   end
 
   # When a missing method is called try to call it as an Array method
@@ -33,27 +34,25 @@ module ActiveREST
   end
   module_function :not_allow_dynamic_attributes
 
-  def has_strong_attribute(name, *params)
+  def has_strong_attribute(name, *params) 
     begin
       definition = attributes_definition
-      definition[name] = StrongVariable.new(params[0])
-
+      definition[name] = StrongVariable.new(params[0]) 
     rescue => error
       puts "#{error} \n Bad variable definition on #{self}"
     end
   end
   module_function :has_strong_attribute
 
-  def relation_has_one(name)
-
+  def has_relation(relation) 
+    relation.each do |k, v|
+      relations = dynamic_relations
+      relations[v]=k
+    end
   end
-  module_function :relation_has_one
+  module_function :has_relation
 
-  def relation_has_many(name)
-
-  end
-  module_function :relation_has_many
-
+ 
   # Reset all the objects
   def reset
     class_variable_set("@@list", Array.new)
@@ -125,6 +124,10 @@ module ActiveREST
   module_function :has_rest_method
 
   private #helpers
+  
+  def dynamic_relations
+    class_variable_get("@@dynamic_relations")
+  end
 
   def resource_collection
     class_variable_get("@@list")

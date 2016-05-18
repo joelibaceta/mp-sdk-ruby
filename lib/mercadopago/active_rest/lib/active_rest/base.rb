@@ -2,7 +2,7 @@ module ActiveREST
   class Base
     extend RESTClient
 
-    attr_accessor :attrs
+    attr_accessor :attributes
 
     def self.inherited(sub_class)
       sub_class.extend(ActiveREST)
@@ -37,7 +37,7 @@ module ActiveREST
 
 
 
-    def to_json(options = nil)
+    def to_json(options = nil)   
       @attributes.to_json(options)
     end
 
@@ -45,35 +45,42 @@ module ActiveREST
       @attributes
     end
 
-    def method_missing(method, *args, &block)
-      @attributes ||= Hash.new
+    def method_missing(method, *args, &block) 
+        @attributes = Hash.new if @attributes == nil
 
-      # if (@attributes[method[0..-2]])
-      method[-1] == '=' ? set_variable(method[0..-2], args[0]) : (return @attributes[method.to_s])
+      #if method[0..-2] != ""
+        method[-1] == '=' ? set_variable(method[0..-2], args[0]) : (return @attributes[method.to_s])
       # else
       #   raise ARError, "This class does not allow dynamic attributes, this attribute has not been defined"
-      # end
+      #end
 
     end
 
     def set_variable(attribute, value)
       
       definition = class_header_attributes[attribute.to_sym]
+      
+      is_an_association = class_relations[attribute] 
+       
+       
 
-
-      if !(definition.nil?) # if there are a definition for the variable
-        if (definition.allow_this? value)
-          assign_value_to attribute, value
+        if (definition != nil) # if there are a definition for the variable
+          if (definition.allow_this? value)
+            assign_value_to attribute, value
+          else 
+            assign_value_to attribute, (try_to_parse_and_format_with(definition, value) || value)
+          end
         else
-          assign_value_to defintion, try_to_parse_and_format_with(definition, value)
+          if allow_dynamic_attributes
+            assign_value_to attribute, value
+          else
+            raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
+          end
         end
-      else
-        if allow_dynamic_attributes
-          assign_value_to attribute, value
-        else
-          raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
-        end
-      end
+     
+      
+      
+      
     end
 
     def try_to_parse_and_format_with(definition, value)
@@ -96,9 +103,9 @@ module ActiveREST
     end
 
 
-    def assign_value_to(name, value)
-      @attributes ||= Hash.new
-      @attributes[name] = value
+    def assign_value_to(name, value) 
+      @attributes = Hash.new unless @attributes
+      @attributes[name] = value 
     end
 
     def local_save(base=self)
@@ -134,6 +141,10 @@ module ActiveREST
 
     def allow_dynamic_attributes
       self.class.class_variable_get("@@dynamic_attributes")
+    end
+    
+    def class_relations
+      self.class.class_variable_get("@@dynamic_relations")
     end
   end
 end

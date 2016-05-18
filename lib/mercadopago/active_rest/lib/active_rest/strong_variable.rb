@@ -43,6 +43,8 @@ class StrongVariable
   def try_to_parse_and_format
 
   end
+  
+  def name; @name; end
 
   def type; @type; end
 

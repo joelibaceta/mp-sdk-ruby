@@ -1,7 +1,7 @@
 class ARError < StandardError
   def initialize(msg=nil)
     @message = msg
-    puts @message.red
+    puts @message
   end
 
   def message

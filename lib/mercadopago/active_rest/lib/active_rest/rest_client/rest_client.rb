@@ -1,6 +1,7 @@
 require 'json'
 require 'net/http'
 require_relative 'http_connection'
+require 'uri'
 
 module ActiveREST
   module RESTClient
@@ -37,33 +38,54 @@ module ActiveREST
       default = @@default_connection
       custom = _class.class_variable_get("@@http_connection")
       mixed = default.merge!(custom)
-      http = Net::HTTP.new(mixed[:address], mixed[:port])
-      http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl]
+      uri = URI(mixed[:address] + slug)
+      uri.query = URI.encode_www_form({access_token: MercadoPago::Settings.ACCESS_TOKEN})
+      
+      http = Net::HTTP.new(uri.host, uri.port)
+      
+      http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl] 
       http.ssl_version = mixed[:ssl_version] if mixed[:ssl_version]
       http.verify_mode = mixed[:verify_mode] if mixed[:verify_mode]
       http.ca_file = mixed[:ca_file] if mixed[:ca_file]
-
-      req = Net::HTTP::Get.new(slug)
-
+      
+      req = Net::HTTP.get(uri)
+      
       response = http.request(req)
+      
+      if !(response.is_a?(Net::HTTPSuccess))
+        warn response.body
+      end
+      
       return JSON.parse(response.body)
     end
 
     def post(slug="", data={}, _class=self) # TODO: Callback
       default = @@default_connection
       custom = _class.class_variable_get("@@http_connection")
-      mixed = default.merge!(custom)
       
-      http = Net::HTTP.new(mixed[:address], mixed[:port])
-      http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl]
+      mixed = default.merge!(custom) 
+      
+      uri = URI(mixed[:address] + slug)
+      
+      uri.query = URI.encode_www_form({access_token: MercadoPago::Settings.ACCESS_TOKEN})
+      
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl] 
       http.ssl_version = mixed[:ssl_version] if mixed[:ssl_version]
       http.verify_mode = mixed[:verify_mode] if mixed[:verify_mode]
       http.ca_file = mixed[:ca_file] if mixed[:ca_file]
-
-      req = Net::HTTP::Post.new(slug, {'Content-Type' => 'application/json'})
-      req.body = data
+      
+        
+      req = Net::HTTP::Post.new(uri)
+        
+      req.body = data.to_json
+      
       response = http.request(req)
-
+      
+      if !(response.is_a?(Net::HTTPSuccess))
+        warn response.body
+      end
+      
       return JSON.parse(response.body)
     end
 

@@ -6,7 +6,7 @@ module MercadoPago
 
     # Default Configuration
     @@config = { 
-        base_url: "https://api.mercadopago.com/",
+        base_url: "https://api.mercadopago.com",
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
         ACCESS_TOKEN:   "", 
@@ -39,7 +39,7 @@ module MercadoPago
     end
     
     def self.try_to_get_token(client_id, client_secret) 
-      uri = URI(@@config[:base_url] + "oauth/token") 
+      uri = URI(@@config[:base_url] + "/oauth/token") 
       
       params = {grant_type: 'client_credentials',
                 client_id: @@config[:CLIENT_ID], 
