@@ -6,7 +6,7 @@ module MercadoPago
 
     # Default Configuration
     @@config = { 
-        base_url = "api.mercadopago.com",
+        base_url: "api.mercadopago.com",
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
         ACCESS_TOKEN:   "", 
