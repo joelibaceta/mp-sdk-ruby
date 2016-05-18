@@ -32,8 +32,6 @@ module MercadoPago
     has_strong_attribute :marketplace_fee,      type: Float
     has_strong_attribute :differential_pricing, type: Hash
     has_strong_attribute :payment_methods,      type: Hash
-    has_strong_attribute :items,      type: Array
-    has_strong_attribute :payer,      type: Object
 
     # Custom Behavior
     def save
