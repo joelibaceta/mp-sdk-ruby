@@ -2,7 +2,7 @@ class StrongVariable
 
   attr_accessor :name
   attr_accessor :type
-  attr_accessor :lenght
+  attr_accessor :length
   attr_accessor :read_only
   attr_accessor :default
   attr_accessor :default_value
@@ -23,7 +23,7 @@ class StrongVariable
     response = Hash.new
     response[:name]         = @name         if @name
     response[:type]         = @type         if @type
-    response[:lenght]       = @lenght       if @lenght
+    response[:length]       = @length       if @length
     response[:read_only]    = @read_only    if @read_only
     response[:default]      = @default      if @default
     response[:valid_values] = @valid_values if @valid_values

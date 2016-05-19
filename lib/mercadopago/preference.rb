@@ -17,12 +17,12 @@ module MercadoPago
     # Setting the strong attributes
     has_strong_attribute :auto_return,          valid_values: ["approved", "all"]
     has_strong_attribute :back_urls,            type: Hash
-    has_strong_attribute :notification_url,     type: String,    lenght: 500
+    has_strong_attribute :notification_url,     type: String,    length: 500
     has_strong_attribute :id,                   type: String,    read_only: true
     has_strong_attribute :init_point,           type: String,    read_only: true
     has_strong_attribute :operation_type,       type: String,    read_only: true
-    has_strong_attribute :additional_info,      type: String,    lenght: 600
-    has_strong_attribute :external_reference,   type: String,    lenght: 256
+    has_strong_attribute :additional_info,      type: String,    length: 600
+    has_strong_attribute :external_reference,   type: String,    length: 256
     has_strong_attribute :expires,              valid_values: [true, false]
     has_strong_attribute :expiration_date_from, type: Date
     has_strong_attribute :expiration_date_to,   type: Date
