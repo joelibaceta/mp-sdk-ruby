@@ -37,7 +37,6 @@ class StrongVariable
 
   def allow_this?(value)
     value.class == @type
-
   end
 
   def try_to_parse_and_format

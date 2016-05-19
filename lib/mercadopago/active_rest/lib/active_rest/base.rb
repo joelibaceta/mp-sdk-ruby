@@ -84,7 +84,8 @@ module ActiveREST
           if (definition.allow_this? value)
             assign_value_to attribute, value
           else 
-            assign_value_to attribute, (try_to_parse_and_format_with(definition, value) || value)
+            new_value = try_to_parse_and_format_with(definition, value) 
+            assign_value_to attribute, (new_value || value)
           end
         else
           if allow_dynamic_attributes
@@ -100,18 +101,18 @@ module ActiveREST
     end
 
     def try_to_parse_and_format_with(definition, value)
-      begin
-        case definition.type
-          when Float
+      begin 
+        case definition.type.to_s
+          when "Float"
             return Float(value)
-          when Integer
+          when "Integer"
             return Integer(value)
-          when String
+          when "String"
             return String(value)
-          when Date
+          when "Date"
             date = Date.parse(value)
             date = date.strftime(definition.format) if definition.format
-            return date
+            return date 
         end
       rescue
         raise ARError, "Type Error: Can't Parse #{value} to #{definition.type}"
