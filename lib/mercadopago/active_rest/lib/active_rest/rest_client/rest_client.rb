@@ -76,9 +76,9 @@ module ActiveREST
       http.ca_file = mixed[:ca_file] if mixed[:ca_file]
       
         
-      req = Net::HTTP::Post.new(uri)
-        
-      req.body = data.to_json
+      req = Net::HTTP::Post.new(uri, initheader = {'Content-Type' =>'application/json'})
+      
+      req.body = JSON.parse(data).to_json
       
       response = http.request(req)
       
