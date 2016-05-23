@@ -1,1 +1,3 @@
 []
+
+#puts `cat lib/mp-sdk-ruby/lib/mercadopago/sample/preference.json` 
