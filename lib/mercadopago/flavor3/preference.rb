@@ -38,6 +38,11 @@ module MercadoPago
     # Custom Behavior
     def save
       remote_save{|response| self.id  = response["id"]}
+      # Persisting JSON
+      
+      file =  File.open(File.expand_path(__dir__) + "../sample/preference.json", "w+")
+      file.puts(self.to_json)
+      file.close
     end
 
   end
