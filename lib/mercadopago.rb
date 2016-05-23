@@ -1,6 +1,6 @@
 require_relative 'mercadopago/settings' # Configuration
 require_relative 'mercadopago/active_rest/lib/active_rest'
-require_relative 'mercadopago/preference'
+require_relative 'mercadopago/flavor3/preference'
 require_relative 'mercadopago/item'
 require_relative 'mercadopago/payer'
 require_relative 'mercadopago/payment_method'
