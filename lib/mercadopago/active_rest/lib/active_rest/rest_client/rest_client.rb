@@ -44,9 +44,7 @@ module ActiveREST
       access_token = File.read(File.expand_path(__dir__) + "/../../../../token") if access_token.to_s == "" 
       uri.query = URI.encode_www_form({access_token: access_token})
       
-      puts uri
-      
-      #uri.query = URI.encode_www_form({access_token: "APP_USR-6295877106812064-052414-aa5d6a14297618209f0e49fb384fb514__M_H__-202809963"})
+      puts uri 
       
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl] 

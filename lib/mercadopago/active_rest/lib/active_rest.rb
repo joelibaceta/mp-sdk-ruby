@@ -93,7 +93,7 @@ module ActiveREST
     
     response = get(load_url, {}, self)
     
-    file = File.open(File.expand_path(__dir__) + "/" + id + ".json", "w+")
+    file = File.open(File.expand_path(__dir__) + "/notification_" + id + ".json", "w+")
     file.puts(response)
     file.close
   end
