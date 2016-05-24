@@ -20,6 +20,7 @@ module MercadoPago
     has_strong_attribute :notification_url,     type: String,    length: 500
     has_strong_attribute :id,                   type: String,    read_only: true
     has_strong_attribute :init_point,           type: String,    read_only: true
+    has_strong_attribute :sandbox_init_point,   type: String,    read_only: true
     has_strong_attribute :operation_type,       type: String,    read_only: true
     has_strong_attribute :additional_info,      type: String,    length: 600
     has_strong_attribute :external_reference,   type: String,    length: 256
@@ -37,11 +38,16 @@ module MercadoPago
 
     # Custom Behavior
     def save
-      remote_save{|response| self.id  = response["id"]} 
+      remote_save do |response|  
+        self.fill_from_response(response)
+        
+        file = File.open(File.expand_path(__dir__) + "/../sample/preference.json", "w+")
+        file.puts(response)
+        file.close
+        
+      end
       
-      file = File.open(File.expand_path(__dir__) + "/../sample/preference.json", "w+")
-      file.puts(self.to_json)
-      file.close
+      
       
     end
     

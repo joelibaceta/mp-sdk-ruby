@@ -94,10 +94,13 @@ module ActiveREST
             raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
           end
         end
-     
       
-      
-      
+    end
+
+    def fill_from_response(response)
+      response.each do |attr, value|
+        assign_value_to attr, value
+      end
     end
 
     def try_to_parse_and_format_with(definition, value)
@@ -109,20 +112,22 @@ module ActiveREST
             return Integer(value)
           when "String"
             return String(value)
-          when "Date"
-            date = Date.parse(value)
-            date = date.strftime(definition.format) if definition.format
-            return date 
+            #when "Date"
+            #date = Date.parse(value)
+            #date = date.strftime(definition.format) if definition.format
+            #return date 
         end
       rescue
         raise ARError, "Type Error: Can't Parse #{value} to #{definition.type}"
       end
     end
-
+     
+    
 
     def assign_value_to(name, value) 
-      @attributes = Hash.new unless @attributes
-      @attributes[name] = value 
+      @attributes = Hash.new unless @attributes 
+      name, value = build_object(name, value)
+      @attributes[name] = value
     end
 
     def local_save(base=self)
@@ -149,9 +154,34 @@ module ActiveREST
     def remote_destroy
 
     end
+    
+
 
     private
     # Private helpers to made a clean code
+    
+    def build_object(name, value) 
+      klass_name = "MercadoPago::#{name.singularize.capitalize}"
+      if (klass_name.to_class) # If is an object or a collection
+        if value.class == Array 
+          return name.pluralize, value.map{|item| build_object(name, item)[1]}
+        end
+        if value.class == Hash
+          klass = klass_name.to_class
+          return name, klass.new(value)
+        end
+        if value.attributes
+          return name, value.attributes
+        else
+          return name, value
+        end
+      else
+        return name, value
+      end
+       
+    end
+    
+    
     def class_header_attributes
       self.class.class_variable_get("@@attr_header")
     end

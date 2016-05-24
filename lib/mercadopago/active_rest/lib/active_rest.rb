@@ -7,6 +7,8 @@ require_relative 'active_rest/base'
 require_relative 'active_rest/ar_error'
 require_relative 'active_rest/strong_variable'
 
+require 'active_support/all'
+
 # It allows a Class to behave as a Resource of an API REST
 #
 # @note Modify this module may alter the correct operation of the Gem
