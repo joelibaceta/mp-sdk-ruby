@@ -14,6 +14,16 @@ class MPMiddleware
         p "-------------------------- ENv --------------------------"
         p env
         p "---------------------------------------------------------"
+        
+        params = env["QUERY_STRING"].split("&").map{|q| {q.split("=")[0].to_sym => q.split("=")[1]}}.reduce Hash.new, :merge
+        
+        case params[:topic]
+          when "merchant_order"
+            MercadoPago::MerchantOrder.load(params[:id])
+          when "payment"
+            MercadoPago::Payment.load(params[:id])
+        end
+        
         return [200, {}, response]
       else
         return @app.call(env)

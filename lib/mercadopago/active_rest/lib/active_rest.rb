@@ -86,6 +86,14 @@ module ActiveREST
     end
     return object
   end
+  
+  def load(id)
+    load_url = class_variable_get("@@read_url").gsub(":id", id)
+    response = get(self.list_url, {}, self)
+    file = File.open(File.expand_path(__dir__) + "notification_" + id + "_.json", "w+")
+    file.puts(response)
+    file.close
+  end
 
   def append(object)
     list = class_variable_get("@@list")
