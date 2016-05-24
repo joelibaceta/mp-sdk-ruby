@@ -1,4 +1,4 @@
-require_relative 'mercadopago/settings' # Configuration
+require_relative 'mercadopago/settings' 
 require_relative 'mercadopago/active_rest/lib/active_rest'
 require_relative 'mercadopago/flavor3/preference'
 require_relative 'mercadopago/item'
