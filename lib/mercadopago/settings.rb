@@ -51,7 +51,10 @@ module MercadoPago
       req = Net::HTTP::Post.new(uri.path, initheader = {'Content-Type' =>'application/json'}) 
       
       req.set_form_data(params)
-      res = https.request(req)  
+      res = https.request(req) 
+      
+      
+       
       return res.is_a?(Net::HTTPSuccess) ? res.body : nil 
     end
 
@@ -64,6 +67,13 @@ module MercadoPago
         if has_equal_operator
           @@config[method[0..-2].to_sym] = args[0] 
           response = try_to_get_token(@@config[:CLIENT_ID], @@config[:CLIENT_SECRET])
+          
+          if response
+            file = File.open(File.expand_path(__dir__) + "/access_token", "w+")
+            file.puts(JSON.parse(response)["access_token"])
+            file.close
+          end
+          
           @@config[:ACCESS_TOKEN]  = JSON.parse(response)["access_token"] if response
         else
           return value

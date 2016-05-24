@@ -1,7 +1,7 @@
 module MercadoPago
   class Payment < ActiveREST::Base 
     
-    has_rest_method read:   '/payments/:id'
+    has_rest_method read:   '/sandbox/payments/:id'
     has_rest_method search: '/payments/search'
     has_rest_method update: '/payments/id'
     

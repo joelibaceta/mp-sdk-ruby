@@ -37,12 +37,12 @@ module ActiveREST
   module_function :not_allow_dynamic_attributes
 
   def has_strong_attribute(name, *params) 
-    begin
+    #begin
       definition = attributes_definition
-      definition[name] = StrongVariable.new(params[0]) 
-    rescue => error
-      puts "#{error} \n Bad variable definition on #{self}"
-    end
+      definition[name] = StrongVariable.new((params[0])) 
+      #rescue => error
+      #puts "#{error} \n Bad variable definition on #{self}"
+      #end
   end
   module_function :has_strong_attribute
 
@@ -89,8 +89,11 @@ module ActiveREST
   
   def load(id)
     load_url = class_variable_get("@@read_url").gsub(":id", id)
-    response = get(self.list_url, {}, self)
-    file = File.open(File.expand_path(__dir__) + "notification_" + id + "_.json", "w+")
+    puts "LOAD_URL: #{load_url}"
+    
+    response = get(load_url, {}, self)
+    
+    file = File.open(File.expand_path(__dir__) + "/" + id + ".json", "w+")
     file.puts(response)
     file.close
   end

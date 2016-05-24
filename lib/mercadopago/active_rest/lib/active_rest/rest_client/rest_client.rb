@@ -39,19 +39,23 @@ module ActiveREST
       custom = _class.class_variable_get("@@http_connection")
       mixed = default.merge!(custom)
       uri = URI(mixed[:address] + slug)
-      uri.query = URI.encode_www_form({access_token: MercadoPago::Settings.ACCESS_TOKEN})
+      
+      access_token = MercadoPago::Settings.ACCESS_TOKEN
+      access_token = File.read(File.expand_path(__dir__) + "/../../../../access_token") if access_token.to_s == "" 
+      uri.query = URI.encode_www_form({access_token: access_token})
+      
+      #uri.query = URI.encode_www_form({access_token: "APP_USR-6295877106812064-052414-aa5d6a14297618209f0e49fb384fb514__M_H__-202809963"})
       
       http = Net::HTTP.new(uri.host, uri.port)
-      
       http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl] 
       http.ssl_version = mixed[:ssl_version] if mixed[:ssl_version]
       http.verify_mode = mixed[:verify_mode] if mixed[:verify_mode]
       http.ca_file = mixed[:ca_file] if mixed[:ca_file]
       
-      req = Net::HTTP.get(uri)
-      
+      req = Net::HTTP::Get.new(uri, initheader = {'Content-Type' =>'application/json'})
+      puts req
       response = http.request(req)
-      
+      puts req
       if !(response.is_a?(Net::HTTPSuccess))
         warn response.body
       end
