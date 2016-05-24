@@ -1,3 +1,5 @@
+load '../mercadopago.rb'
+
 class MPMiddleware
   def initialize(app)
     @app = app
