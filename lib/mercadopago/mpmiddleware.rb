@@ -10,7 +10,7 @@ class MPMiddleware
 
       response = ["<html><body><p> Request received successfully</p></body></html>"]
 
-      if path == '/mp-notifications-middleware/'
+      if path == '/mp-notifications-middleware'
         p "-------------------------- ENv --------------------------"
         p env
         p "---------------------------------------------------------"
