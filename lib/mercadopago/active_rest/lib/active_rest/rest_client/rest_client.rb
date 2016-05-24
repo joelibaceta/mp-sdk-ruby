@@ -41,7 +41,7 @@ module ActiveREST
       uri = URI(mixed[:address] + slug)
       
       access_token = MercadoPago::Settings.ACCESS_TOKEN
-      access_token = File.read(File.expand_path(__dir__) + "/../../../../access_token") if access_token.to_s == "" 
+      access_token = File.read(File.expand_path(__dir__) + "/../../../../token") if access_token.to_s == "" 
       uri.query = URI.encode_www_form({access_token: access_token})
       
       puts uri
