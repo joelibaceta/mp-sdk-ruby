@@ -45,7 +45,6 @@ module MercadoPago
       
     end
     
-    def 
-
+   
   end
 end
