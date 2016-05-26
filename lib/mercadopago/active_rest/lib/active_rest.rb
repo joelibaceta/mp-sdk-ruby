@@ -89,13 +89,12 @@ module ActiveREST
   
   def load(id)
     load_url = class_variable_get("@@read_url").gsub(":id", id)
-    puts "LOAD_URL: #{load_url}"
-    
     response = get(load_url, {}, self)
-    
-    file = File.open(File.expand_path(__dir__) + "/notification_" + id + ".json", "w+")
-    file.puts(response)
-    file.close
+    object = self.new(response)
+    self.append(object)
+    if block_given?
+      yield object
+    end
   end
 
   def append(object)
@@ -104,7 +103,12 @@ module ActiveREST
     class_variable_set("@@list", list)
   end
 
-  def all; class_variable_get("@@list"); end
+  def all
+    if block_given?
+      yield class_variable_get("@@list")
+    end
+    class_variable_get("@@list")
+  end
 
   def has_rest_method(opts={})
 

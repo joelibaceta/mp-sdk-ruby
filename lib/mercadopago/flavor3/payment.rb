@@ -27,7 +27,23 @@ module MercadoPago
     has_strong_attribute :marketplace_fee
     has_strong_attribute :reason
     has_strong_attribute :payer
-    has_strong_attribute :collector 
-    
+    has_strong_attribute :collector
+
+    def self.all # Overwritting all method
+      super do |payment_list|
+        if payment_list.empty?
+          files = Dir["#{File.expand_path(__dir__)}/../dumps/*.payment"]
+          files.each do  |file|
+            file = File.open(file)
+            MercadoPago::Notification.load_from_binary_file(file)
+            file.close
+          end
+          super
+        else
+          super
+        end
+      end
+    end
+
   end
 end

@@ -53,8 +53,6 @@ module MercadoPago
       req.set_form_data(params)
       res = https.request(req) 
       
-      
-       
       return res.is_a?(Net::HTTPSuccess) ? res.body : nil 
     end
 

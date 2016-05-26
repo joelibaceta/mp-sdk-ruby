@@ -26,7 +26,23 @@ module MercadoPago
     has_strong_attribute :additional_info,    type: String,    length: 600
     has_strong_attribute :external_reference, type: String,    length: 256
     has_strong_attribute :marketplace,        type: String,    length: 256
-    has_strong_attribute :total_amount,       type: Float 
-    
+    has_strong_attribute :total_amount,       type: Float
+
+    def self.all # Overwritting all method
+      super do |merchant_order_list|
+        if merchant_order_list.empty?
+          files = Dir["#{File.expand_path(__dir__)}/../dumps/*.merchant_order"]
+          files.each do  |file|
+            file = File.open(file)
+            MercadoPago::Notification.load_from_binary_file(file)
+            file.close
+          end
+          super
+        else
+          super
+        end
+      end
+    end
+
   end
 end

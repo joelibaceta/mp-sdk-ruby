@@ -1,7 +1,21 @@
 module MercadoPago
   class Notification < ActiveREST::Base
+
     def self.all # Overwritting all method
-      return `find . -name 'notification_*'`
+      super do |notification_list|
+        if notification_list.empty?
+          files = Dir["#{File.expand_path(__dir__)}/../dumps/*.notification"]
+          files.each do  |file|
+            file = File.open(file)
+            MercadoPago::Notification.load_from_binary_file(file)
+            file.close
+          end
+          super
+        else
+          super
+        end
+      end
     end
+
   end
 end
