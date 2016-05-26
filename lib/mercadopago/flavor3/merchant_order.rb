@@ -32,6 +32,9 @@ module MercadoPago
       super do |merchant_order_list|
         if merchant_order_list.empty?
           files = Dir["#{File.expand_path(__dir__)}/../dumps/*.merchant_order"]
+          p "Files #files"
+          p `pwd`
+          p "File.expand_path(__dir__)"
           files.each do  |file|
             file = File.open(file)
             MercadoPago::Notification.load_from_binary_file(file)
