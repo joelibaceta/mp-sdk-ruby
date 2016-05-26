@@ -22,6 +22,7 @@ class MPMiddleware
 
       notification.local_save do |notification|
         path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.notification"
+
         file = File.open(path, 'wb')
         notification.binary_dump_in_file(file)
         file.close
