@@ -67,7 +67,7 @@ module MercadoPago
           response = try_to_get_token(@@config[:CLIENT_ID], @@config[:CLIENT_SECRET])
           
           if response
-            file = File.open(File.expand_path(__dir__) + "/access_token", "w+")
+            file = File.open(File.expand_path(__dir__) + "/token", "w+")
             file.puts(JSON.parse(response)["access_token"])
             file.close
           end
