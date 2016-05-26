@@ -38,18 +38,15 @@ module ActiveREST
       default = @@default_connection
       custom = _class.class_variable_get("@@http_connection")
       mixed = default.merge!(custom)
-      uri = URI(mixed[:address] + slug)
-      
+
       access_token = MercadoPago::Settings.ACCESS_TOKEN
       access_token = File.read(File.expand_path(__dir__) + "/../../../../token") if access_token.to_s == ""
 
-      access_token = access_token.to_s.gsub("%0A", "")
+      uri = URI((mixed[:address] + slug + "?access_token=" + access_token).gsub("%0A", ""))
 
       puts "TOKEN FOUNDED : |#{access_token}|"
 
-      uri.query = URI.encode_www_form({access_token: access_token})
-      
-      puts uri 
+      p "URI : #{uri}"
       
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl] 
