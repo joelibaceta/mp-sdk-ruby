@@ -10,7 +10,8 @@ class StrongVariable
   attr_accessor :format
 
   def initialize(*args)
-      args[0].each do |k, v|
+      params = args[0].nil? ? [] : args[0]
+      params.each do |k, v|
       begin
         self.instance_variable_set("@#{k}", v)
       rescue => error
