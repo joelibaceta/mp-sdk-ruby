@@ -43,7 +43,7 @@ module ActiveREST
       access_token = MercadoPago::Settings.ACCESS_TOKEN
       access_token = File.read(File.expand_path(__dir__) + "/../../../../token") if access_token.to_s == ""
 
-      access_token = access_token.to_s.gsub("%0A", "").trim
+      access_token = access_token.to_s.gsub("%0A", "")
 
       puts "TOKEN FOUNDED : |#{access_token}|"
 
