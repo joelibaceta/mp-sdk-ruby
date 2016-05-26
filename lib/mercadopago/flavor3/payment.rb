@@ -38,9 +38,6 @@ module MercadoPago
             MercadoPago::Notification.load_from_binary_file(file)
             file.close
           end
-          super
-        else
-          super
         end
       end
     end
