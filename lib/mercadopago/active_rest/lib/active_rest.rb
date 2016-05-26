@@ -107,7 +107,7 @@ module ActiveREST
     if block_given?
       yield class_variable_get("@@list")
     end
-    class_variable_get("@@list")
+    return class_variable_get("@@list")
   end
 
   def has_rest_method(opts={})
