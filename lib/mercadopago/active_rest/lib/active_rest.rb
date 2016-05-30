@@ -109,6 +109,7 @@ module ActiveREST
     return object
   end
   
+<<<<<<< HEAD
   def find(id)
     return find_by(:id, id)
   end
@@ -124,6 +125,8 @@ module ActiveREST
   end
   
   
+=======
+>>>>>>> b513c24a690f58d52656ecbec4552112a1169461
   def load(id)
     load_url = class_variable_get("@@read_url").gsub(":id", id)
     response = get(load_url, {}, self)

@@ -1,5 +1,5 @@
 module MercadoPago
-  class Shipment
-    include MercadoPago
+  class Shipment < ActiveREST::Base
+    
   end
 end

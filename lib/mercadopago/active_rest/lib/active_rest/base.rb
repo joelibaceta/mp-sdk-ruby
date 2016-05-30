@@ -47,6 +47,7 @@ module ActiveREST
     def attributes; @attributes; end
 
     def method_missing(method, *args, &block) 
+<<<<<<< HEAD
       
       _kind_of_method, value = kind_of_method(method)
       
@@ -67,6 +68,10 @@ module ActiveREST
         return "is_find_by", value
       end
       return "unknow", nil
+=======
+        @attributes = Hash.new if @attributes == nil 
+        method[-1] == '=' ? set_variable(method[0..-2], args[0]) : (return @attributes[method.to_s])
+>>>>>>> b513c24a690f58d52656ecbec4552112a1169461
     end
 
     def set_variable(attribute, value)
