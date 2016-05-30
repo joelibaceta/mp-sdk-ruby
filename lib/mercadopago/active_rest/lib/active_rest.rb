@@ -29,11 +29,33 @@ module ActiveREST
 
   # When a missing method is called try to call it as an Array method
   def method_missing(method, *args, &block)
-    if dynamic_attributes_allowed?
-      resource_collection.__send__(method, *args, &block)
-    else
+    _kind, value = kind_of_method(method)
+    case _kind
+      when "find_by_"
+        find_by(value, args[0])
+      when "array_method"
+        resource_collection.__send__(method, *args, &block)
+      when "method_for_all"
+      else
+        # Do Nothing
     end
+
   end
+
+  def kind_of_method(method)
+    is_find_by, value = /find_by/.match(method)
+
+    if is_find_by
+      return "is_find_by", value
+    end
+
+    if ["all", "length", "inspect"].include?(method)
+      return "array_method", value
+    end
+
+    return "unknow", nil
+  end
+
 
   def prepare_request_stack
     class_variable_get("@@prepare_request_stack")
@@ -44,10 +66,10 @@ module ActiveREST
   end
   module_function :not_allow_dynamic_attributes
 
-  def has_strong_attribute(name, *params) 
+  def has_strong_attribute(name, *params)
     begin
       definition = attributes_definition
-      definition[name] = StrongVariable.new((params[0])) 
+      definition[name] = StrongVariable.new((params[0]))
     rescue => error
       puts "#{error} \n Bad variable definition on #{self}"
     end
@@ -56,7 +78,7 @@ module ActiveREST
 
 
 
-  def has_relation(relation) 
+  def has_relation(relation)
     relation.each do |k, v|
       relations = dynamic_relations
       relations[v]=k
@@ -64,7 +86,7 @@ module ActiveREST
   end
   module_function :has_relation
 
- 
+
   # Reset all the objects
   def reset
     class_variable_set("@@list", Array.new)
@@ -95,7 +117,8 @@ module ActiveREST
     end
     return object
   end
-  
+
+
   def load(id, params={})
 
     load_url = class_variable_get("@@read_url")
@@ -104,11 +127,26 @@ module ActiveREST
     params = self.read_url.params.merge(class_variable_get("@@global_rest_params"))
 
     response = get(load_url.url.gsub(":id", id), params, self)
+
     object = self.new(response)
     self.append(object)
     if block_given?
       yield object
     end
+  end
+
+  def find(id)
+    return find_by(:id, id)
+  end
+
+  def find_by(attribute, value)
+    list= class_variable_get("@@list")
+    list.each do |item|
+      if item.__send__(attribute) == value
+        return item
+      end
+    end
+    return nil
   end
 
   def append(object)
@@ -169,7 +207,7 @@ module ActiveREST
   module_function :has_rest_method
 
   private #helpers
-  
+
   def dynamic_relations
     class_variable_get("@@dynamic_relations")
   end
