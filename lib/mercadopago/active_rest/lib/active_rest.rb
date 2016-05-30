@@ -7,6 +7,8 @@ require_relative 'active_rest/base'
 require_relative 'active_rest/ar_error'
 require_relative 'active_rest/strong_variable'
 
+require 'active_support/all'
+
 # It allows a Class to behave as a Resource of an API REST
 #
 # @note Modify this module may alter the correct operation of the Gem
@@ -23,11 +25,33 @@ module ActiveREST
 
   # When a missing method is called try to call it as an Array method
   def method_missing(method, *args, &block)
-    if dynamic_attributes_allowed?
-      resource_collection.__send__(method, *args, &block)
-    else
+    _kind, value = kind_of_method(method)
+    case _kind
+      when "find_by_"
+        find_by(value, args[0])
+      when "array_method"
+        resource_collection.__send__(method, *args, &block)
+      when "method_for_all" 
+      else  
+        # Do Nothing
     end
+    
   end
+  
+  def kind_of_method(method)
+    is_find_by, value = /find_by/.match(method) 
+    
+    if is_find_by
+      return "is_find_by", value
+    end
+    
+    if ["all", "length", "inspect"].include?(method)
+      return "array_method", value
+    end
+    
+    return "unknow", nil
+  end
+  
 
   def not_allow_dynamic_attributes
     class_variable_set("@@dynamic_attributes", false)
@@ -35,12 +59,12 @@ module ActiveREST
   module_function :not_allow_dynamic_attributes
 
   def has_strong_attribute(name, *params) 
-    begin
+    #begin
       definition = attributes_definition
-      definition[name] = StrongVariable.new(params[0]) 
-    rescue => error
-      puts "#{error} \n Bad variable definition on #{self}"
-    end
+      definition[name] = StrongVariable.new((params[0])) 
+      #rescue => error
+      #puts "#{error} \n Bad variable definition on #{self}"
+      #end
   end
   module_function :has_strong_attribute
 
@@ -84,6 +108,31 @@ module ActiveREST
     end
     return object
   end
+  
+  def find(id)
+    return find_by(:id, id)
+  end
+  
+  def find_by(attribute, value)
+    list= class_variable_get("@@list")
+    list.each do |item| 
+      if item.__send__(attribute) == value
+        return item
+      end
+    end
+    return nil
+  end
+  
+  
+  def load(id)
+    load_url = class_variable_get("@@read_url").gsub(":id", id)
+    response = get(load_url, {}, self)
+    object = self.new(response)
+    self.append(object)
+    if block_given?
+      yield object
+    end
+  end
 
   def append(object)
     list = class_variable_get("@@list")
@@ -91,7 +140,12 @@ module ActiveREST
     class_variable_set("@@list", list)
   end
 
-  def all; class_variable_get("@@list"); end
+  def all
+    if block_given?
+      yield class_variable_get("@@list")
+    end
+    return class_variable_get("@@list")
+  end
 
   def has_rest_method(opts={})
 
