@@ -53,7 +53,7 @@ module ActiveREST
 
     def set_variable(attribute, value)
       definition = class_header_attributes[attribute.to_sym]
-      is_an_association = class_relations[attribute] 
+      is_an_association = class_relations[attribute]
         
       if (definition != nil) # if there are a definition for the variable
         if (definition.allow_this? value)
@@ -63,7 +63,8 @@ module ActiveREST
           assign_value_to attribute, (new_value || value)
         end
       else
-        if allow_dynamic_attributes
+        puts "DYNAMIC: #{allow_dynamic_attributes}"
+        if true #allow_dynamic_attributes
           assign_value_to attribute, value
         else
           raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
@@ -71,6 +72,7 @@ module ActiveREST
       end
       
     end
+
 
     def fill_from_response(response)
       response.each do |attr, value|
@@ -112,17 +114,44 @@ module ActiveREST
       end
     end
 
+    def save(base=self)
+      base.remote_save do |response|
+        base.fill_from_response(response)
+      end
+
+      if block_given?
+        yield base
+      end
+    end
+
     def remote_save
       local_save(self)
+
+      self.prepare_rest_params
+
+      params = self.class.create_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
+
+      puts "URL: #{self.class.create_url}"
+
+      str_url = self.class.create_url.url
+
+      @attributes.each do |k,v|
+        begin
+          str_url=str_url.gsub(":#{k}", v)
+        rescue
+        end
+
+      end
+
       if self.class.create_url
-        response = post(self.class.create_url, self.to_json, self.class)
+        response = post(str_url, self.to_json, params, self.class)
+        self.fill_from_response(response)
         if block_given?
           yield response
         end
       else
         raise ARError, "This class can't save remotely, Check the Resource Definition"
       end
-
     end
 
     def destroy
@@ -139,7 +168,7 @@ module ActiveREST
     # Private helpers to made a clean code
     
     def build_object(name, value) 
-      klass_name = "MercadoPago::#{name.to_s.singularize.capitalize}"
+      klass_name = "MercadoPago::#{name.to_s.singularize.camelize}"
       if (klass_name.to_class) # If is an object or a collection
         if value.class == Array 
           return name.to_s.pluralize, value.map{|item| build_object(name, item)[1]}
@@ -157,6 +186,13 @@ module ActiveREST
         return name.to_s, value
       end
        
+    end
+
+    def self.prepare_rest_params
+      puts "WE ARE GOING TO PREPARE THE STACK"
+      p self.prepare_request_stack[0]
+      self.prepare_request_stack.map {|isq| p (isq.call)}
+
     end
     
     

@@ -1,20 +1,24 @@
-
 module MercadoPago
   class Preference < ActiveREST::Base
 
-    # Not allow dynamic attributes
+    #   Not allow dynamic attributes
     not_allow_dynamic_attributes
 
-    has_rest_method create: '/checkout/preferences'
+    #   Algorithms avaiblables
+    #   SHA256, SHA384, SHA512, HMAC, SHA1, RMD160, MD5
+    #
+    set_idempotency_algorithm 'SHA256'
+
+    has_rest_method create: '/checkout/preferences', idempotency: true
     has_rest_method read:   '/checkout/preferences/:id'
     has_rest_method update: '/checkout/preferences/:id'
 
-    # Setting the relations between objects
+    #   Setting the relations between objects
     has_relation  has_many: 'items'
     has_relation  has_one: 'payer'
     has_relation  has_one: 'shipment'
 
-    # Setting the strong attributes
+    #   Setting the strong attributes
     has_strong_attribute :auto_return,          valid_values: ["approved", "all"]
     has_strong_attribute :back_urls,            type: Hash
     has_strong_attribute :notification_url,     type: String,    length: 500
@@ -33,24 +37,22 @@ module MercadoPago
     has_strong_attribute :marketplace_fee,      type: Float
     has_strong_attribute :differential_pricing, type: Hash
     has_strong_attribute :payment_methods,      type: Hash
-    has_strong_attribute :items,      type: Array
-    has_strong_attribute :payer,      type: Object
+    has_strong_attribute :items,                type: Array,     idempotency_parameter: true
+    has_strong_attribute :payer,                type: Object,    idempotency_parameter: true
 
     # Custom Behavior
     def save
-      remote_save do |response|  
-        self.fill_from_response(response)
-        
-        file = File.open(File.expand_path(__dir__) + "/../sample/preference.json", "w+")
-        file.puts(response)
-        file.close
-        
+      super do |response|
+        # Only for Demo
+        #=================
+          file = File.open(File.expand_path(__dir__) + "/../sample/preference.json", "w+")
+          file.puts(response)
+          file.close
+        #=================
       end
-      
-      
-      
     end
-    
-   
+
+
+
   end
 end

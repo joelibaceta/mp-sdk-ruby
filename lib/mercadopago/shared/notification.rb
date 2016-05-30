@@ -1,4 +1,5 @@
 module MercadoPago
+
   class Notification < ActiveREST::Base
 
     def self.all # Overwritting all method
@@ -15,4 +16,5 @@ module MercadoPago
     end
 
   end
+
 end

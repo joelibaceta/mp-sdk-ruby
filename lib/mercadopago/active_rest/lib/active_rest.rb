@@ -14,10 +14,14 @@ require 'active_support/all'
 # @note Modify this module may alter the correct operation of the Gem
 module ActiveREST
 
+
+  Struct.new("REST_URL", :name, :url, :params)
   # Its method is called when the module ActiveREST is extended from another Class
   # @param base represents the class which is extended by the module
   def self.extended(base)
     base.class_variable_set("@@list", Array.new)
+    base.class_variable_set("@@global_rest_params", Hash.new)
+    base.class_variable_set("@@prepare_request_stack", Array.new)
     base.class_variable_set("@@attr_header", Hash.new)
     base.class_variable_set("@@dynamic_attributes", true)
     base.class_variable_set("@@dynamic_relations", Hash.new)
@@ -31,20 +35,26 @@ module ActiveREST
     end
   end
 
+  def prepare_request_stack
+    class_variable_get("@@prepare_request_stack")
+  end
+
   def not_allow_dynamic_attributes
     class_variable_set("@@dynamic_attributes", false)
   end
   module_function :not_allow_dynamic_attributes
 
   def has_strong_attribute(name, *params) 
-    #begin
+    begin
       definition = attributes_definition
       definition[name] = StrongVariable.new((params[0])) 
-      #rescue => error
-      #puts "#{error} \n Bad variable definition on #{self}"
-      #end
+    rescue => error
+      puts "#{error} \n Bad variable definition on #{self}"
+    end
   end
   module_function :has_strong_attribute
+
+
 
   def has_relation(relation) 
     relation.each do |k, v|
@@ -63,10 +73,9 @@ module ActiveREST
 
 
   def populate_from_api
-
-    if self.list_url #TODO: Token Support
+    if self.list_url
       klass = self
-      response = get(self.list_url, {}, self)
+      response = get(self.list_url, self.list_url.params , self)
       response.each do |attrs|
         object = build_object(klass, attrs)
         append(object)
@@ -87,9 +96,14 @@ module ActiveREST
     return object
   end
   
-  def load(id)
-    load_url = class_variable_get("@@read_url").gsub(":id", id)
-    response = get(load_url, {}, self)
+  def load(id, params={})
+
+    load_url = class_variable_get("@@read_url")
+
+    self.prepare_rest_params
+    params = self.read_url.params.merge(class_variable_get("@@global_rest_params"))
+
+    response = get(load_url.url.gsub(":id", id), params, self)
     object = self.new(response)
     self.append(object)
     if block_given?
@@ -103,6 +117,16 @@ module ActiveREST
     class_variable_set("@@list", list)
   end
 
+  def create(hash={})
+    object = self.new(hash)
+    object.remote_save
+
+    if block_given?
+      puts "CREATED BLOCK: #{object}"
+      yield object
+    end
+  end
+
   def all
     if block_given?
       yield class_variable_get("@@list")
@@ -110,33 +134,37 @@ module ActiveREST
     return class_variable_get("@@list")
   end
 
+  def before_api_request(&block)
+    p "BLOCK: #{block}"
+    stack = class_variable_get("@@prepare_request_stack")
+    stack << block
+
+  end
+  module_function :before_api_request
+
+  def set_param(k, v)
+    p "CALL TO SET PARAM"
+    params_variables = class_variable_get("@@global_rest_params")
+    params_variables[k] = v
+    p class_variable_get("@@global_rest_params")
+  end
+  module_function :set_param
+
   def has_rest_method(opts={})
 
-    if opts[:list]
-      self.class_variable_set("@@list_url", opts[:list])
-      self.class_eval("def self.list_url; @@list_url; end")
-    end
+    reserved_params = [:idempotency]
 
-    if opts[:create]
-      self.class_variable_set("@@create_url", opts[:create])
-      self.class_eval("def self.create_url; @@create_url; end")
-    end
+    action = opts.first
 
-    if opts[:read]
-      self.class_variable_set("@@read_url", opts[:read])
-      self.class_eval("def self.read_url; @@read_url; end")
-    end
+    reserved_params.push(action[0])
 
-    if opts[:update]
-      self.class_variable_set("@@update_url", opts[:update])
-      self.class_eval("def self.update_url; @@update_url; end")
-    end
+    params = opts.except(*reserved_params)
 
-    if opts[:delete]
-      self.class_variable_set("@@delete_url", opts[:delete])
-      self.class_eval("def self.delete_url; @@delete_url; end")
-    end
 
+    variable_name = "@@#{action[0]}_url"
+
+    self.class_variable_set(variable_name, Struct::REST_URL.new(action[0], action[1], params))
+    self.class_eval("def self.#{action[0]}_url; #{variable_name}; end")
   end
   module_function :has_rest_method
 

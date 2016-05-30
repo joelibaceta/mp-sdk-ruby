@@ -28,6 +28,8 @@ module MercadoPago
     has_strong_attribute :marketplace,        type: String,    length: 256
     has_strong_attribute :total_amount,       type: Float
 
+    before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
+
     def self.all # Overwritting all method
       super do |merchant_order_list|
         if merchant_order_list.empty?
