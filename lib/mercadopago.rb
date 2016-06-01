@@ -16,7 +16,7 @@ require_relative 'mercadopago/flavor3/merchant_order'
 
 require_relative 'mercadopago/flavor3/shipment'
 
-require_relative 'mercadopago/identification_type'
+require_relative 'mercadopago/shared/identification_type'
 
 module MercadoPago
 
