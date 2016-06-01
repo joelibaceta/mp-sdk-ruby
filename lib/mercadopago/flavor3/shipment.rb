@@ -10,5 +10,7 @@ module MercadoPago
     has_strong_attribute :free_shipping
     has_strong_attribute :receiver_address,          type: Hash
 
+    before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
+
   end
 end

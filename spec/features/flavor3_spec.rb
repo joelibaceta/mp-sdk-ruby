@@ -5,42 +5,39 @@ require 'colorize'
 
 describe MercadoPago do
   context "Create a preference " do
+
+    before do
+      @items = (0..3).map{|i| build(:valid_item)}
+      @payer = build(:valid_payer_with_minimal_data)
+      #TODO: Shipping
+    end
 	
-    xit "with valid_and_full data" do
-
-
-      #preference = build(:preference_with_valid_data)
+    it "with valid data" do
+ 
 			preference = MercadoPago::Preference.new
 
-      item1 = MercadoPago::Item.new  # (0..3).map{|i| build(:valid_item)}
-
-			item1.unit_price = "5.0"
-			item1.id = "item-ID-1234"
-			item1.description = "A random item"
-			item1.quantity = "1"
-			item1.currency_id = "ARS"
-
-			item2 = MercadoPago::Item.new ({id: "item-ID-4321", 
-																			description: "Another random item", 
-																			quantity: 5, 
-																			"currency_id": "ARS"})
-			
-      preference.items = [item1, item2]
+      preference.items = @items
+      preference.payer = @payer
 
       preference.save
-			puts "\nPREFERENCIA CREADA:".light_green
-			puts "==============================\n\n".green
-      pp preference
-			puts "\nPREFERENCIA EN FORMATO JSON".light_green
-			puts "=============================\n\n".green
-			puts preference.to_json.light_white
-			puts "\nITEMS DE PREFERENCIA".light_green
-			puts "============================\n\n".green
-			pp preference.items
-			puts "\nITEMS EN FORMATO JSON".light_green
-			puts "============================\n\n".green
-			puts preference.items.to_json.light_white
-			puts "\n"	
+      
+      expect(preference.id).to eql("202809963-a2901d2b-b2e0-4479-ac4c-97950c09b2e4")
+
+      notification = MercadoPago::Notification.last
+
+			expect(notification.id).to eql("313983329")
+
+    end
+
+    it "should receive a merchant order notification" do
+
+    end
+
+
+  end
+
+  context "A payment was made" do
+    it "should receive a payment notification" do
 
     end
   end

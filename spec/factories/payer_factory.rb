@@ -15,4 +15,10 @@ FactoryGirl.define do
 
   end
 
+  factory :valid_payer_with_minimal_data,  class: MercadoPago::Payer do
+    name Faker::Name.first_name
+    surname Faker::Name.last_name
+    email Faker::Internet.email
+  end
+
 end

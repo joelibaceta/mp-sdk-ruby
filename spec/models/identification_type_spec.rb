@@ -5,7 +5,7 @@ describe MercadoPago do
   context "identification_type.rb" do
 
     it "get the list identification Type url" do
-      expect(MercadoPago::IdentificationType.list_url).to eql("/v1/identification_types")
+      expect(MercadoPago::IdentificationType.list_url.url).to eql("/v1/identification_types")
       MercadoPago::IdentificationType.populate_from_api
     end
 
@@ -15,8 +15,6 @@ describe MercadoPago do
       expect(MercadoPago::IdentificationType.first.class).to eql(MercadoPago::IdentificationType)
 
       pp MercadoPago::IdentificationType
-
-
     end
 
   end

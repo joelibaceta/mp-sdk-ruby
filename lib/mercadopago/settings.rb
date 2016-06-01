@@ -10,7 +10,8 @@ module MercadoPago
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
         ACCESS_TOKEN:   "", 
-        notification_url:   ""
+        notification_url:   "", 
+        sandbox_mode: true
     }
     
     def self.configuration
@@ -38,14 +39,18 @@ module MercadoPago
       configure(config)
     end
     
-    def self.try_to_get_token(client_id, client_secret) 
-      uri = URI(@@config[:base_url] + "/oauth/token") 
+    def self.try_to_get_token
+      
+      uri = URI(@@config[:base_url] + "/oauth/token")
+      
+      puts "URI: #{uri}"
       
       params = {grant_type: 'client_credentials',
                 client_id: @@config[:CLIENT_ID], 
                 client_secret: @@config[:CLIENT_SECRET]} 
                 
-      https = Net::HTTP.new(uri.host,uri.port)
+      https = Net::HTTP.new(uri.host, uri.port)
+
       https.use_ssl = true
          
       req = Net::HTTP::Post.new(uri.path, initheader = {'Content-Type' =>'application/json'}) 
@@ -64,7 +69,7 @@ module MercadoPago
       if value
         if has_equal_operator
           @@config[method[0..-2].to_sym] = args[0] 
-          response = try_to_get_token(@@config[:CLIENT_ID], @@config[:CLIENT_SECRET])
+          response = try_to_get_token
           
           if response
             file = File.open(File.expand_path(__dir__) + "/token", "w+")

@@ -2,6 +2,7 @@
 
 require 'json'
 require_relative 'active_rest/core/string'
+require_relative 'active_rest/core/hash'
 require_relative 'active_rest/rest_client/rest_client'
 require_relative 'active_rest/base'
 require_relative 'active_rest/ar_error'
@@ -31,26 +32,32 @@ module ActiveREST
   def method_missing(method, *args, &block)
     _kind, value = kind_of_method(method)
     case _kind
-      when "find_by_"
+      when "find_by"
         find_by(value, args[0])
       when "array_method"
         resource_collection.__send__(method, *args, &block)
       when "method_for_all"
+        all.__send__(method, *args, &block)
       else
         # Do Nothing
     end
-
   end
 
   def kind_of_method(method)
-    is_find_by, value = /find_by/.match(method)
 
-    if is_find_by
-      return "is_find_by", value
+    match = /find_by_/.match(method.to_s)
+
+    if match.to_s ==  "find_by_"
+      value = match.post_match
+      return "find_by", value
     end
 
     if ["all", "length", "inspect"].include?(method)
-      return "array_method", value
+      return "array_method", nil
+    end
+
+    if ["first", "last"].include?(method.to_s)
+      return "method_for_all", nil
     end
 
     return "unknow", nil
@@ -94,13 +101,24 @@ module ActiveREST
   end
 
 
-  def populate_from_api
+  def populate_from_api(url_params = {}, params = {})
+
     if self.list_url
-      klass = self
-      response = get(self.list_url, self.list_url.params , self)
+
+      str_url = self.list_url.url
+      url_params.map { |k,v| str_url=str_url.gsub(":#{k}", v) }
+
+      klass   = self
+
+      self.prepare_rest_params
+
+      params  = self.list_url.params.merge(class_variable_get("@@global_rest_params"))
+
+      response = get(str_url, params, klass)
+
       response.each do |attrs|
-        object = build_object(klass, attrs)
-        append(object)
+        object = klass.new(attrs)
+        klass.append(object)
       end
     end
   end
@@ -121,12 +139,10 @@ module ActiveREST
 
   def load(id, params={})
 
-    load_url = class_variable_get("@@read_url")
-
     self.prepare_rest_params
     params = self.read_url.params.merge(class_variable_get("@@global_rest_params"))
 
-    response = get(load_url.url.gsub(":id", id), params, self)
+    response = get(self.read_url.url.gsub(":id", id), params, self)
 
     object = self.new(response)
     self.append(object)
@@ -140,8 +156,11 @@ module ActiveREST
   end
 
   def find_by(attribute, value)
-    list= class_variable_get("@@list")
+
+    list = class_variable_get("@@list")
+
     list.each do |item|
+      puts "EACH: #{item}"
       if item.__send__(attribute) == value
         return item
       end
@@ -149,15 +168,32 @@ module ActiveREST
     return nil
   end
 
+  def clean
+    class_variable_set("@@list", [])
+  end
+
+  def refresh
+
+  end
+
   def append(object)
-    list = class_variable_get("@@list")
-    list << object
-    class_variable_set("@@list", list)
+    list, founded = class_variable_get("@@list"), false
+    list.each do |item|
+      founded = true if item.id == object.id
+    end
+
+    unless founded
+      list << object
+      class_variable_set("@@list", list)
+    end
+
   end
 
   def create(hash={})
     object = self.new(hash)
     object.remote_save
+
+
 
     if block_given?
       puts "CREATED BLOCK: #{object}"
@@ -166,6 +202,7 @@ module ActiveREST
   end
 
   def all
+    populate_from_api if self.list_url
     if block_given?
       yield class_variable_get("@@list")
     end
@@ -197,7 +234,6 @@ module ActiveREST
     reserved_params.push(action[0])
 
     params = opts.except(*reserved_params)
-
 
     variable_name = "@@#{action[0]}_url"
 

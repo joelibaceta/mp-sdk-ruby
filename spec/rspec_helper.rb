@@ -15,7 +15,7 @@ RSpec.configure do |config|
   FactoryGirl.find_definitions
 
   config.before(:each) do
-    stub_request(:any, /api.mercadopago.com/).to_rack(FakeAPIHub)
+    stub_request(:any, /https:\/\/api.mercadopago.com/).to_rack(FakeAPIHub)
   end
 
 end
@@ -32,6 +32,13 @@ def valid_items(n)
   return items
 end
 
+def receive_a_merchant_order_notification
+
+end
+
+def receive_a_payment_notification
+
+end
 
 
 def random_category

@@ -1,7 +1,6 @@
 module MercadoPago
   class Card < ActiveREST::Base
 
-    has_rest_method list:     '/v1/customers/:customer_id/cards'
     has_rest_method create:   '/v1/customers/:customer_id/cards'
     has_rest_method read:     '/v1/customers/:customer_id/cards/:id'
     has_rest_method update:   '/v1/customers/:customer_id/cards/:id'
@@ -23,6 +22,13 @@ module MercadoPago
     has_strong_attribute :date_last_updated
 
     before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
+
+
+    def destroy
+      super do
+        MercadoPago::Customer.clean
+      end
+    end
 
   end
 end

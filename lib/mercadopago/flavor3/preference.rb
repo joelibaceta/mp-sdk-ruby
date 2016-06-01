@@ -4,12 +4,9 @@ module MercadoPago
     #   Not allow dynamic attributes
     not_allow_dynamic_attributes
 
-    #   Algorithms avaiblables
-    #   SHA256, SHA384, SHA512, HMAC, SHA1, RMD160, MD5
-    #
-    set_idempotency_algorithm 'SHA256'
 
-    has_rest_method create: '/checkout/preferences', idempotency: true
+
+    has_rest_method create: '/checkout/preferences'
     has_rest_method read:   '/checkout/preferences/:id'
     has_rest_method update: '/checkout/preferences/:id'
 
@@ -37,8 +34,11 @@ module MercadoPago
     has_strong_attribute :marketplace_fee,      type: Float
     has_strong_attribute :differential_pricing, type: Hash
     has_strong_attribute :payment_methods,      type: Hash
-    has_strong_attribute :items,                type: Array,     idempotency_parameter: true
+    has_strong_attribute :items,                type: Array,     idempotency_parameter: true, required: true
     has_strong_attribute :payer,                type: Object,    idempotency_parameter: true
+
+
+    before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
 
     # Custom Behavior
     def save

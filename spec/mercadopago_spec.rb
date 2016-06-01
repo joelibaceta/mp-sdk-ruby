@@ -4,7 +4,7 @@ describe MercadoPago do
   context "Environment Setup" do
 
     it "with default settings" do
-      expect(MercadoPago::Settings.base_url).to eql("api.mercadopago.com")
+      expect(MercadoPago::Settings.base_url).to eql("https://api.mercadopago.com")
       expect(MercadoPago::Settings.sandbox_mode).to eql(true)
       expect(MercadoPago::Settings.CLIENT_ID).to eql("")
       expect(MercadoPago::Settings.CLIENT_SECRET).to eql("")
@@ -13,12 +13,12 @@ describe MercadoPago do
 
     it "should have default settings after a wrong setup" do
       MercadoPago::Settings.configure({base_url_wrong: "https://custom.com"})
-      expect(MercadoPago::Settings.base_url).to eql("api.mercadopago.com")
+      expect(MercadoPago::Settings.base_url).to eql("https://api.mercadopago.com")
     end
 
     it "should have default settings after a wrong setup from YAML file" do
       MercadoPago::Settings.configure_with("./spec/settings_wrong.yml")
-      expect(MercadoPago::Settings.base_url).to eql("api.mercadopago.com")
+      expect(MercadoPago::Settings.base_url).to eql("https://api.mercadopago.com")
     end
 
     it "with custom settings from hash" do
@@ -31,7 +31,7 @@ describe MercadoPago do
       expect(MercadoPago::Settings.CLIENT_ID).to eql("RANDOM_ID")
       expect(MercadoPago::Settings.CLIENT_SECRET).to eql("RANDOM_SECRET")
       expect(MercadoPago::Settings.ACCESS_TOKEN).to eql("RANDOM_TOKEN")
-      MercadoPago::Settings.base_url = "api.mercadopago.com"
+      MercadoPago::Settings.base_url = "https://api.mercadopago.com"
     end
 
     it "with custom settings from Yaml file" do
@@ -39,7 +39,7 @@ describe MercadoPago do
       expect(MercadoPago::Settings.CLIENT_ID).to eql("CLIENT_ID_YAML")
       expect(MercadoPago::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET_YAML")
       expect(MercadoPago::Settings.ACCESS_TOKEN).to eql("CLIENT_ACCESS_TOKEN_YAML")
-      MercadoPago::Settings.base_url = "api.mercadopago.com"
+      MercadoPago::Settings.base_url = "https://api.mercadopago.com"
     end
 
     it "should raise NoMethodError when require value from wrong key " do

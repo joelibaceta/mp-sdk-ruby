@@ -6,15 +6,46 @@ require 'uri'
 module ActiveREST
   module RESTClient
 
-    @@default_connection = Hash.new
+    VERB_MAP = {
+        :get    => Net::HTTP::Get,
+        :post   => Net::HTTP::Post,
+        :put    => Net::HTTP::Put,
+        :delete => Net::HTTP::Delete
+    }
 
-    def config(&block)
-      instance_eval &block
-    end
-    module_function :config
+    @@default_connection = Hash.new
 
     def self.included(base)
       class_variable_get("@@http_connection") rescue self.class_variable_set("@@http_connection", Hash.new)
+    end
+
+    def request(verb, slug, url_params={}, data={}, _class)
+      default_http_params, custom_http_params = @@default_connection, _class.class_variable_get("@@http_connection")
+      connection_params                       = default_http_params.merge!(custom_http_params)
+
+      str_url_params = url_params.map{|name, value| "#{name}=#{value}"}.join("&")
+
+      uri = URI("#{connection_params[:address]}#{slug}?#{str_url_params}")
+
+      puts "http request Method: #{verb}, Path: #{slug}, Url_params: #{url_params}, Form_params: #{data}, uri: #{uri}"
+
+      http = Net::HTTP.new(uri.host, uri.port)
+
+      http.use_ssl      = connection_params[:use_ssl]     if connection_params[:use_ssl]
+      http.ssl_version  = connection_params[:ssl_version] if connection_params[:ssl_version]
+      http.verify_mode  = connection_params[:verify_mode] if connection_params[:verify_mode]
+      http.ca_file      = connection_params[:ca_file]     if connection_params[:ca_file]
+
+      request = VERB_MAP[verb].new(uri, initheader = {'Content-Type' =>'application/json'})
+      request.body = data if data != {}
+      response = http.request(request)
+
+      if !(response.is_a?(Net::HTTPSuccess))
+        warn response.body
+        raise response.body
+      else
+        return JSON.parse(response.body)
+      end
     end
 
     def set_http_param(param, value)
@@ -24,96 +55,26 @@ module ActiveREST
     end
     module_function :set_http_param
 
-    def http_param(param, value)
-        @@default_connection[param] = value
-
-    end
+    def http_param(param, value); @@default_connection[param] = value; end
     module_function :http_param
 
-    def build_uri
+    def config(&block); instance_eval &block; end
+    module_function :config
 
+
+
+    def delete(slug, params={}, _class=self)
+      request(:delete, slug, params, {}, _class)
+    end
+    def get(slug, params={}, _class=self)
+      request(:get, slug, params, {}, _class)
     end
 
-    def get(slug="", params={}, _class=self)
-      default = @@default_connection
-      custom = _class.class_variable_get("@@http_connection")
-      mixed = default.merge!(custom)
-      query =params.map{|name, value| "#{name}=#{value}"}.join("&")
-
-      uri = URI(mixed[:address] + slug + "?" +query.gsub("%0A", ""))
-
-      puts "URI: #{uri}"
-      
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl] 
-      http.ssl_version = mixed[:ssl_version] if mixed[:ssl_version]
-      http.verify_mode = mixed[:verify_mode] if mixed[:verify_mode]
-      http.ca_file = mixed[:ca_file] if mixed[:ca_file]
-      
-      req = Net::HTTP::Get.new(uri, initheader = {'Content-Type' =>'application/json'})
-      puts req
-      response = http.request(req)
-      puts req
-      p JSON.parse(response.body)
-      if !(response.is_a?(Net::HTTPSuccess))
-        warn response.body
-        raise response.body
-      else
-        return JSON.parse(response.body)
-
-      end
-
-
+    def post(slug, data, get_params={}, _class=self)
+      request(:post, slug, get_params, data, _class)
     end
-
-    def post(slug="", data={}, get_params={}, _class=self) # TODO: Callback
-
-      puts "token: #{MercadoPago::Settings.ACCESS_TOKEN}"
-
-      default = @@default_connection || Hash.new
-      custom = _class.class_variable_get("@@http_connection") || Hash.new
-
-      mixed = default.merge!(custom)
-
-      query = get_params.map{|name, value| "#{name}=#{value}"}.join("&")
-
-      uri = URI(mixed[:address].to_s + slug.to_s + "?" + query.gsub("%0A", "").to_s)
-
-      puts "URI: #{uri}"
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = mixed[:use_ssl] if mixed[:use_ssl] 
-      http.ssl_version = mixed[:ssl_version] if mixed[:ssl_version]
-      http.verify_mode = mixed[:verify_mode] if mixed[:verify_mode]
-      http.ca_file = mixed[:ca_file] if mixed[:ca_file]
-        
-      req = Net::HTTP::Post.new(uri, initheader = {'Content-Type' =>'application/json'})
-      
-      req.body = JSON.parse(data).to_json
-      
-      response = http.request(req)
-
-
-      p JSON.parse(response.body)
-      if !(response.is_a?(Net::HTTPSuccess))
-        warn response.body
-        raise response.body
-      else
-        return JSON.parse(response.body)
-
-      end
-
-
-      
-
-    end
-
-    def put(slug, data, callback)
-
-    end
-
-    def delete(slug, params, callback)
-
+    def put(slug, data, get_params={}, _class=self)
+      request(:put, slug, get_params, data, _class)
     end
 
   end

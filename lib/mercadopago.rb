@@ -1,9 +1,9 @@
 require_relative 'mercadopago/settings' 
 require_relative 'mercadopago/active_rest/lib/active_rest'
 require_relative 'mercadopago/flavor3/preference'
-require_relative 'mercadopago/item'
-require_relative 'mercadopago/payer'
 
+require_relative 'mercadopago/shared/item'
+require_relative 'mercadopago/shared/payer'
 require_relative 'mercadopago/shared/payment_method'
 require_relative 'mercadopago/shared/notification'
 require_relative 'mercadopago/shared/payment'
@@ -45,7 +45,8 @@ module MercadoPago
           "MerchantOrder": MercadoPago::MerchantOrder.all,
           "Shipment": MercadoPago::Shipment.all,
           "Card": MercadoPago::Card.all,
-          "Notification": MercadoPago::Notification.all
+          "Notification": MercadoPago::Notification.all,
+          "PaymentMethod": MercadoPago::PaymentMethod.all
       }
     }
     return self.get_html_list_objects(response)

@@ -4,7 +4,7 @@ describe MercadoPago do
   context "PaymentMethod" do
 
     it "get the list method url" do
-      expect(MercadoPago::PaymentMethod.list_url).to eql("/v1/payment_methods")
+      expect(MercadoPago::PaymentMethod.list_url.url).to eql("/v1/payment_methods")
     end
 
     it "populate from API" do

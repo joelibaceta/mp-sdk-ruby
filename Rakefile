@@ -1,5 +1,7 @@
 require 'rake/testtask'
 
+require 'cucumber/rake/task'
+
 task :default => [:spec]
 
 Rake::TestTask.new do |t|
@@ -14,4 +16,10 @@ task :update_certs do
     abort("bad response when fetching bundle") unless resp.code == 200
     file.write(resp.to_str)
   end
+end
+
+
+
+Cucumber::Rake::Task.new do |t|
+  t.cucumber_opts = "--format pretty"
 end

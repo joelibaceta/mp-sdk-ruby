@@ -1,7 +1,12 @@
 module MercadoPago
   class Payment < ActiveREST::Base
 
-    has_rest_method create: '/v1/payments/'
+    #   Algorithms avaiblables
+    #   SHA256, SHA384, SHA512, HMAC, SHA1, RMD160, MD5
+    #
+    set_idempotency_algorithm 'SHA256'
+
+    has_rest_method create: '/v1/payments/', idempotency: true
     has_rest_method read:   '/payments/:id'
     has_rest_method search: '/payments/search'
     has_rest_method update: '/payments/id'

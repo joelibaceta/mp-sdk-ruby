@@ -46,31 +46,14 @@ module ActiveREST
     def to_json(options = nil); attributes.to_json(options); end
     def attributes; @attributes; end
 
-    def method_missing(method, *args, &block) 
-<<<<<<< HEAD
-      
-      _kind_of_method, value = kind_of_method(method)
-      
-      case _kind_of_method
-        when "is_find_by"
-          
-        else
-          @attributes = Hash.new if @attributes == nil 
-          method[-1] == '=' ? set_variable(method[0..-2], args[0]) : (return @attributes[method.to_s])
-      end
-      
-      
+    def method_missing(method, *args, &block)
+
+
+      @attributes = Hash.new if @attributes == nil
+      method[-1] == '=' ? set_variable(method[0..-2], args[0]) : (return @attributes[method.to_s])
+
     end
     
-    def kind_of_method(method)
-      is_find_by, value = /find_by/.match(method) 
-      if is_find_by
-        return "is_find_by", value
-      end
-      return "unknow", nil
-        @attributes = Hash.new if @attributes == nil 
-        method[-1] == '=' ? set_variable(method[0..-2], args[0]) : (return @attributes[method.to_s])
-    end
 
     def set_variable(attribute, value)
       definition = class_header_attributes[attribute.to_sym]
@@ -84,7 +67,6 @@ module ActiveREST
           assign_value_to attribute, (new_value || value)
         end
       else
-        puts "DYNAMIC: #{allow_dynamic_attributes}"
         if true #allow_dynamic_attributes
           assign_value_to attribute, value
         else
@@ -136,6 +118,7 @@ module ActiveREST
     end
 
     def save(base=self)
+      puts "WE ARE GOINT TO SAVE"
       base.remote_save do |response|
         base.fill_from_response(response)
       end
@@ -145,24 +128,18 @@ module ActiveREST
       end
     end
 
+
+
+
+
     def remote_save
       local_save(self)
-
-      self.prepare_rest_params
+      self.class.prepare_rest_params
 
       params = self.class.create_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
-
-      puts "URL: #{self.class.create_url}"
-
       str_url = self.class.create_url.url
 
-      @attributes.each do |k,v|
-        begin
-          str_url=str_url.gsub(":#{k}", v)
-        rescue
-        end
-
-      end
+      @attributes.map{ |k,v| str_url=str_url.gsub(":#{k}", v) }
 
       if self.class.create_url
         response = post(str_url, self.to_json, params, self.class)
@@ -176,14 +153,41 @@ module ActiveREST
     end
 
     def destroy
-
+      puts "SELF #{self}"
+      list = self.class.class_variable_get("@@list")
+      list.each_with_index do |item, index|
+        list.delete_at(index) if item.id == self.id
+        item.remote_destroy
+      end
+      if block_given?
+        yield response
+      end
     end
 
     def remote_destroy
 
-    end
-    
+      self.class.prepare_rest_params
 
+      params = self.class.destroy_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
+      str_url = self.class.destroy_url.url
+
+      @attributes.map{ |k,v| (str_url=str_url.gsub(":#{k}", v.to_s))}
+
+      if self.class.destroy_url
+        response = delete(str_url, params, self.class)
+        if block_given?
+          yield response
+        end
+      end
+
+    end
+
+    def self.prepare_rest_params
+      puts "WE ARE GOING TO PREPARE THE STACK for #{self}"
+      p self.prepare_request_stack[0]
+      self.prepare_request_stack.map {|isq| isq.call}
+
+    end
 
     private
     # Private helpers to made a clean code
@@ -196,7 +200,9 @@ module ActiveREST
         end
         if value.class == Hash
           klass = klass_name.to_class
-          return name.to_s, klass.new(value)
+          object = klass.new(value)
+          klass.append(object)
+          return name.to_s, object
         end
         if (value.attributes rescue nil)
           return name.to_s, value.attributes
@@ -209,12 +215,7 @@ module ActiveREST
        
     end
 
-    def self.prepare_rest_params
-      puts "WE ARE GOING TO PREPARE THE STACK"
-      p self.prepare_request_stack[0]
-      self.prepare_request_stack.map {|isq| p (isq.call)}
 
-    end
     
     
     def class_header_attributes

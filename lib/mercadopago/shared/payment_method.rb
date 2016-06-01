@@ -3,6 +3,7 @@ module MercadoPago
 
     has_rest_method list: '/v1/payment_methods'
 
+    has_strong_attribute :id
     has_strong_attribute :name
     has_strong_attribute :payment_type_id
     has_strong_attribute :status
@@ -21,6 +22,8 @@ module MercadoPago
     has_strong_attribute :default_payment_method_id
     has_strong_attribute :installments
     has_strong_attribute :default_installments
+
+    before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
 
   end
 end
