@@ -1,7 +1,5 @@
 require 'rake/testtask'
-
-require 'cucumber/rake/task'
-
+ 
 task :default => [:spec]
 
 Rake::TestTask.new do |t|
@@ -19,7 +17,4 @@ task :update_certs do
 end
 
 
-
-Cucumber::Rake::Task.new do |t|
-  t.cucumber_opts = "--format pretty"
-end
+ 
