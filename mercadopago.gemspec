@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.summary       = 'Mercado Pago (Flavor1 / Flavor3) Gem'
   s.description   = 'Mercado Pago (Flavor1 / Flavor3) Gem'
   s.authors       = ['Joel Ibaceta', 'Matias Compiano']
-  s.email         = 'mail@joelibaceta.com'
+  s.email         = 'joel.ibaceta@mercadolibre.com'
   s.homepage      = 'https://github.com/joelibaceta/mp-sdk-ruby'
   s.files         = `git ls-files`.split($/)
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})

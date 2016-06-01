@@ -15,11 +15,6 @@ class MPMiddleware
     params = query.split('&').map{|q| {q.split('=')[0].to_sym => q.split('=')[1]}}.reduce Hash.new, :merge
 
     if path == '/mp-notifications-middleware'
-      p <<-marquee
-            -------------------------- ENV --------------------------'
-            #{env}
-            ---------------------------------------------------------'
-      marquee
 
       notification = MercadoPago::Notification.new(params)
 

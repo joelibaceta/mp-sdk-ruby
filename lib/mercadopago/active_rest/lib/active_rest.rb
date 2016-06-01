@@ -195,8 +195,7 @@ module ActiveREST
 
 
 
-    if block_given?
-      puts "CREATED BLOCK: #{object}"
+    if block_given? 
       yield object
     end
   end
@@ -209,11 +208,9 @@ module ActiveREST
     return class_variable_get("@@list")
   end
 
-  def before_api_request(&block)
-    p "BLOCK: #{block}"
+  def before_api_request(&block) 
     stack = class_variable_get("@@prepare_request_stack")
-    stack << block
-
+    stack << block 
   end
   module_function :before_api_request
 
