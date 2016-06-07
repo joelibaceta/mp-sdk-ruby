@@ -117,8 +117,7 @@ module ActiveREST
       end
     end
 
-    def save(base=self)
-      puts "WE ARE GOINT TO SAVE"
+    def save(base=self) 
       base.remote_save do |response|
         base.fill_from_response(response)
       end
@@ -152,8 +151,7 @@ module ActiveREST
       end
     end
 
-    def destroy
-      puts "SELF #{self}"
+    def destroy 
       list = self.class.class_variable_get("@@list")
       list.each_with_index do |item, index|
         list.delete_at(index) if item.id == self.id
