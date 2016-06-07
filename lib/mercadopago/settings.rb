@@ -51,9 +51,8 @@ module MercadoPago
                 
       https = Net::HTTP.new(uri.host, uri.port)
 
-      https.use_ssl = true
-      https.verify_mode = OpenSSL::SSL::VERIFY_PEER
-      https.ca_file = File.dirname(__FILE__) + '/ca-certificates.crt'
+      https.use_ssl = true 
+      https.ca_file = File.dirname(__FILE__) + '/ca-bundle.crt'
          
       req = Net::HTTP::Post.new(uri.path, initheader = {'Content-Type' =>'application/json'}) 
       
