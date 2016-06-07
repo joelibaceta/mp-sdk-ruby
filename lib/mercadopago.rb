@@ -34,13 +34,13 @@ module MercadoPago
 
   def get_objects
     response = {
-      "Flavor1": {
+      "Flavor1" => {
           "Customers": MercadoPago::Customer.all
       },
-      "Flavor3": {
+      "Flavor3" => {
           "Preference": MercadoPago::Preference.all
       },
-      "Shared": {
+      "Shared" => {
           "Payments": MercadoPago::Payment.all,
           "MerchantOrder": MercadoPago::MerchantOrder.all,
           "Shipment": MercadoPago::Shipment.all,
