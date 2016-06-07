@@ -43,7 +43,19 @@ module ActiveREST
       file.puts(dump)
     end
     
-    def to_json(options = nil); attributes.to_json(options); end
+    def to_json(options = nil); 
+      attributes.to_json(options);
+      
+      attributes.map do |k,v|  
+        if v.class == Array 
+          {k=> v.map{|item| item.to_json}.flatten}
+        else
+          v.to_json
+        end
+        
+      end
+    end
+    
     def attributes; @attributes; end
 
     def method_missing(method, *args, &block)
