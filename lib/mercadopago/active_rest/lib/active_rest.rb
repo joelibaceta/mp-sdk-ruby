@@ -2,6 +2,7 @@
 
 require 'json'
 require_relative 'active_rest/core/string'
+require_relative 'active_rest/core/http'
 require_relative 'active_rest/core/hash'
 require_relative 'active_rest/rest_client/rest_client'
 require_relative 'active_rest/base'
