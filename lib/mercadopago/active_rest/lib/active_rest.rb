@@ -106,7 +106,7 @@ module ActiveREST
     if self.list_url
 
       str_url = self.list_url.url
-      url_params.map { |k,v| str_url=str_url.gsub(":#{k}", v) }
+      url_params.map { |k,v| str_url=str_url.gsub(" =>#{k}", v) }
 
       klass   = self
 
@@ -142,7 +142,7 @@ module ActiveREST
     self.prepare_rest_params
     params = self.read_url.params.merge(class_variable_get("@@global_rest_params"))
 
-    response = get(self.read_url.url.gsub(":id", id), params, self)
+    response = get(self.read_url.url.gsub(" =>id", id), params, self)
 
     object = self.new(response)
     self.append(object)

@@ -35,18 +35,18 @@ module MercadoPago
   def get_objects
     response = {
       "Flavor1" => {
-          "Customers": MercadoPago::Customer.all
+          "Customers"=> MercadoPago::Customer.all
       },
       "Flavor3" => {
-          "Preference": MercadoPago::Preference.all
+          "Preference" => MercadoPago::Preference.all
       },
       "Shared" => {
-          "Payments": MercadoPago::Payment.all,
-          "MerchantOrder": MercadoPago::MerchantOrder.all,
-          "Shipment": MercadoPago::Shipment.all,
-          "Card": MercadoPago::Card.all,
-          "Notification": MercadoPago::Notification.all,
-          "PaymentMethod": MercadoPago::PaymentMethod.all
+          "Payments" => MercadoPago::Payment.all,
+          "MerchantOrder" => MercadoPago::MerchantOrder.all,
+          "Shipment" => MercadoPago::Shipment.all,
+          "Card" => MercadoPago::Card.all,
+          "Notification" => MercadoPago::Notification.all,
+          "PaymentMethod" => MercadoPago::PaymentMethod.all
       }
     }
     return self.get_html_list_objects(response)

@@ -47,15 +47,15 @@ describe MercadoPago do
       payer.email = Faker::Internet.free_email
       payer.date_created = Faker::Date.forward(5)
 
-      payer.phone = { "area_code": Faker::PhoneNumber.area_code,
-                      "number": Faker::PhoneNumber.cell_phone}
+      payer.phone = { "area_code" => Faker::PhoneNumber.area_code,
+                      "number" => Faker::PhoneNumber.cell_phone}
 
-      payer.identification = { "type": "DNI",
-                               "number": "12345678" }
+      payer.identification = { "type" => "DNI",
+                               "number" => "12345678" }
 
-      payer.address = { "street_name": Faker::Address.street_name,
-                        "street_number": Faker::Address.building_number,
-                        "zip_code": Faker::Address.zip_code }
+      payer.address = { "street_name" => Faker::Address.street_name,
+                        "street_number" => Faker::Address.building_number,
+                        "zip_code" => Faker::Address.zip_code }
 
 
       preference.payer = payer
