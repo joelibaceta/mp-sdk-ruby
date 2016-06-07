@@ -46,13 +46,13 @@ module ActiveREST
     def to_json(options = nil);  
       response = attributes.map do |k,v|  
         if v.class == Array 
-          {k=> v.map{|item| item.to_json}.flatten}
+          {k=> v.map{|item| item}.flatten}
         else
-          {k => v.to_json}
+          {k => v}
         end
         
       end
-      response.to_json.reduce Hash.new, :merge
+      (response.reduce Hash.new, :merge).to_json
 
     end
     
