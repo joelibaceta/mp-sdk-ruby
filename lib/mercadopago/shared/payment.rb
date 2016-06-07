@@ -7,7 +7,7 @@ module MercadoPago
     set_idempotency_algorithm 'SHA256'
 
     has_rest_method create: '/v1/payments/', idempotency: true
-    has_rest_method read:   '/payments/:id'
+    has_rest_method read:   '/collections/notifications/:id'
     has_rest_method search: '/payments/search'
     has_rest_method update: '/payments/id'
 

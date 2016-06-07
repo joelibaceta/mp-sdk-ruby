@@ -4,7 +4,7 @@ require_relative '../mercadopago.rb'
 
 class MPMiddleware
 
-
+  
   def initialize(app)
     @app = app
     puts "Mercado Pago Middleware initialized for #{app}"
