@@ -214,11 +214,9 @@ module ActiveREST
   end
   module_function :before_api_request
 
-  def set_param(k, v)
-    p "CALL TO SET PARAM"
+  def set_param(k, v) 
     params_variables = class_variable_get("@@global_rest_params")
-    params_variables[k] = v
-    p class_variable_get("@@global_rest_params")
+    params_variables[k] = v 
   end
   module_function :set_param
 
