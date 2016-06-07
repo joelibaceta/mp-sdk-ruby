@@ -142,7 +142,7 @@ module ActiveREST
     self.prepare_rest_params
     params = self.read_url.params.merge(class_variable_get("@@global_rest_params"))
 
-    response = get(self.read_url.url.gsub(" =>id", id), params, self)
+    response = get(self.read_url.url.gsub(":id", id), params, self)
 
     object = self.new(response)
     self.append(object)
