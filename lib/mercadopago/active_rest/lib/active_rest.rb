@@ -106,7 +106,7 @@ module ActiveREST
     if self.list_url
 
       str_url = self.list_url.url
-      url_params.map { |k,v| str_url=str_url.gsub(" =>#{k}", v) }
+      url_params.map { |k,v| str_url=str_url.gsub(":#{k}", v) }
 
       klass   = self
 

@@ -1,3 +1,4 @@
+
 module MercadoPago
   class MerchantOrder < ActiveREST::Base
     

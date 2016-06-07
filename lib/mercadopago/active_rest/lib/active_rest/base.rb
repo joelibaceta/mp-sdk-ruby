@@ -139,7 +139,7 @@ module ActiveREST
       params = self.class.create_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
       str_url = self.class.create_url.url
 
-      @attributes.map{ |k,v| str_url=str_url.gsub(":#{k}", v) }
+      @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v) }
 
       if self.class.create_url
         response = post(str_url, self.to_json, params, self.class)
