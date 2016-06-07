@@ -25,7 +25,7 @@ module MercadoPago
     http_param :use_ssl, true
     #http_param :ssl_version, :TLSv1
     #http_param :verify_mode, (OpenSSL::SSL::VERIFY_PEER)
-    http_param :ca_file, File.dirname(__FILE__) + '/mercadopago/ca-certificates.crt'
+    http_param :ca_file, File.dirname(__FILE__) + '/mercadopago/ca-bundle.crt'
   end
   
   def manange_notificatons
