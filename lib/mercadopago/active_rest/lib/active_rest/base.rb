@@ -35,6 +35,8 @@ module ActiveREST
 
       
     end
+    
+    
 
     def binary_dump_in_file(file)
       puts "DUMPING"
@@ -42,6 +44,8 @@ module ActiveREST
       p "DUMP: #{dump}"
       file.puts(dump)
     end
+    
+    
     
     def to_json(options = nil);  
       response = attributes.map do |k,v|  
@@ -148,12 +152,13 @@ module ActiveREST
       self.class.prepare_rest_params
 
       params = self.class.create_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
+      headers = self.class.class_variable_get("@@custom_headers")
       str_url = self.class.create_url.url
 
       @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v.to_s) }
 
       if self.class.create_url
-        response = post(str_url, self.to_json, params, self.class)
+        response = post(str_url, self.to_json, params, headers, self.class)
         self.fill_from_response(response)
         if block_given?
           yield response
@@ -180,11 +185,13 @@ module ActiveREST
 
       params = self.class.destroy_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
       str_url = self.class.destroy_url.url
-
+      
+      headers = self.class.class_variable_get("@@custom_headers")
+      
       @attributes.map{ |k,v| (str_url=str_url.gsub(":#{k}", v.to_s))}
 
       if self.class.destroy_url
-        response = delete(str_url, params, self.class)
+        response = delete(str_url, params, headers, self.class)
         if block_given?
           yield response
         end

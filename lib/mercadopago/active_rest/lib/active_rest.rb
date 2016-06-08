@@ -26,7 +26,8 @@ module ActiveREST
     base.class_variable_set("@@prepare_request_stack", Array.new)
     base.class_variable_set("@@attr_header", Hash.new)
     base.class_variable_set("@@dynamic_attributes", true)
-    base.class_variable_set("@@dynamic_relations", Hash.new)
+    base.class_variable_set("@@dynamic_relations", Hash.new) 
+    base.class_variable_set("@@custom_headers", Hash.new)
   end
 
   # When a missing method is called try to call it as an Array method
@@ -139,11 +140,12 @@ module ActiveREST
 
 
   def load(id, params={})
-
+    
     self.prepare_rest_params
     params = self.read_url.params.merge(class_variable_get("@@global_rest_params"))
-
-    response = get(self.read_url.url.gsub(":id", id), params, self)
+    headers = class_variable_get("@@custom_headers")
+    
+    response = get(self.read_url.url.gsub(":id", id), params, headers,self)
 
     object = self.new(response)
     self.append(object)
@@ -220,6 +222,12 @@ module ActiveREST
     params_variables[k] = v 
   end
   module_function :set_param
+  
+  def set_custom_header(param, value)
+    params_variables = class_variable_get("@@custom_headers")
+    params_variables[param] = value 
+  end
+  module_function :set_custom_header
 
   def has_rest_method(opts={})
 

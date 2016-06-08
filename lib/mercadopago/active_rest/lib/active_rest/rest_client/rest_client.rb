@@ -19,7 +19,7 @@ module ActiveREST
       class_variable_get("@@http_connection") rescue self.class_variable_set("@@http_connection", Hash.new)
     end
 
-    def request(verb, slug, url_params={}, data={}, _class)
+    def request(verb, slug, url_params={}, data={}, headers={}, _class)
       default_http_params, custom_http_params = @@default_connection, _class.class_variable_get("@@http_connection")
       connection_params                       = default_http_params.merge!(custom_http_params)
 
@@ -35,8 +35,15 @@ module ActiveREST
       http.ssl_version  = connection_params[:ssl_version] if connection_params[:ssl_version]
       http.verify_mode  = connection_params[:verify_mode] if connection_params[:verify_mode]
       http.ca_file      = connection_params[:ca_file]     if connection_params[:ca_file]
+      
+      
 
       request = VERB_MAP[verb].new(uri, initheader = {'Content-Type' =>'application/json'})
+      
+      headers.each do |field, value|
+        request.add_field(field, value)
+      end
+      
       request.body = data if data != {}
       response = http.request(request)
 
@@ -60,21 +67,21 @@ module ActiveREST
 
     def config(&block); instance_eval &block; end
     module_function :config
+    
+    
 
-
-
-    def delete(slug, params={}, _class=self)
-      request(:delete, slug, params, {}, _class)
+    def delete(slug, params={}, headers={},_class=self)
+      request(:delete, slug, params, {}, headers={},_class)
     end
-    def get(slug, params={}, _class=self)
-      request(:get, slug, params, {}, _class)
+    def get(slug, params={}, headers={}, _class=self)
+      request(:get, slug, params, {}, headers={},_class)
     end
 
-    def post(slug, data, get_params={}, _class=self)
-      request(:post, slug, get_params, data, _class)
+    def post(slug, data, get_params={}, headers={}, _class=self)
+      request(:post, slug, get_params, data, headers={},_class)
     end
-    def put(slug, data, get_params={}, _class=self)
-      request(:put, slug, get_params, data, _class)
+    def put(slug, data, get_params={}, headers={}, _class=self)
+      request(:put, slug, get_params, data, headers={},_class)
     end
 
   end
