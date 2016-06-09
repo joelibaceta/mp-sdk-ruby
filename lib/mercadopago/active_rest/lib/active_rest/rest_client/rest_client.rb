@@ -17,6 +17,7 @@ module ActiveREST
 
     def self.included(base)
       class_variable_get("@@http_connection") rescue self.class_variable_set("@@http_connection", Hash.new)
+      
     end
 
     def request(verb, slug, url_params={}, data={}, headers={}, _class)
@@ -30,12 +31,17 @@ module ActiveREST
       puts "http request Method: #{verb}, Path: #{slug}, Url_params: #{url_params}, Form_params: #{data}, uri: #{uri}"
 
       http = Net::HTTP.new(uri.host, uri.port)
-
+      
       http.use_ssl      = connection_params[:use_ssl]     if connection_params[:use_ssl]
       http.ssl_version  = connection_params[:ssl_version] if connection_params[:ssl_version]
       http.verify_mode  = connection_params[:verify_mode] if connection_params[:verify_mode]
       http.ca_file      = connection_params[:ca_file]     if connection_params[:ca_file]
       
+      request = VERB_MAP[verb].new(uri, initheader = {'Content-Type' =>'application/json'})
+      
+      if connection_params[:proxy_addr].to_s != ""
+        request = VERB_MAP[verb].new(uri, initheader = {'Content-Type' =>'application/json'}, connection_params[:proxy_addr], connection_params[:proxy_port])
+      end
       
 
       request = VERB_MAP[verb].new(uri, initheader = {'Content-Type' =>'application/json'})
