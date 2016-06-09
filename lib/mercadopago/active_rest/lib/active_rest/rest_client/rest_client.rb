@@ -16,8 +16,7 @@ module ActiveREST
     @@default_connection = Hash.new
 
     def self.included(base)
-      class_variable_get("@@http_connection") rescue self.class_variable_set("@@http_connection", Hash.new)
-      
+      class_variable_get("@@http_connection") rescue self.class_variable_set("@@http_connection", Hash.new) 
     end
 
     def request(verb, slug, url_params={}, data={}, headers={}, _class)
@@ -71,7 +70,7 @@ module ActiveREST
     def http_param(param, value); @@default_connection[param] = value; end
     module_function :http_param
 
-    def config(&block); instance_eval &block; end
+    def config(&block); eval &block; end
     module_function :config
     
     
