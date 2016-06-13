@@ -40,11 +40,7 @@ module MercadoPago
     end
     
     def self.try_to_get_token
-      
       uri = URI(@@config[:base_url] + "/oauth/token")
-      
-      puts "URI: #{uri}"
-      
       params = {grant_type: 'client_credentials',
                 client_id: @@config[:CLIENT_ID], 
                 client_secret: @@config[:CLIENT_SECRET]} 

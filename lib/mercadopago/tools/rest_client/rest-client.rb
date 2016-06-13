@@ -69,7 +69,6 @@ module MercadoPago
     module_function :set_http_param
 
     def http_param(param, value)
-      puts "HTTP_PARAM"
       @@default_connection[param] = value
     end
     module_function :http_param

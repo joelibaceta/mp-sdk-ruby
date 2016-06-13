@@ -32,7 +32,7 @@ module ActiveREST
       definition        = attributes_definition
       definition[name]  = StrongVariable.new(params[0])
     rescue => error
-      puts "#{error.message} \n Wrong variable definition on #{self}"
+      warn "#{error.message} \n Wrong variable definition on #{self}"
     end
   end
   module_function :has_strong_attribute

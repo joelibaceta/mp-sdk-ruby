@@ -16,7 +16,7 @@ class StrongVariable
       begin
         self.instance_variable_set("@#{k}", v)
       rescue => error
-        puts "Bad variable initialization #{k} : #{v}"
+        warn "Bad variable initialization #{k} : #{v}"
       end
     end
   end
