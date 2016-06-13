@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    mercadopago (1.0.1)
+      activesupport
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -100,6 +106,7 @@ DEPENDENCIES
   faker
   guard
   guard-rspec
+  mercadopago!
   rake
   rspec
   sinatra
