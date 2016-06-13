@@ -7,6 +7,7 @@ class StrongVariable
   attr_accessor :default
   attr_accessor :default_value
   attr_accessor :valid_values
+  attr_accessor :idempotency_parameter
   attr_accessor :format
 
   def initialize(*args)
@@ -32,22 +33,8 @@ class StrongVariable
     return response
   end
 
-  def friendly_print
-
-  end
-
   def allow_this?(value)
     value.class == @type
   end
-
-  def try_to_parse_and_format
-
-  end
-  
-  def name; @name; end
-
-  def type; @type; end
-
-  def format; @format; end
 
 end

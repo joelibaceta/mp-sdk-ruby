@@ -1,25 +1,24 @@
 module ActiveREST
   class Base
-    extend RESTClient
+    extend MercadoPago::RESTClient
 
     attr_accessor :attributes
 
     def self.inherited(sub_class)
       sub_class.extend(ActiveREST)
-      sub_class.include(RESTClient)
+      sub_class.include(MercadoPago::RESTClient)
       
-      sub_class.class_eval do 
-        
+      sub_class.class_eval do
+
         def initialize(hash={})
           hash.map{|k, v| set_variable(k,v)}
-          if block_given?
-            yield self
-          end
+          (yield self) if block_given?
         end
 
-
         def self.structure
-          class_header_attributes.map {|k, v| [k=> v.to_h]}.flatten
+          class_header_attributes.map {|k, v|
+            [k=> v.to_h]
+          }.flatten
         end
 
         def self.load_from_binary_file(file)
@@ -31,21 +30,15 @@ module ActiveREST
         end
 
       end
-      
 
-      
     end
     
     
 
     def binary_dump_in_file(file)
-      puts "DUMPING"
       dump = Marshal::dump(self)
-      p "DUMP: #{dump}"
       file.puts(dump)
     end
-    
-    
     
     def to_json(options = nil);  
       response = attributes.map do |k,v|  
@@ -54,26 +47,24 @@ module ActiveREST
         else
           {k => v}
         end
-        
       end
       (response.reduce Hash.new, :merge).to_json
-
     end
     
     def attributes; @attributes; end
 
     def method_missing(method, *args, &block)
-
-
       @attributes = Hash.new if @attributes == nil
-      method[-1] == '=' ? set_variable(method[0..-2], args[0]) : (return @attributes[method.to_s])
-
+      if method[-1] == '='
+        set_variable(method[0..-2], args[0])
+      else
+        return @attributes[method.to_s]
+      end
     end
     
 
     def set_variable(attribute, value)
       definition = class_header_attributes[attribute.to_sym]
-      is_an_association = class_relations[attribute]
         
       if (definition != nil) # if there are a definition for the variable
         if (definition.allow_this? value)
@@ -114,7 +105,8 @@ module ActiveREST
             #return date 
         end
       rescue
-        raise ARError, "Type Error: Can't Parse #{value.class} to #{definition.type} for #{definition.to_hash}"
+        raise ARError,  "Type Error: Can't Parse #{value.class} "\
+                        "to #{definition.type} for #{definition.to_hash}"
       end
     end
      
@@ -133,31 +125,31 @@ module ActiveREST
       end
     end
 
-    def save(base=self) 
+    def save(base=self)
       base.remote_save do |response|
         base.fill_from_response(response)
       end
 
       if block_given?
         yield base
+      else
+        return base
       end
     end
-
-
-
-
 
     def remote_save
       local_save(self)
       self.class.prepare_rest_params
 
-      params = self.class.create_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
-      headers = self.class.class_variable_get("@@custom_headers")
-      str_url = self.class.create_url.url
-
-      @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v.to_s) }
-
       if self.class.create_url
+        p "params"
+        p self.class.create_url
+        params  = self.class.create_url.params.merge(global_rest_params)
+        headers = self.class.class_variable_get("@@custom_headers")
+        str_url = self.class.create_url.url
+
+        @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v.to_s) }
+
         response = post(str_url, self.to_json, params, headers, self.class)
         self.fill_from_response(response)
         if block_given?
@@ -180,30 +172,22 @@ module ActiveREST
     end
 
     def remote_destroy
-
       self.class.prepare_rest_params
-
-      params = self.class.destroy_url.params.merge(self.class.class_variable_get("@@global_rest_params"))
       str_url = self.class.destroy_url.url
-      
-      headers = self.class.class_variable_get("@@custom_headers")
-      
-      @attributes.map{ |k,v| (str_url=str_url.gsub(":#{k}", v.to_s))}
+      @attributes.map{ |k,v|
+        (str_url = str_url.gsub(":#{k}", v.to_s))
+      }
 
       if self.class.destroy_url
-        response = delete(str_url, params, headers, self.class)
+        response = delete(str_url, global_rest_params, custom_headers, self.class)
         if block_given?
           yield response
         end
       end
-
     end
 
     def self.prepare_rest_params
-      puts "WE ARE GOING TO PREPARE THE STACK for #{self}"
-      p self.prepare_request_stack[0]
       self.prepare_request_stack.map {|isq| isq.call}
-
     end
 
     private
@@ -229,11 +213,15 @@ module ActiveREST
       else
         return name.to_s, value
       end
-       
     end
 
+    def custom_headers
+      self.class.class_variable_get("@@custom_headers")
+    end
 
-    
+    def global_rest_params
+      self.class.class_variable_get("@@global_rest_params")
+    end
     
     def class_header_attributes
       self.class.class_variable_get("@@attr_header")
@@ -243,8 +231,6 @@ module ActiveREST
       self.class.class_variable_get("@@dynamic_attributes")
     end
     
-    def class_relations
-      self.class.class_variable_get("@@dynamic_relations")
-    end
+
   end
 end

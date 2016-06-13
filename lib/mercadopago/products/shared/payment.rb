@@ -13,9 +13,9 @@ module MercadoPago
 
     # For flavor 3
     has_strong_attribute :id
-    has_strong_attribute :site_id
+    has_strong_attribute :site_id,            idempotency_parameter: true
     has_strong_attribute :operation_type
-    has_strong_attribute :order_id
+    has_strong_attribute :order_id,           idempotency_parameter: true
     has_strong_attribute :external_reference
     has_strong_attribute :status
     has_strong_attribute :status_detail
@@ -27,7 +27,7 @@ module MercadoPago
     has_strong_attribute :currency_id
     has_strong_attribute :transaction_amount, type: Float
     has_strong_attribute :shipping_cost
-    has_strong_attribute :total_paid_amount
+    has_strong_attribute :total_paid_amount,  idempotency_parameter: true
     has_strong_attribute :finance_charge
     has_strong_attribute :net_received_amount
     has_strong_attribute :marketplace

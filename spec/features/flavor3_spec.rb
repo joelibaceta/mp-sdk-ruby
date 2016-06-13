@@ -23,7 +23,9 @@ describe MercadoPago do
       
       expect(preference.id).to eql("202809963-a2901d2b-b2e0-4479-ac4c-97950c09b2e4")
 
-      notification = MercadoPago::Notification.last
+      notification = MercadoPago::Notification.all
+
+      p "Notification: #{MercadoPago::Notification.all}"
 
 			expect(notification.id).to eql("313983329")
 

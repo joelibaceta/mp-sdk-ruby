@@ -34,8 +34,8 @@ module MercadoPago
     has_strong_attribute :marketplace_fee,      type: Float
     has_strong_attribute :differential_pricing, type: Hash
     has_strong_attribute :payment_methods,      type: Hash
-    has_strong_attribute :items,                type: Array,     idempotency_parameter: true, required: true
-    has_strong_attribute :payer,                type: Object,    idempotency_parameter: true
+    has_strong_attribute :items,                type: Array,     required: true
+    has_strong_attribute :payer,                type: Object
 
 
     before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }

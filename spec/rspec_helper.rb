@@ -1,7 +1,7 @@
 
 require 'factory_girl'
 require 'support/fake_api_hub'
-require_relative '../lib/mercadopago'
+require 'mercadopago'
 require 'faker'
 require 'colorize'
 require 'webmock/rspec'

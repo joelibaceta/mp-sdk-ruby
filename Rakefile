@@ -3,7 +3,7 @@ require 'rake/testtask'
 task :default => [:spec]
 
 Rake::TestTask.new do |t|
-  t.pattern = './spec/**/*_test.rb'
+  t.pattern = './spec/**/*.rb'
 end
 
 desc "update bundled certs"
