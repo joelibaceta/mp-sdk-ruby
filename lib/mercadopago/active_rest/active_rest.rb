@@ -15,7 +15,10 @@ module ActiveREST
   CIPHER          = lambda {|alg, msg| Object.const_get("Digest::#{alg}").__send__(hexdigest, msg)} # Cipher Method
 
   # This method is called when the module ActiveREST is extended from another Class
-  # @param base represents the class which is extended by the module
+  #
+  # == Parameters:
+  # base:: This param represents to the class which extending the ActiveREST Module
+  #
   def self.extended(base)
     base.class_variable_set("@@idempotency_algorithm",  "SHA256"  ) # Algorithm used for Idempotency
     base.class_variable_set("@@list",                   Array.new ) # Objects Collection
@@ -27,6 +30,17 @@ module ActiveREST
   end
 
   # This method allow to define a strong attribute for a class
+  #
+  # @param [String] name Is the attribute name, should be defined like a symbol
+  # @param [Hash] params Is a Hash which contains the additional definition params
+  #
+  # @option params [String] :type Strong Type Used [String | Integer | Date]
+  # @option params [Integer] :length Maximum length for the value
+  # @option params [True/False] :read_only If the value is read only
+  # @option params [True/False] :default Set a default value to replace a nil value
+  # @option params [True/False] :idempotency_parameter
+  # @option params [Date] :format
+  #
   def has_strong_attribute(name, *params)
     begin
       definition        = attributes_definition
@@ -38,6 +52,7 @@ module ActiveREST
   module_function :has_strong_attribute
 
   # Load resources from api rest list method
+  #
   def populate_from_api(url_values = {})
     if self.list_url
       self.prepare_rest_params # Run the stacked blocks
@@ -52,6 +67,7 @@ module ActiveREST
   end
 
   # This is a helper method which allow to build a nested objects structure from a hashmap
+  #
   def build_object(klass, attrs)
     object = klass.new
     attrs.each do |k, v|
@@ -67,6 +83,7 @@ module ActiveREST
   end
 
   # Append a Class to Objects Collection
+  #
   def append(object)
     founded = false
     res_coll.each{|item| (founded = true) if item.id == object.id }
@@ -76,6 +93,7 @@ module ActiveREST
   end
 
   # Create an Object Remotely is equal to use ( new + save ) methods
+  #
   def create(hash={})
     begin
       object = self.new(hash).remote_save
@@ -91,6 +109,7 @@ module ActiveREST
   end
 
   # Get and object from a REST request using a GET method
+  #
   def load(url_values = {})
     unless self.read_url.nil?
       self.prepare_rest_params
@@ -111,6 +130,7 @@ module ActiveREST
   def find(id); return find_by(:id, id); end
 
   # Find and object in collection by an specific attribute
+  #
   def find_by(attribute, value)
     res_coll.each do |item|
       return item if item.__send__(attribute) == value
@@ -118,22 +138,27 @@ module ActiveREST
     return nil
   end
 
+  # Get all the local objects
+  #
   def all(opts={only_local: false})
     (populate_from_api if self.list_url) unless opts[:only_local]
     if block_given?; yield class_variable_get("@@list"); end
     return class_variable_get("@@list")
   end
 
+  #
   def before_api_request(&block); prepare_request_stack << block; end
   module_function :before_api_request
 
+  #
   def set_param(k, v); global_rest_params[k] = v; end
   module_function :set_param
-  
+
+  #
   def set_custom_header(k, v); custom_headers[k] = v; end
   module_function :set_custom_header
 
-
+  #
   def has_rest_method(opts={})
     action          = opts.first
     reserved_params = RESERVED_PARAMS.clone

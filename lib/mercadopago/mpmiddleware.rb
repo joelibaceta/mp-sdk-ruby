@@ -1,10 +1,7 @@
 require_relative '../mercadopago.rb'
 
-
-
 class MPMiddleware
 
-  
   def initialize(app)
     @app = app
     puts "Mercado Pago Middleware initialized for #{app}"
@@ -42,7 +39,6 @@ class MPMiddleware
           file.close
         end
       end
-
 
       [200, {}, ['Request received successfully']]
     else

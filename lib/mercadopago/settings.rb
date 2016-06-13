@@ -40,18 +40,19 @@ module MercadoPago
     end
     
     def self.try_to_get_token
-      uri = URI(@@config[:base_url] + "/oauth/token")
-      params = {grant_type: 'client_credentials',
+
+      uri     = URI(@@config[:base_url] + "/oauth/token")
+
+      params  = {grant_type: 'client_credentials',
                 client_id: @@config[:CLIENT_ID], 
                 client_secret: @@config[:CLIENT_SECRET]} 
                 
-      https = Net::HTTP.new(uri.host, uri.port)
-
+      https         = Net::HTTP.new(uri.host, uri.port)
       https.use_ssl = true 
       https.ca_file = File.dirname(__FILE__) + '/ca-bundle.crt'
          
-      req = Net::HTTP::Post.new(uri.path, initheader = {'Content-Type' =>'application/json'}) 
-      
+      req = Net::HTTP::Post.new(uri.path, initheader = {'Content-Type' =>'application/json'})
+
       req.set_form_data(params)
       res = https.request(req) 
       

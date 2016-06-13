@@ -7,7 +7,6 @@ require "#{File.dirname(__FILE__)}/mercadopago/settings"
 Dir["#{File.dirname(__FILE__)}/mercadopago/products/**/*.rb"].each { |f| load f }
 
 module MercadoPago
-
  
   RESTClient.config do
     http_param :address, MercadoPago::Settings.base_url
