@@ -10,7 +10,8 @@ module MercadoPago
         CLIENT_ID:      "",
         CLIENT_SECRET:  "",
         ACCESS_TOKEN:   "", 
-        notification_url:   "", 
+        notification_url:   "",
+        public_key: "",
         sandbox_mode: true
     }
     
@@ -76,6 +77,7 @@ module MercadoPago
           end
           
           @@config[:ACCESS_TOKEN]  = JSON.parse(response)["access_token"] if response
+          @@config[:public_key]  = JSON.parse(response)["public_key"] if response
         else
           return value
         end

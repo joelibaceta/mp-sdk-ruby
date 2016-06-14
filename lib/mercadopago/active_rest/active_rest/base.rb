@@ -9,7 +9,6 @@ module ActiveREST
       sub_class.include(MercadoPago::RESTClient)
       
       sub_class.class_eval do
-
         def initialize(hash={})
           hash.map{|k, v| set_variable(k,v)}
           (yield self) if block_given?
@@ -28,12 +27,9 @@ module ActiveREST
             yield dump_object
           end
         end
-
       end
 
     end
-    
-    
 
     def binary_dump_in_file(file)
       dump = Marshal::dump(self)

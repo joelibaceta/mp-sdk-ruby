@@ -2,12 +2,12 @@ require 'active_support/all'
 
 
 Dir["#{File.dirname(__FILE__)}/mercadopago/tools/**/*.rb"].each { |f| load f }
-require "#{File.dirname(__FILE__)}/mercadopago/active_rest/lib/active_rest"
+require "#{File.dirname(__FILE__)}/mercadopago/active_rest/active_rest"
 require "#{File.dirname(__FILE__)}/mercadopago/settings"
 Dir["#{File.dirname(__FILE__)}/mercadopago/products/**/*.rb"].each { |f| load f }
 
 module MercadoPago
- 
+
   RESTClient.config do
     http_param :address, MercadoPago::Settings.base_url
     http_param :use_ssl, true
