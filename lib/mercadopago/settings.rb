@@ -75,6 +75,8 @@ module MercadoPago
             file.puts(JSON.parse(response)["access_token"])
             file.close
           end
+
+          p response
           
           @@config[:ACCESS_TOKEN]  = JSON.parse(response)["access_token"] if response
           @@config[:public_key]  = JSON.parse(response)["public_key"] if response
