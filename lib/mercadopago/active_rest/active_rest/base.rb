@@ -1,12 +1,13 @@
 module ActiveREST
   class Base
-    extend MercadoPago::RESTClient
+    include MercadoPago::RESTClient
+
+
 
     attr_accessor :attributes
 
     def self.inherited(sub_class)
       sub_class.extend(ActiveREST)
-      sub_class.include(MercadoPago::RESTClient)
       
       sub_class.class_eval do
         def initialize(hash={})
@@ -138,15 +139,13 @@ module ActiveREST
       self.class.prepare_rest_params
 
       if self.class.create_url
-        p "params"
-        p self.class.create_url
         params  = self.class.create_url.params.merge(global_rest_params)
         headers = self.class.class_variable_get("@@custom_headers")
         str_url = self.class.create_url.url
 
         @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v.to_s) }
 
-        response = post(str_url, self.to_json, params, headers, self.class)
+        response = post(str_url, self.to_json, params, headers, self)
         self.fill_from_response(response)
         if block_given?
           yield response
@@ -175,7 +174,7 @@ module ActiveREST
       }
 
       if self.class.destroy_url
-        response = delete(str_url, global_rest_params, custom_headers, self.class)
+        response = delete(str_url, global_rest_params, custom_headers, self)
         if block_given?
           yield response
         end

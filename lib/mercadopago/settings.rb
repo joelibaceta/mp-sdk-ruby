@@ -3,15 +3,14 @@ require 'logger'
 
 module MercadoPago
   module Settings
+    include MercadoPago::RESTClient
 
     # Default Configuration
     @@config = { 
-        base_url: "https://api.mercadopago.com",
-        CLIENT_ID:      "",
-        CLIENT_SECRET:  "",
-        ACCESS_TOKEN:   "", 
-        notification_url:   "",
-        public_key: "",
+        base_url:   "https://api.mercadopago.com",
+        CLIENT_ID:      "",    CLIENT_SECRET:  "",
+        ACCESS_TOKEN:   "",    REFRESH_TOKEN:  "",
+        APP_ID:         "",
         sandbox_mode: true
     }
     
@@ -39,25 +38,18 @@ module MercadoPago
       end
       configure(config)
     end
-    
+
+
+
     def self.try_to_get_token
+      data  = {  grant_type:    'client_credentials',
+                 client_id:     @@config[:CLIENT_ID],
+                 client_secret: @@config[:CLIENT_SECRET]  }
+      return post("/oauth/token", data, {}, {}, self)
+    end
 
-      uri     = URI(@@config[:base_url] + "/oauth/token")
+    def self.refresh_credentials
 
-      params  = {grant_type: 'client_credentials',
-                client_id: @@config[:CLIENT_ID], 
-                client_secret: @@config[:CLIENT_SECRET]} 
-                
-      https         = Net::HTTP.new(uri.host, uri.port)
-      https.use_ssl = true 
-      https.ca_file = File.dirname(__FILE__) + '/ca-bundle.crt'
-         
-      req = Net::HTTP::Post.new(uri.path, initheader = {'Content-Type' =>'application/json'})
-
-      req.set_form_data(params)
-      res = https.request(req) 
-      
-      return res.is_a?(Net::HTTPSuccess) ? res.body : nil 
     end
 
     # Method missing overwrite to allow call to keys in @config as a method
@@ -65,21 +57,17 @@ module MercadoPago
       has_equal_operator = (method[-1] == '=')
       value = (has_equal_operator ? @@config[method[0..-2].to_sym] : @@config[method.to_sym]) rescue nil
       
-      if value
+      unless value.nil?
         if has_equal_operator
-          @@config[method[0..-2].to_sym] = args[0] 
-          response = try_to_get_token
-          
-          if response
-            file = File.open(File.expand_path(__dir__) + "/token", "w+")
-            file.puts(JSON.parse(response)["access_token"])
-            file.close
+          @@config[method[0..-2].to_sym] = args[0]
+
+          if (@@config[:CLIENT_ID] && @@config[:CLIENT_SECRET])
+            if (try_to_get_token)
+              @@config[:ACCESS_TOKEN]   = response["access_token"]
+              @@config[:REFRESH_TOKEN]  = response["refresh_token"]
+            end
           end
 
-          p response
-          
-          @@config[:ACCESS_TOKEN]  = JSON.parse(response)["access_token"] if response
-          @@config[:public_key]  = JSON.parse(response)["public_key"] if response
         else
           return value
         end
