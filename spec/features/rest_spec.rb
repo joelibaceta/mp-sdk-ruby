@@ -1,5 +1,5 @@
 require_relative '../rspec_helper'
-require_relative '../../lib/mercadopago'
+
 
 describe MercadoPago do
   context "Rest API" do

@@ -41,10 +41,10 @@ class MPMiddleware
 
   def manage_connect_callback(authorization_code, redirect_uri)
 
-    data  = {  grant_type:    'authorization_code',
-               code:     authorization_code,
-               client_secret: @@config[:ACCESS_TOKEN],
-               redirect_uri: redirect_uri  }
+    data  = {:grant_type    => 'authorization_code',
+             :code          => authorization_code,
+             :client_secret => MercadoPago::Settings.ACCESS_TOKEN,
+             :redirect_uri  => redirect_uri}
 
     res   = post("/oauth/token", data, {}, {}, self)
     user  = MercadoPago::User.new(res)

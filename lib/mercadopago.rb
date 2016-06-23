@@ -14,6 +14,7 @@ module MercadoPago
     http_param :ca_file, File.dirname(__FILE__) + '/mercadopago/ca-bundle.crt'
   end
 
+  # @return [String]
   def get_live_objects_as_html
     response = Hash.new
     Dir["#{File.dirname(__FILE__)}/mercadopago/products/**/*.rb"].each do |filename|

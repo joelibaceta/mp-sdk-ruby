@@ -15,7 +15,8 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split($/)
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
-  s.add_dependency 'activesupport'
+  s.add_runtime_dependency 'activesupport'
   s.add_development_dependency 'rspec'
   s.license     = 'MIT'
 end
+

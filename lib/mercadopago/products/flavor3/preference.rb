@@ -4,16 +4,14 @@ module MercadoPago
     #   Not allow dynamic attributes
     not_allow_dynamic_attributes
 
-
-
     has_rest_method create: '/checkout/preferences'
     has_rest_method read:   '/checkout/preferences/:id'
     has_rest_method update: '/checkout/preferences/:id'
 
-    #   Setting the relations between objects
-    has_relation  has_many: 'items'
-    has_relation  has_one: 'payer'
-    has_relation  has_one: 'shipment'
+    # #   Setting the relations between objects
+    # has_relation  has_many: 'items'
+    # has_relation  has_one: 'payer'
+    # has_relation  has_one: 'shipment'
 
     #   Setting the strong attributes
     has_strong_attribute :auto_return,          valid_values: ["approved", "all"]

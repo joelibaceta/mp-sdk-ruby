@@ -2,6 +2,10 @@ require 'sinatra/base'
 
 class FakeAPIHub < Sinatra::Base
 
+  post '/oauth/token' do
+    json_response 200, 'mp_connect.json'
+  end
+
   get '/v1/payment_methods' do
     json_response 200, 'payment_methods.json'
   end
@@ -33,3 +37,4 @@ class FakeAPIHub < Sinatra::Base
 
 
 end
+

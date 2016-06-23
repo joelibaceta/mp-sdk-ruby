@@ -6,6 +6,7 @@ require 'faker'
 require 'colorize'
 require 'webmock/rspec'
 require 'active_support'
+require 'mercadopago/mpmiddleware'
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
@@ -16,8 +17,8 @@ RSpec.configure do |config|
 
   config.before(:each) do
     stub_request(:any, /https:\/\/api.mercadopago.com/).to_rack(FakeAPIHub)
+    stub_request(:any, /http:\/\/api.mercadopago.com:443/).to_rack(FakeAPIHub)
   end
-
 end
 
 def with_default_api_configuration

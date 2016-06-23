@@ -1,8 +1,7 @@
 module ActiveREST
   class Base
+
     include MercadoPago::RESTClient
-
-
 
     attr_accessor :attributes
 
@@ -10,17 +9,19 @@ module ActiveREST
       sub_class.extend(ActiveREST)
       
       sub_class.class_eval do
+
+        # Allow to initialize an object from a hash of params
         def initialize(hash={})
           hash.map{|k, v| set_variable(k,v)}
           (yield self) if block_given?
         end
 
+        # Get the object structure
         def self.structure
-          class_header_attributes.map {|k, v|
-            [k=> v.to_h]
-          }.flatten
+          class_header_attributes.map {|k, v| [k=> v.to_h] }.flatten
         end
 
+        # Load and object from a binary file
         def self.load_from_binary_file(file)
           dump_object = Marshal::load(file)
           dump_object.class.append(dump_object)
@@ -28,22 +29,21 @@ module ActiveREST
             yield dump_object
           end
         end
+
       end
 
     end
 
+    # Save a file in to a binary file
     def binary_dump_in_file(file)
       dump = Marshal::dump(self)
       file.puts(dump)
     end
-    
-    def to_json(options = nil);  
+
+    # Return a json hash with the object variables information
+    def to_json(options = nil)
       response = attributes.map do |k,v|  
-        if v.class == Array 
-          {k=> v.map{|item| item}.flatten}
-        else
-          {k => v}
-        end
+        v.class == Array ? {k=> v.map{|item| item} } : {k => v}
       end
       (response.reduce Hash.new, :merge).to_json
     end
@@ -58,29 +58,25 @@ module ActiveREST
         return @attributes[method.to_s]
       end
     end
-    
 
     def set_variable(attribute, value)
       definition = class_header_attributes[attribute.to_sym]
-        
       if (definition != nil) # if there are a definition for the variable
-        if (definition.allow_this? value)
+        if definition.allow_this?(value)
           assign_value_to attribute, value
         else 
           new_value = try_to_parse_and_format_with(definition, value) 
           assign_value_to attribute, (new_value || value)
         end
       else
-        if true #allow_dynamic_attributes
-          assign_value_to attribute, value
-        else
-          raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
+        if allow_dynamic_attributes; assign_value_to attribute, value
+        else; raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
         end
       end
       
     end
 
-
+    # Update object with a json response informacion
     def fill_from_response(response)
       response.each do |attr, value|
         assign_value_to attr, value

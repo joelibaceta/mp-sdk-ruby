@@ -16,3 +16,7 @@ gem 'webmock', require: false
 gem 'faker', require: false
 gem 'factory_girl'
 gem 'colorize'
+
+#Documentation
+
+gem 'yard', require: false

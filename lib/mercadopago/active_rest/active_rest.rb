@@ -58,11 +58,10 @@ module ActiveREST
       self.prepare_rest_params # Run the stacked blocks
       klass     = self
       str_url   = replace_url_variables(self.list_url.url, url_values)
-      response  = get(str_url, url_params(self.list_url), custom_headers,klass)
+      response  = get(str_url, url_params(self.list_url), custom_headers, klass)
 
-      response.map{|attrs|
-        klass.append(klass.new(attrs))
-      }
+      p "RESPONSE: #{response} #{self.list_url}"
+      response.map { |attrs| klass.append(klass.new(attrs)) }
     end
   end
 
@@ -70,7 +69,7 @@ module ActiveREST
   #
   def build_object(klass, attrs)
     object = klass.new
-    attrs.each do |k, v|
+    attrs.each { |k, v|
       if k.to_s.to_class # If a key is a Class
         name  = klass.to_s.pluralize
         value = build_object(k.to_class, v)
@@ -78,7 +77,7 @@ module ActiveREST
       else
         object.set_variable(k, v.to_s)
       end
-    end
+    }
     return object
   end
 

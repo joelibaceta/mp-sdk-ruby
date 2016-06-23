@@ -11,8 +11,14 @@ class Hash
     return result
   end
   def method_missing(name, *args, &blk)
-    key = name.to_s
-    return self[key] if self.has_key? key
-    super
+    begin
+      key = name.to_s
+      return self[key] if self.has_key? key
+      super
+    rescue => error
+      p error
+    end
+
+
   end
 end
