@@ -105,15 +105,16 @@ module ActiveREST
                      "#{error.backtrace}"
     end
   end
-
+  
   # Get and object from a REST request using a GET method
   #
   def load(url_values = {})
+    
     unless self.read_url.nil?
       self.prepare_rest_params
       str_url   = replace_url_variables(self.read_url.url, url_values)
       response  = get(str_url, url_params(self.read_url), custom_headers)
-      self.append(self.new(response))
+      self.append(self.new(response)) 
       if block_given?
         yield object
       else
@@ -122,6 +123,7 @@ module ActiveREST
     else
       raise ARError, "The class #{self.class} doesn't has a read method"
     end
+    
   end
 
 
@@ -264,7 +266,7 @@ module ActiveREST
     class_variable_get("@@custom_headers")
   end
 
-  def replace_url_variables(url, values)
+  def replace_url_variables(url, values={})
     _url = url
     values.map {|k,v| _url = _url.gsub(":#{k}", v)}
     return _url
