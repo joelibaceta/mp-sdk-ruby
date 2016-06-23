@@ -18,7 +18,7 @@ module MercadoPago
       base.class_variable_set("@@http_connection", Hash.new) # Create a class in the including class
     end
 
-    def request(verb, slug, url_params={}, data={}, headers={}, _class)
+    def request(verb, slug, url_params={}, data={}, headers={})
 
       default_http_params   = @@default_connection
       #custom_http_params    = _class.class_variable_get("@@http_connection") rescue {}
@@ -73,18 +73,19 @@ module MercadoPago
     end
     module_function :config
 
-    def delete(slug, params={}, headers={},_class=self)
-      request(:delete, slug, params, {}, headers,_class)
+    def delete(slug, params={}, headers={})
+      request(:delete, slug, params, {}, headers)
     end
-    def get(slug, params={}, headers={}, _class=self)
-      request(:get, slug, params, {}, headers,_class)
+    def get(slug, params={}, headers={})
+      request(:get, slug, params, {}, headers)
     end
 
-    def post(slug, data, get_params={}, headers={}, _class=self)
-      request(:post, slug, get_params, data, headers,_class)
+    def post(slug, data, get_params={}, headers={})
+      request(:post, slug, get_params, data, headers)
     end
-    def put(slug, data, get_params={}, headers={}, _class=self)
-      request(:put, slug, get_params, data, headers,_class)
+    
+    def put(slug, data, get_params={}, headers={})
+      request(:put, slug, get_params, data, headers)
     end
 
   end

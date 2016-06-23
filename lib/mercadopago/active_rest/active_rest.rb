@@ -58,9 +58,8 @@ module ActiveREST
       self.prepare_rest_params # Run the stacked blocks
       klass     = self
       str_url   = replace_url_variables(self.list_url.url, url_values)
-      response  = get(str_url, url_params(self.list_url), custom_headers, klass)
-
-      p "RESPONSE: #{response} #{self.list_url}"
+      response  = get(str_url, url_params(self.list_url), custom_headers)
+ 
       response.map { |attrs| klass.append(klass.new(attrs)) }
     end
   end
@@ -113,7 +112,7 @@ module ActiveREST
     unless self.read_url.nil?
       self.prepare_rest_params
       str_url   = replace_url_variables(self.read_url.url, url_values)
-      response  = get(str_url, url_params(self.read_url), custom_headers, self)
+      response  = get(str_url, url_params(self.read_url), custom_headers)
       self.append(self.new(response))
       if block_given?
         yield object
@@ -208,6 +207,10 @@ module ActiveREST
 
   def clear
     class_variable_set("@@list", Array.new)
+  end
+  
+  def syncronize
+    
   end
 
   # Public Accesors
