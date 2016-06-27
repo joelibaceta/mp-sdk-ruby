@@ -26,13 +26,14 @@ module MercadoPago
 
       str_url_params = url_params.map{|name, value| "#{name}=#{value}"}.join("&")
 
-      uri = URI("#{connection_params[:address]}#{slug}?#{str_url_params}")
+      uri = URI.parse("#{connection_params[:address]}#{slug}?#{str_url_params}")
+      
       http = Net::HTTP.new(uri.host, uri.port)
       header = {'Content-Type' =>'application/json'}
 
       addr, port = connection_params[:proxy_addr], connection_params[:proxy_port]
 
-      puts "http request Method: #{verb}, Path: #{slug}, Url_params: #{url_params}, Form_params: #{data}, uri: #{uri}"
+      puts "http request Method: #{verb}, Path: #{slug}, Url_params: #{str_url_params}, Form_params: #{data}, uri: #{uri}"
 
       http.use_ssl      = connection_params[:use_ssl]     if connection_params[:use_ssl]
       http.ssl_version  = connection_params[:ssl_version] if connection_params[:ssl_version]
@@ -44,6 +45,9 @@ module MercadoPago
       headers.each { |field, value| request.add_field(field, value) }
 
       request.body = data if data != {}
+      
+      puts "REQUEST: #{request}"
+      
       response = http.request(request)
       
       body = response.body.class == Hash ? response.body : JSON.parse(response.body)

@@ -1,0 +1,10 @@
+{
+    "access_token": "USER_AT",
+    "public_key": "USER_PK",
+    "refresh_token": "USER_RT",
+    "live_mode": false,
+    "user_id": 123456789,
+    "token_type": "bearer",
+    "expires_in": 15768000,
+    "scope": "offline_access read write"
+}
