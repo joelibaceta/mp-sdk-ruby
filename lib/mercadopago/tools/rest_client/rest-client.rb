@@ -43,6 +43,8 @@ module MercadoPago
       request = addr.to_s != "" ? VERB_MAP[verb].new(uri, header, addr, port) : VERB_MAP[verb].new(uri, header)
 
       headers.each { |field, value| request.add_field(field, value) }
+      
+      data = data.class == Hash ? URI.encode_www_form(data) : data
 
       request.body = data if data != {}
       
