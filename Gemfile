@@ -11,11 +11,14 @@ gem 'mercadopago', path: '.'
 gem 'rspec'
 gem 'guard-rspec', require: false
 gem 'guard',  require: false
-gem 'sinatra', require: false
-gem 'webmock', require: false
-gem 'faker', require: false
-gem 'factory_girl'
-gem 'colorize'
+
+group :test do
+  gem 'sinatra', require: false
+  gem 'webmock', require: false
+  gem 'faker', require: false
+  gem 'factory_girl'
+  gem 'colorize'
+end
 
 #Documentation
 

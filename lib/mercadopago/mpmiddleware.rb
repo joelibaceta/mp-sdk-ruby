@@ -5,8 +5,10 @@ class MPMiddleware
 
   include MercadoPago::RESTClient
 
-  def initialize(app)
+  def initialize(app, options= {})
     @app = app
+    @allowed = options[:allowed]
+    @required = options[:required]
     puts "MercadoPago Middleware initialized for #{app}"
 
   end
@@ -18,14 +20,17 @@ class MPMiddleware
     if path == '/mp-notifications-middleware'
       notification = MercadoPago::Notification.new(params)
       notification.local_save do |notification|
-        path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.notification"
-        file = File.open(path, 'wb')
-        notification.binary_dump_in_file(file)
-        file.close
+        begin
+          path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.notification"
+          file = File.open(path, 'wb')
+          notification.binary_dump_in_file(file)
+          file.close
+        rescue
+        end
       end
 
-      build_payment(params)         if params[:topic]   ==  'merchant_order'
-      build_merchant_order(params)  if params[:topic]   ==  'payment'
+      build_merchant_order(params)         if params[:topic]   ==  'merchant_order'
+      build_payment(params)                if params[:topic]   ==  'payment'
 
       [200, {}, ['Request received successfully']]
     elsif path == '/mp-connect-callback'
@@ -53,8 +58,8 @@ class MPMiddleware
     user.local_save
   end
 
-  def build_payment(params)
-    MercadoPago::MerchantOrder.load(params[:id]) do |merchant_order|
+  def build_merchant_order(params)
+    MercadoPago::MerchantOrder.load({id: params[:id]}) do |merchant_order|
       path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.merchant_order"
       file = File.open(path, 'wb')
       merchant_order.binary_dump_in_file(file)
@@ -62,10 +67,12 @@ class MPMiddleware
     end
   end
 
-  def build_merchant_order(params)
-    MercadoPago::Payment.load(params[:id]) do |payment|
+  def build_payment(params)
+
+    MercadoPago::Payment.load({id: params[:id]}) do |payment|
       path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.payment"
       file = File.open(path, 'wb')
+      p "Payment: #{payment}"
       payment.binary_dump_in_file(file)
       file.close
     end

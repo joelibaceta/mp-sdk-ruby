@@ -91,6 +91,7 @@ module ActiveREST
     unless founded
       res_coll << object
     end
+    return object
   end
 
   # Create an Object Remotely is equal to use ( new + save ) methods
@@ -117,7 +118,9 @@ module ActiveREST
       self.prepare_rest_params
       str_url   = replace_url_variables(self.read_url.url, url_values)
       response  = get(str_url, url_params(self.read_url), custom_headers)
-      self.append(self.new(response)) 
+
+      object = self.append(self.new(response))
+
       if block_given?
         yield object
       else

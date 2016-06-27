@@ -30,6 +30,14 @@ class FakeAPIHub < Sinatra::Base
     json_response 200, 'customer_211713195-rvTmbHpnqmwdKK.json'
   end
 
+  get '/collections/notifications/00000' do
+    json_response 200, 'notification_00000.json'
+  end
+
+  get '/merchant_orders/00001' do
+    json_response 200, 'merchant_order_00001.json'
+  end
+
   private
 
   def json_response(response_code, file_name)

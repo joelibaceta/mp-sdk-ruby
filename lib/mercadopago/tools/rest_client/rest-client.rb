@@ -33,7 +33,7 @@ module MercadoPago
 
       addr, port = connection_params[:proxy_addr], connection_params[:proxy_port]
 
-      #puts "http request Method: #{verb}, Path: #{slug}, Url_params: #{str_url_params}, Form_params: #{data}, uri: #{uri}"
+      puts "http request Method: #{verb}, Path: #{slug}, Url_params: #{str_url_params}, Form_params: #{data}, uri: #{uri}"
 
       http.use_ssl      = connection_params[:use_ssl]     if connection_params[:use_ssl]
       http.ssl_version  = connection_params[:ssl_version] if connection_params[:ssl_version]

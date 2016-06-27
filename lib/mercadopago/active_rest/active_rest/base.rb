@@ -67,9 +67,11 @@ module ActiveREST
           assign_value_to attribute, (new_value || value)
         end
       else
-        if allow_dynamic_attributes; assign_value_to attribute, value
-        else; raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
-        end
+        #if allow_dynamic_attributes
+          assign_value_to attribute, value
+        #else
+        #  raise ARError, "This class does not allow dynamic attributes, #{attribute} has not been defined"
+        #end
       end
       
     end
