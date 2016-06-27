@@ -26,7 +26,7 @@ class StrongVariable
     response[:name]         = @name         if @name
     response[:type]         = @type         if @type
     response[:length]       = @length       if @length
-    response[:read_only]    = @read_only    if @read_only
+    response[:read_only]    = @read_only
     response[:default]      = @default      if @default
     response[:valid_values] = @valid_values if @valid_values
     response[:format]       = format        if @format

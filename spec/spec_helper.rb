@@ -1,4 +1,5 @@
-
+require 'rspec'
+require 'simplecov'
 require 'factory_girl'
 require 'support/fake_api_hub'
 require 'mercadopago'
@@ -7,6 +8,7 @@ require 'colorize'
 require 'webmock/rspec'
 require 'active_support'
 require 'mercadopago/mpmiddleware'
+
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods

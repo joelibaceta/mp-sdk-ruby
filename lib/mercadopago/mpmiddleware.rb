@@ -7,7 +7,7 @@ class MPMiddleware
 
   def initialize(app)
     @app = app
-    puts "Mercado Pago Middleware initialized for #{app}"
+    puts "MercadoPago Middleware initialized for #{app}"
   end
 
   def call(env)
@@ -15,9 +15,7 @@ class MPMiddleware
     params = query.split('&').map{|q| {q.split('=')[0].to_sym => q.split('=')[1]}}.reduce Hash.new, :merge
 
     if path == '/mp-notifications-middleware'
-
       notification = MercadoPago::Notification.new(params)
-
       notification.local_save do |notification|
         path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.notification"
         file = File.open(path, 'wb')

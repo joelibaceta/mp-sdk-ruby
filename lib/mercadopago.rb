@@ -17,8 +17,7 @@ module MercadoPago
   # @return [String]
   def get_live_objects_as_html
     response = Hash.new
-    Dir["#{File.dirname(__FILE__)}/mercadopago/products/**/*.rb"].each do |filename|
-      puts "FILENAME: #{filename}"
+    Dir["#{File.dirname(__FILE__)}/mercadopago/products/**/*.rb"].each do |filename| 
       str_tree = filename[/.\/mercadopago\/products\/(.*?).rb/m, 1].split("/")
       response[str_tree[0].camelize] ||= Array.new
       response[str_tree[0].camelize].push(str_tree[1].camelize => eval("MercadoPago::#{str_tree[1].camelize}.all"))

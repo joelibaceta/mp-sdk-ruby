@@ -1,4 +1,4 @@
-require_relative '../rspec_helper'
+require_relative '../spec_helper'
 
 describe MercadoPago do
   context "PaymentMethod" do

@@ -20,3 +20,6 @@ gem 'colorize'
 #Documentation
 
 gem 'yard', require: false
+
+#Test
+gem 'simplecov', require: false
