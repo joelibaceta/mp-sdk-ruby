@@ -13,6 +13,8 @@ module ActiveREST
 
   RESERVED_PARAMS = [:idempotency] # Params with reserved word name
   CIPHER          = lambda {|alg, msg| Object.const_get("Digest::#{alg}").__send__(hexdigest, msg)} # Cipher Method
+  
+  include MercadoPago::RESTClient
 
   # This method is called when the module ActiveREST is extended from another Class
   #
@@ -53,16 +55,18 @@ module ActiveREST
 
   # Load resources from api rest list method
   #
-  def populate_from_api(url_values = {})
+  def populate_from_api(url_values = {}) 
     if self.list_url
       self.prepare_rest_params # Run the stacked blocks
       klass     = self
-      str_url   = replace_url_variables(self.list_url.url, url_values)
+      str_url   = replace_url_variables(self.list_url.url, url_values) 
       response  = get(str_url, url_params(self.list_url), custom_headers)
- 
+      puts "RESPONSE: #{response}"
       response.map { |attrs| klass.append(klass.new(attrs)) }
     end
   end
+  
+  
 
   # This is a helper method which allow to build a nested objects structure from a hashmap
   #
@@ -267,6 +271,7 @@ module ActiveREST
   end
 
   def replace_url_variables(url, values={})
+    p "URL: #{url} - VALUES: #{values}"
     _url = url
     values.map {|k,v| _url = _url.gsub(":#{k}", v)}
     return _url

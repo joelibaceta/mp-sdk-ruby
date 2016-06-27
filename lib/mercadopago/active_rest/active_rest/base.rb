@@ -11,8 +11,8 @@ module ActiveREST
       sub_class.class_eval do
 
         # Allow to initialize an object from a hash of params
-        def initialize(hash={})
-          hash.map{|k, v| set_variable(k,v)}
+        def initialize(hash_values={}) 
+          hash_values.map{|k, v| set_variable(k,v)} unless hash_values.nil?
           (yield self) if block_given?
         end
 
@@ -25,9 +25,7 @@ module ActiveREST
         def self.load_from_binary_file(file)
           dump_object = Marshal::load(file)
           dump_object.class.append(dump_object)
-          if block_given?
-            yield dump_object
-          end
+          (yield dump_object) if block_given? 
         end
 
       end

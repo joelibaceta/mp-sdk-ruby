@@ -45,14 +45,16 @@ module MercadoPago
 
       request.body = data if data != {}
       response = http.request(request)
+      
+      body = response.body.class == Hash ? response.body : JSON.parse(response.body)
 
-      puts "RESPONSE: #{JSON.parse(response.body)}"
+      #puts "RESPONSE: #{body}"
 
       if !(response.is_a?(Net::HTTPSuccess))
-        warn response.body
-        raise response.body
+        warn body
+        raise body
       else
-        return JSON.parse(response.body)
+        return body
       end
     end
 
