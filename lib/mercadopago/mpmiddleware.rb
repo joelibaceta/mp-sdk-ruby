@@ -8,6 +8,7 @@ class MPMiddleware
   def initialize(app)
     @app = app
     puts "MercadoPago Middleware initialized for #{app}"
+
   end
 
   def call(env)
@@ -36,6 +37,8 @@ class MPMiddleware
     end
 
   end
+
+
 
   def manage_connect_callback(authorization_code, redirect_uri)
 

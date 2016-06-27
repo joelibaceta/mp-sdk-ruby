@@ -61,7 +61,6 @@ module ActiveREST
       klass     = self
       str_url   = replace_url_variables(self.list_url.url, url_values) 
       response  = get(str_url, url_params(self.list_url), custom_headers)
-      #puts "RESPONSE: #{response}"
       response.map { |attrs| klass.append(klass.new(attrs)) }
     end
   end

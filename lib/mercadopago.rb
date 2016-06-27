@@ -1,5 +1,5 @@
 require 'active_support/inflector'
-
+require 'cgi'
 
 Dir["#{File.dirname(__FILE__)}/mercadopago/tools/**/*.rb"].each { |f| load f }
 require "#{File.dirname(__FILE__)}/mercadopago/active_rest/active_rest"
@@ -13,6 +13,14 @@ module MercadoPago
     http_param :use_ssl, true
     http_param :ca_file, File.dirname(__FILE__) + '/mercadopago/ca-bundle.crt'
   end
+
+  def mp_connect_link_path(root)
+    str_link  = 'https://auth.mercadopago.com.ar/authorization?client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=REDIRECT_URI'
+    str_link  = str_link.gsub("APP_ID",       MercadoPago::Settings.APP_ID)
+    str_link  = str_link.gsub("REDIRECT_URI", CGI.escape("#{root}/mp-connect-callback"))
+    return str_link
+  end
+  module_function :mp_connect_link_path
 
   # @return [String]
   def get_live_objects_as_html
@@ -36,6 +44,8 @@ module MercadoPago
     return response
   end
   module_function :get_html_from_hash
+
+  
 
 end
 
