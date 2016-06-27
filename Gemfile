@@ -10,7 +10,6 @@ gem 'activesupport'
 gem 'mercadopago', path: '.'
 
 
-group :test do
   gem 'rspec'
   gem 'listen', '~> 2.1'
   gem 'guard-rspec', require: false
@@ -20,8 +19,6 @@ group :test do
   gem 'faker', require: false
   gem 'factory_girl'
   gem 'colorize'
-end
-
 #Documentation
 
 gem 'yard', require: false
