@@ -1,6 +1,7 @@
 require 'active_support/all'
 
 class Hash
+  
   def diff(another={})
     result = Hash.new
     another.each do |key, value|
@@ -10,15 +11,12 @@ class Hash
     end
     return result
   end
+  
   def method_missing(name, *args, &blk)
-    begin
+    if self.has_key? key
       key = name.to_s
-      return self[key] if self.has_key? key
-      super
-    rescue => error
-      p error
+      return self[key]  
     end
-
-
   end
+  
 end
