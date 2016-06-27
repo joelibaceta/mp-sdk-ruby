@@ -12,6 +12,7 @@ gem 'mercadopago', path: '.'
 
 group :test do
   gem 'rspec'
+  gem 'listen', '~> 2.1'
   gem 'guard-rspec', require: false
   gem 'guard',  require: false
   gem 'sinatra', require: false
