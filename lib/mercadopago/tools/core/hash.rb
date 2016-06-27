@@ -13,8 +13,8 @@ class Hash
   end
   
   def method_missing(name, *args, &blk)
-    if self.has_key? key
-      key = name.to_s
+    key = name.to_s
+    if self.has_key? key 
       return self[key]  
     end
   end
