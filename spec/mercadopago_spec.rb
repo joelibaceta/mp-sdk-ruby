@@ -66,5 +66,15 @@ describe MercadoPago do
     end
 
   end
+  
+  context "General Tests" do
+    it "get_live_objects_as_html should return an html with the instance objects" do
+      expect(MercadoPago.get_live_objects_as_html.class).to eql(String)
+      expect(MercadoPago.get_live_objects_as_html).not_to eql("")
+    end
+    
+    
+  end
+  
 
 end

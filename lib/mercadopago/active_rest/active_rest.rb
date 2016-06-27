@@ -270,8 +270,7 @@ module ActiveREST
     class_variable_get("@@custom_headers")
   end
 
-  def replace_url_variables(url, values={})
-    p "URL: #{url} - VALUES: #{values}"
+  def replace_url_variables(url, values={}) 
     _url = url
     values.map {|k,v| _url = _url.gsub(":#{k}", v)}
     return _url

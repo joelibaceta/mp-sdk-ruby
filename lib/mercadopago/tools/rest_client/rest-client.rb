@@ -46,9 +46,7 @@ module MercadoPago
       
       data = data.class == Hash ? URI.encode_www_form(data) : data
 
-      request.body = data if data != {}
-      
-      puts "REQUEST: #{request}"
+      request.body = data if data != {} 
       
       response = http.request(request)
       
@@ -57,7 +55,7 @@ module MercadoPago
       #puts "RESPONSE: #{body}"
 
       if !(response.is_a?(Net::HTTPSuccess))
-        warn body
+        warn body  
         raise body
       else
         return body
