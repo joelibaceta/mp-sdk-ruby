@@ -16,6 +16,8 @@ class MPMiddleware
   def call(env)
     path, query = env['PATH_INFO'], env['QUERY_STRING']
     params = query.split('&').map{|q| {q.split('=')[0].to_sym => q.split('=')[1]}}.reduce Hash.new, :merge
+    
+    puts "PATH: #{path}"
 
     if path == '/mp-notifications-middleware'
       notification = MercadoPago::Notification.new(params)
@@ -34,6 +36,9 @@ class MPMiddleware
 
       [200, {}, ['Request received successfully']]
     elsif path == '/mp-connect-callback'
+      
+      puts "MPConnect Callback received"
+      
       uri  = "#{env['HTTP_HOST']}#{env['PATH_INFO']}"
       params = CGI::parse(env["QUERY_STRING"])
       
@@ -41,7 +46,7 @@ class MPMiddleware
       
       location = params["callback"]
     
-      [301, {"Location" => location}, self] 
+      [301, {"Location" => location}, self]
       
     else
       @app.call(env)
