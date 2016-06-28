@@ -44,17 +44,13 @@ module MercadoPago
 
       headers.each { |field, value| request.add_field(field, value) }
       
-      data = data.class == Hash ? URI.encode_www_form(data) : data
-
-      request.body = data if data != {} 
-      
-      response = http.request(request)
-      
-      body = response.body.class == Hash ? response.body : JSON.parse(response.body)
+      data              = data.class              == Hash ? URI.encode_www_form(data) : data
+      request.body      = data                    if data != {}
+      response          = http.request(request)
+      body              = response.body.class     == Hash ? response.body : JSON.parse(response.body)
 
       if !(response.is_a?(Net::HTTPSuccess))
-        warn body  
-        raise body
+        warn body; raise body
       else
         return body
       end

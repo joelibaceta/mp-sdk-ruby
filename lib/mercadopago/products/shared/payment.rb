@@ -6,6 +6,8 @@ module MercadoPago
     #
     set_idempotency_algorithm 'SHA256'
 
+    attr_accessor :user_token
+
     has_rest_method create: '/v1/payments/', idempotency: true
     has_rest_method read:   '/collections/notifications/:id'
     has_rest_method search: '/payments/search'
@@ -52,8 +54,13 @@ module MercadoPago
     has_strong_attribute :installments, type: Integer
     has_strong_attribute :token
 
-    before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
-
+    before_api_request {
+      if @user_token.nil? || @user_token.empty?
+        set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN
+      else
+        set_param :access_token, @user_token
+      end
+    }
 
     def self.all # Overwritting all method
       super do |payment_list|
