@@ -51,11 +51,12 @@ module MercadoPago
       
 
       if !(response.is_a?(Net::HTTPSuccess))
-        warn body; raise body
+        warn body;
       else
         return body
       end
     end
+    module_function :request
 
     #def set_http_param(param, value)
     #  http_conn = self.class.class_variable_get("@@http_connection") rescue self.class.class_variable_set("@@http_connection", Hash.new)
@@ -77,17 +78,22 @@ module MercadoPago
     def delete(slug, params={}, headers={})
       request(:delete, slug, params, {}, headers)
     end
+    module_function :delete
+    
     def get(slug, params={}, headers={})
       request(:get, slug, params, {}, headers)
     end
+    module_function :get
 
     def post(slug, data, get_params={}, headers={})
       request(:post, slug, get_params, data, headers)
     end
+    module_function :post
     
     def put(slug, data, get_params={}, headers={})
       request(:put, slug, get_params, data, headers)
     end
+    module_function :put
 
   end
 
