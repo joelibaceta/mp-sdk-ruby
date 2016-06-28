@@ -37,7 +37,7 @@ class MPMiddleware
       uri  = "#{env['HTTP_HOST']}#{env['PATH_INFO']}"
       params = CGI::parse(env["QUERY_STRING"])
       
-      manage_connect_callback(params["code"], uri)
+      manage_connect_callback(params["code"][0], uri)
       
     else
       @app.call(env)
