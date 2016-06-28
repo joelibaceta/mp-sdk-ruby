@@ -26,11 +26,13 @@ describe MercadoPago do
       MercadoPago::Settings.configure({ base_url: "https://custom.com",
                                         CLIENT_ID: "RANDOM_ID",
                                         CLIENT_SECRET: "RANDOM_SECRET",
+                                        APP_ID: "APP_ID",
                                         ACCESS_TOKEN: "RANDOM_TOKEN" })
 
       expect(MercadoPago::Settings.base_url).to eql("https://custom.com")
       expect(MercadoPago::Settings.CLIENT_ID).to eql("RANDOM_ID")
       expect(MercadoPago::Settings.CLIENT_SECRET).to eql("RANDOM_SECRET")
+      expect(MercadoPago::Settings.APP_ID).to eql("APP_ID")
       expect(MercadoPago::Settings.ACCESS_TOKEN).to eql("RANDOM_TOKEN")
       MercadoPago::Settings.base_url = "https://api.mercadopago.com"
     end

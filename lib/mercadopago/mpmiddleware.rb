@@ -35,8 +35,10 @@ class MPMiddleware
       [200, {}, ['Request received successfully']]
     elsif path == '/mp-connect-callback'
       uri  = "#{env['HTTP_HOST']}#{env['PATH_INFO']}"
-      params = env["rack.request.query_hash"]
-      manage_connect_callback(params["authorization_code"], uri)
+      params = CGI::parse(env["QUERY_STRING"])
+      
+      manage_connect_callback(params["code"], uri)
+      
     else
       @app.call(env)
     end
