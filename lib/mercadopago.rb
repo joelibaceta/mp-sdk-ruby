@@ -15,10 +15,10 @@ module MercadoPago
   end
   
   # It's method allow to get a mp connect link
-  def mp_connect_link_path(root)
+  def mp_connect_link_path(root, callback)
     str_link  = 'https://auth.mercadopago.com.ar/authorization?client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=REDIRECT_URI'
     str_link  = str_link.gsub("APP_ID",       MercadoPago::Settings.APP_ID)
-    str_link  = str_link.gsub("REDIRECT_URI", CGI.escape("#{root}/mp-connect-callback"))
+    str_link  = str_link.gsub("REDIRECT_URI", CGI.escape("#{root}/mp-connect-callback?callback=#{callback}"))
     return str_link
   end
   module_function :mp_connect_link_path

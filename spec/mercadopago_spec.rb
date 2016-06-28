@@ -78,7 +78,7 @@ describe MercadoPago do
 
     it "should get mp connect url " do
       MercadoPago::Settings.APP_ID = "APP_ID"
-      expect(MercadoPago.mp_connect_link_path("http://localhost:3000")).to eql("https://auth.mercadopago.com.ar/authorization?client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=%2Fmp-connect-callback")
+      expect(MercadoPago.mp_connect_link_path("http://localhost:3000")).to eql("https://auth.mercadopago.com.ar/authorization?client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fmp-connect-callback")
     end
     
   end

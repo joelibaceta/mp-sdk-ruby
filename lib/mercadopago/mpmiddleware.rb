@@ -39,12 +39,15 @@ class MPMiddleware
       
       manage_connect_callback(params["code"][0], uri)
       
+      location = params["callback"]
+    
+      [301, {"Location" => location}, self] 
+      
     else
       @app.call(env)
     end
 
   end
-
 
 
   def manage_connect_callback(authorization_code, redirect_uri)
@@ -60,6 +63,7 @@ class MPMiddleware
     user  = MercadoPago::User.new(res)
 
     user.local_save
+    
   end
 
   def build_merchant_order(params)
