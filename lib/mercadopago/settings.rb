@@ -3,6 +3,7 @@ require 'logger'
 
 module MercadoPago
   module Settings
+    
     include MercadoPago::RESTClient
 
     # Default Configuration
@@ -45,7 +46,9 @@ module MercadoPago
       data  = {  grant_type:    'client_credentials',
                  client_id:     @@config[:CLIENT_ID],
                  client_secret: @@config[:CLIENT_SECRET]  }
-      return post("/oauth/token", data, {}, {}, self)
+                 
+      return post("/oauth/token", data.to_json, {}, {})
+      
     end
 
     def self.refresh_credentials
@@ -54,6 +57,8 @@ module MercadoPago
 
     # Method missing overwrite to allow call to keys in @config as a method
     def self.method_missing(method, *args, &block)
+      
+      puts "CALLING: #{method}"
       has_equal_operator = (method[-1] == '=')
       value = (has_equal_operator ? @@config[method[0..-2].to_sym] : @@config[method.to_sym]) rescue nil
       
@@ -61,13 +66,14 @@ module MercadoPago
         if has_equal_operator
           @@config[method[0..-2].to_sym] = args[0]
 
-          if (@@config[:CLIENT_ID] && @@config[:CLIENT_SECRET])
-            if (try_to_get_token)
+           
+            response = try_to_get_token
+            puts "RESPONSE: #{response}"
+            if (response)
               @@config[:ACCESS_TOKEN]   = response["access_token"]
               @@config[:REFRESH_TOKEN]  = response["refresh_token"]
             end
-          end
-
+        
         else
           return value
         end
