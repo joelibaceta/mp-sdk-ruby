@@ -6,8 +6,8 @@ class MPMiddleware
   include MercadoPago::RESTClient
 
   def initialize(app, options= {})
-    @app = app
-    @allowed = options[:allowed]
+    @app      = app
+    @allowed  = options[:allowed]
     @required = options[:required]
     puts "MercadoPago Middleware initialized for #{app}"
 
@@ -48,6 +48,8 @@ class MPMiddleware
 
 
   def manage_connect_callback(authorization_code, redirect_uri)
+    
+    puts "MPConnect Callback received"
 
     data  = {:grant_type    => 'authorization_code',
              :code          => authorization_code,
