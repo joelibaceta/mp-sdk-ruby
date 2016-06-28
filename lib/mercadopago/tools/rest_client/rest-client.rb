@@ -48,6 +48,7 @@ module MercadoPago
       request.body      = data                    if data != {}
       response          = http.request(request)
       body              = response.body.class     == Hash ? response.body : JSON.parse(response.body)
+      
 
       if !(response.is_a?(Net::HTTPSuccess))
         warn body; raise body

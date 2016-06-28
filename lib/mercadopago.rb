@@ -39,7 +39,7 @@ module MercadoPago
     klass, response = obj.class, ""
     case klass.to_s
       when "Array"; response += obj.map{|item| "<li>#{get_html_from_hash(item)}</li>"}.join("")
-      when "Hash"; response += obj.map{|k, v| "<li>#{k}<ul>#{get_html_from_hash(v)}</ul></li>"}.join("")
+      when "Hash";  response += obj.map{|k, v| "<li>#{k}<ul>#{get_html_from_hash(v)}</ul></li>"}.join("")
       else; response += "<li>#{klass}##{obj.id rescue ""}</li>"
     end
     return response
