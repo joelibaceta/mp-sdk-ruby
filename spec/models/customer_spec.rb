@@ -27,9 +27,27 @@ describe MercadoPago do
     end
     
     it "creating a customer" do
-      customer = MercadoPago::Customer.create({email: "demo2@email.com"})
+      customer = MercadoPago::Customer.create({email: "mail2@email.com"}) 
       expect(customer.class).to eql(MercadoPago::Customer)  
     end
+    
+    it "update customer" do
+      customer = MercadoPago::Customer.find_by_email("mail2@email.com")
+      customer.email = "email3@email.com"
+      customer.save
+      customer = MercadoPago::Customer.find_by_email("email3@demo.com")
+      expect(customer.email).to eql("email3@demo.com")
+    end
+    
+    it "destroy customer" do
+      customer = MercadoPago::Customer.find_by_email("email3@demo.com")
+      customer.destroy
+      customer = MercadoPago::Customer.find_by_email("email3@demo.com")
+      expect(customer).to eql(nil)  
+      
+    end
+    
+    
     
   end
 end

@@ -1,8 +1,6 @@
 module ActiveREST
   class Base
-
-    include MercadoPago::RESTClient
-
+ 
     attr_accessor :attributes
 
     def self.inherited(sub_class)
@@ -141,7 +139,7 @@ module ActiveREST
 
         @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v.to_s) }
 
-        response = post(str_url, self.to_json, params, headers)
+        response = MercadoPago::RESTClient.post(str_url, self.to_json, params, headers)
         self.fill_from_response(response)
         if block_given?
           yield response
