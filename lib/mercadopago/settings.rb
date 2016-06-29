@@ -65,7 +65,7 @@ module MercadoPago
             if (response)
               @@config[:ACCESS_TOKEN]   = response["access_token"]
               @@config[:REFRESH_TOKEN]  = response["refresh_token"]
-            end
+            end 
           end
 
         else

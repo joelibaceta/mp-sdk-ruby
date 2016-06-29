@@ -98,13 +98,15 @@ module ActiveREST
   #
   def create(hash={})
     begin
-      object = self.new(hash).remote_save
+      object = self.new(hash)
+      object.remote_save
+      
       if object
         yield  object if block_given?
         return object unless block_given?
       else; return nil; end
     rescue => error
-      raise ARError, "Can't create a #{self.class} object, " \
+      raise ARError, "Can't create a #{self} object, " \
                      "an unespected error has been raised: \n " \
                      "#{error.backtrace}"
     end

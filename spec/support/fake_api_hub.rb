@@ -37,6 +37,23 @@ class FakeAPIHub < Sinatra::Base
   get '/merchant_orders/00001' do
     json_response 200, 'merchant_order_00001.json'
   end
+  
+  post '/v1/customers/' do
+    json_response 200, 'new_customer.json'
+  end
+  
+  post '/dummy_post' do
+  end
+  
+  get '/dummy_get' do
+  end
+  
+  put '/dummy_put' do 
+  end
+  
+  delete '/dummy_delete' do 
+  end
+  
 
   private
 
