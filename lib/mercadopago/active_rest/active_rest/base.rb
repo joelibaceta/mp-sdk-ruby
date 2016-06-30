@@ -163,7 +163,7 @@ module ActiveREST
     def remote_destroy
       self.class.prepare_rest_params
       str_url = self.class.destroy_url.url
-      @attributes.map{ |k,v|
+      @attributes.map{ |k,v| 
         (str_url = str_url.gsub(":#{k}", v.to_s))
       }
 
