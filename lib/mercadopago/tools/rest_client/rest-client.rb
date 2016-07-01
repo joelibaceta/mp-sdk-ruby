@@ -51,7 +51,8 @@ module MercadoPago
       
 
       if !(response.is_a?(Net::HTTPSuccess))
-        raise RestError(body) 
+        warn body 
+        raise ARError, body
       else
         return body
       end
