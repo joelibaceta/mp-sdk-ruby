@@ -3,7 +3,6 @@ require 'uri'
 require 'json'
 
 module MercadoPago
-  
   module RESTClient
 
     VERB_MAP = {
@@ -52,10 +51,9 @@ module MercadoPago
       
 
       if !(response.is_a?(Net::HTTPSuccess))
-        warn body 
-        raise RestError, body
+        return {code: response.code, message: response.message, body: body}
       else
-        return body
+        return {code: response.code, message: response.message, body: body}
       end
     end
     module_function :request
@@ -96,20 +94,18 @@ module MercadoPago
       request(:put, slug, get_params, data, headers)
     end
     module_function :put
-    
-    class RestError < StandardError
-      def initialize(msg=nil)
-        @message = msg
-        puts @message
-      end
-
-      def message
-        @message
-      end
-
-    end
 
   end
 
-  
+  class RestError < StandardError
+    def initialize(msg=nil)
+      @message = msg
+      puts @message
+    end
+
+    def message
+      @message
+    end
+
+  end
 end

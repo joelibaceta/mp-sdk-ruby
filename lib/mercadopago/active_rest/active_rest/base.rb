@@ -117,12 +117,12 @@ module ActiveREST
     end
 
     def save(base=self)
-      base.remote_save do |response|
-        base.fill_from_response(response)
+      response = 
+      base.remote_save  do |_response|
+        response = _response
       end
-
       if block_given?
-        yield base
+        yield response
       else
         return base
       end
@@ -140,7 +140,10 @@ module ActiveREST
         @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v.to_s) }
 
         response = MercadoPago::RESTClient.post(str_url, self.to_json, params, headers)
-        self.fill_from_response(response)
+        
+        if response.code.to_s == "200" || response.code.to_s == "201"
+          self.fill_from_response(response.body) 
+        end
         if block_given?
           yield response
         end
