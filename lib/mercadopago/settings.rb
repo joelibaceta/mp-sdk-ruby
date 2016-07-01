@@ -60,7 +60,7 @@ module MercadoPago
         if has_equal_operator
           @@config[method[0..-2].to_sym] = args[0]
 
-          if (@@config[:CLIENT_ID] && @@config[:CLIENT_SECRET])
+          if (@@config[:CLIENT_ID].to_s != "" && @@config[:CLIENT_SECRET].to_s != "")
             response = try_to_get_token
             if (response)
               @@config[:ACCESS_TOKEN]   = response["access_token"]

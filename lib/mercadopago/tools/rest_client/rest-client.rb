@@ -47,14 +47,16 @@ module MercadoPago
       data              = data.class              == Hash ? URI.encode_www_form(data) : data
       request.body      = data                    if data != {}
       response          = http.request(request)
-      body              = response.body.class     == Hash ? response.body : JSON.parse(response.body)
       
-
-      if !(response.is_a?(Net::HTTPSuccess))
-        return {code: response.code, message: response.message, body: body}
+      body = response.body
+      
+      if response.code.to_s == "200" || response.code.to_s == "201"
+        body = response.body.class     == Hash ? response.body : JSON.parse(response.body)
       else
-        return {code: response.code, message: response.message, body: body}
+        warn body
       end
+      
+      return {code: response.code, message: response.message, body: body} 
     end
     module_function :request
 
