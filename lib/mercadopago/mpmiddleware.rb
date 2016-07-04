@@ -65,7 +65,7 @@ class MPMiddleware
     data  = {:grant_type    => 'authorization_code',
              :code          => authorization_code,
              :client_secret => MercadoPago::Settings.ACCESS_TOKEN,
-             :redirect_uri  => "https://redirect_uri"}
+             :redirect_uri  => "https://#{redirect_uri}"}
 
     res   = JSON.parse(post("/oauth/token", data.to_json).body)
     user  = MercadoPago::User.new(res)
