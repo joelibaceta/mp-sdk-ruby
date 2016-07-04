@@ -67,7 +67,7 @@ class MPMiddleware
              :client_secret => MercadoPago::Settings.ACCESS_TOKEN,
              :redirect_uri  => "https://#{redirect_uri}"}
 
-    res   = JSON.parse(post("/oauth/token", data.to_json).body)
+    res   = post("/oauth/token", data.to_json).body
     user  = MercadoPago::User.new(res)
 
     user.local_save
