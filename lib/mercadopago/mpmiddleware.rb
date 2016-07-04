@@ -40,6 +40,9 @@ class MPMiddleware
       puts "MPConnect Callback received"
       
       uri  = "#{env['HTTP_HOST']}#{env['PATH_INFO']}"
+      
+      p "MIDDLEWARE CALLBACK: #{uri}"
+      
       params = CGI::parse(env["QUERY_STRING"])
       
       manage_connect_callback(params["code"][0], uri)
