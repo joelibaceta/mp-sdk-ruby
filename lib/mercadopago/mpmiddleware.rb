@@ -45,11 +45,11 @@ class MPMiddleware
       
       params = CGI::parse(env["QUERY_STRING"])
       
-      manage_connect_callback(params["code"][0], uri)
+      user = manage_connect_callback(params["code"][0], uri)
       
-      location = params["callback"]
-    
-      [301, {"Location" => location}, self]
+      env['QUERY_STRING'] = "user_id=#{user.id}"
+      
+      @app.call(env)
       
     else
       @app.call(env)
@@ -72,8 +72,14 @@ class MPMiddleware
     puts "RES: #{res}"
     
     user  = MercadoPago::User.new(res)
-
+    
+    puts "Saving"
+    
     user.local_save
+    
+    puts "Saved"
+    
+    return user
     
   end
 

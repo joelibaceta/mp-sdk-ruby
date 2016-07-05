@@ -14,26 +14,26 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2016-07-04T17:56:07-03:00">2016-07-04T17:56:07-03:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2016-07-05T11:18:57-03:00">2016-07-05T11:18:57-03:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">91.25%</span></span>
+    (<span class="covered_percent"><span class="green">91.29%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         48.73
+         48.55
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>25</b> files in total.
-    <b>766</b> relevant lines. 
-    <span class="green"><b>699</b> lines covered</span> and
+    <b>769</b> relevant lines. 
+    <span class="green"><b>702</b> lines covered</span> and
     <span class="red"><b>67</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -103,9 +103,9 @@
       <tr>
         <td class="strong"><a href="#31c4a4c33ae26577bf21c84641122dafd93be406" class="src_link" title="lib/mercadopago/mpmiddleware.rb">lib/mercadopago/mpmiddleware.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>100</td>
-        <td>53</td>
-        <td>53</td>
+        <td>106</td>
+        <td>56</td>
+        <td>56</td>
         <td>0</td>
         <td>1.9</td>
       </tr>
@@ -309,19 +309,19 @@
           <div class="file_list_container" id="mercadopago">
   <h2>
     <span class="group_name">mercadopago</span>
-    (<span class="covered_percent"><span class="green">91.25%</span></span>
+    (<span class="covered_percent"><span class="green">91.29%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         48.73
+         48.55
        </span>
     </span> hits/line)
   </h2>
   <a name="mercadopago"></a>
   <div>
     <b>25</b> files in total.
-    <b>766</b> relevant lines. 
-    <span class="green"><b>699</b> lines covered</span> and
+    <b>769</b> relevant lines. 
+    <span class="green"><b>702</b> lines covered</span> and
     <span class="red"><b>67</b> lines missed </span>
   </div>
   <table class="file_list">
@@ -391,9 +391,9 @@
       <tr>
         <td class="strong"><a href="#31c4a4c33ae26577bf21c84641122dafd93be406" class="src_link" title="lib/mercadopago/mpmiddleware.rb">lib/mercadopago/mpmiddleware.rb</a></td>
         <td class="green strong">100.0 %</td>
-        <td>100</td>
-        <td>53</td>
-        <td>53</td>
+        <td>106</td>
+        <td>56</td>
+        <td>56</td>
         <td>0</td>
         <td>1.9</td>
       </tr>
@@ -3047,14 +3047,14 @@
           <code class="ruby">    def method_missing(method, *args, &amp;block)</code>
         </li>
       
-        <li class="covered" data-hits="2825" data-linenumber="50">
-          <span class="hits">2825</span>
+        <li class="covered" data-hits="2826" data-linenumber="50">
+          <span class="hits">2826</span>
           
           <code class="ruby">      @attributes = Hash.new if @attributes == nil</code>
         </li>
       
-        <li class="covered" data-hits="2825" data-linenumber="51">
-          <span class="hits">2825</span>
+        <li class="covered" data-hits="2826" data-linenumber="51">
+          <span class="hits">2826</span>
           
           <code class="ruby">      if method[-1] == &#39;=&#39;</code>
         </li>
@@ -3071,8 +3071,8 @@
           <code class="ruby">      else</code>
         </li>
       
-        <li class="covered" data-hits="2735" data-linenumber="54">
-          <span class="hits">2735</span>
+        <li class="covered" data-hits="2736" data-linenumber="54">
+          <span class="hits">2736</span>
           
           <code class="ruby">        return @attributes[method.to_s]</code>
         </li>
@@ -4388,8 +4388,8 @@
     <h3>lib/mercadopago/mpmiddleware.rb</h3>
     <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>53</b> relevant lines. 
-      <span class="green"><b>53</b> lines covered</span> and
+      <b>56</b> relevant lines. 
+      <span class="green"><b>56</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
@@ -4682,7 +4682,7 @@
         <li class="covered" data-hits="1" data-linenumber="48">
           <span class="hits">1</span>
           
-          <code class="ruby">      manage_connect_callback(params[&quot;code&quot;][0], uri)</code>
+          <code class="ruby">      user = manage_connect_callback(params[&quot;code&quot;][0], uri)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="49">
@@ -4694,19 +4694,19 @@
         <li class="covered" data-hits="1" data-linenumber="50">
           <span class="hits">1</span>
           
-          <code class="ruby">      location = params[&quot;callback&quot;]</code>
+          <code class="ruby">      env[&#39;QUERY_STRING&#39;] = &quot;user_id=#{user.id}&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="51">
           
           
-          <code class="ruby">    </code>
+          <code class="ruby">      </code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="52">
           <span class="hits">1</span>
           
-          <code class="ruby">      [301, {&quot;Location&quot; =&gt; location}, self]</code>
+          <code class="ruby">      @app.call(env)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="53">
@@ -4844,13 +4844,13 @@
         <li class="never" data-hits="" data-linenumber="75">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    </code>
         </li>
       
         <li class="covered" data-hits="2" data-linenumber="76">
           <span class="hits">2</span>
           
-          <code class="ruby">    user.local_save</code>
+          <code class="ruby">    puts &quot;Saving&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="77">
@@ -4859,139 +4859,175 @@
           <code class="ruby">    </code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="78">
+        <li class="covered" data-hits="2" data-linenumber="78">
+          <span class="hits">2</span>
           
-          
-          <code class="ruby">  end</code>
+          <code class="ruby">    user.local_save</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="79">
           
           
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="80">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    puts &quot;Saved&quot;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="81">
+          
+          
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="82">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    return user</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="83">
+          
+          
+          <code class="ruby">    </code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="84">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="85">
+          
+          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="80">
+        <li class="covered" data-hits="1" data-linenumber="86">
           <span class="hits">1</span>
           
           <code class="ruby">  def build_merchant_order(params)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="81">
+        <li class="covered" data-hits="1" data-linenumber="87">
           <span class="hits">1</span>
           
           <code class="ruby">    MercadoPago::MerchantOrder.load({id: params[:id]}) do |merchant_order|</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="82">
+        <li class="covered" data-hits="1" data-linenumber="88">
           <span class="hits">1</span>
           
           <code class="ruby">      path = &quot;#{File.expand_path(__dir__)}/dumps/#{params[:id]}.merchant_order&quot;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="83">
+        <li class="covered" data-hits="1" data-linenumber="89">
           <span class="hits">1</span>
           
           <code class="ruby">      file = File.open(path, &#39;wb&#39;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="84">
+        <li class="covered" data-hits="1" data-linenumber="90">
           <span class="hits">1</span>
           
           <code class="ruby">      merchant_order.binary_dump_in_file(file)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="85">
+        <li class="covered" data-hits="1" data-linenumber="91">
           <span class="hits">1</span>
           
           <code class="ruby">      file.close</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="86">
+        <li class="never" data-hits="" data-linenumber="92">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="87">
+        <li class="never" data-hits="" data-linenumber="93">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="88">
+        <li class="never" data-hits="" data-linenumber="94">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="89">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  def build_payment(params)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="90">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="91">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    MercadoPago::Payment.load({id: params[:id]}) do |payment|</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="92">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      path = &quot;#{File.expand_path(__dir__)}/dumps/#{params[:id]}.payment&quot;</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="93">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      file = File.open(path, &#39;wb&#39;)</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="94">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      p &quot;Payment: #{payment}&quot;</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="95">
           <span class="hits">1</span>
           
-          <code class="ruby">      payment.binary_dump_in_file(file)</code>
+          <code class="ruby">  def build_payment(params)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="96">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      file.close</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="97">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="98">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="99">
+        <li class="never" data-hits="" data-linenumber="96">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="100">
+        <li class="covered" data-hits="1" data-linenumber="97">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    MercadoPago::Payment.load({id: params[:id]}) do |payment|</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="98">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      path = &quot;#{File.expand_path(__dir__)}/dumps/#{params[:id]}.payment&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="99">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      file = File.open(path, &#39;wb&#39;)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="100">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      p &quot;Payment: #{payment}&quot;</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="101">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      payment.binary_dump_in_file(file)</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="102">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      file.close</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="103">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="104">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="105">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="106">
           
           
           <code class="ruby">end</code>
