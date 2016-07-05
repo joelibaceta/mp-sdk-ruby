@@ -47,7 +47,7 @@ class MPMiddleware
       
       user = manage_connect_callback(params["code"][0], uri)
       
-      env['QUERY_STRING'] = "user_id=#{user.id}"
+      env['QUERY_STRING'] = "user_id=#{user.user_id}"
       
       @app.call(env)
       
