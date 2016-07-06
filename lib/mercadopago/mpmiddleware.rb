@@ -37,15 +37,9 @@ class MPMiddleware
       [200, {}, ['Request received successfully']]
     elsif path == '/mp-connect-callback'
       
-      puts "MPConnect Callback received"
-      
-      uri  = "#{env['HTTP_HOST']}#{env['PATH_INFO']}"
-      
-      p "MIDDLEWARE CALLBACK: #{uri}"
-      
-      params = CGI::parse(env["QUERY_STRING"])
-      
-      user = manage_connect_callback(params["code"][0], uri)
+      uri       = "#{env['HTTP_HOST']}#{env['PATH_INFO']}" 
+      params    = CGI::parse(env["QUERY_STRING"]) 
+      user      = manage_connect_callback(params["code"][0], uri)
       
       env['QUERY_STRING'] = "user_id=#{user.user_id}"
       
@@ -67,20 +61,10 @@ class MPMiddleware
              :client_secret => MercadoPago::Settings.ACCESS_TOKEN,
              :redirect_uri  => "https://#{redirect_uri}"}
 
-    res   = post("/oauth/token", data.to_json).body
-    
-    puts "RES: #{res}"
-    
-    user  = MercadoPago::User.new(res)
-    
-    puts "Saving"
-    
-    user.local_save
-    
-    puts "Saved"
-    
-    return user
-    
+    res   = post("/oauth/token", data.to_json).body 
+    user  = MercadoPago::User.new(res) 
+    user.local_save 
+    return user 
   end
 
   def build_merchant_order(params)
