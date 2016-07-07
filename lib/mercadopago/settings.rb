@@ -44,7 +44,7 @@ module MercadoPago
       data  = {  grant_type:    'client_credentials',
                  client_id:     @@config[:CLIENT_ID],
                  client_secret: @@config[:CLIENT_SECRET]  }
-      return MercadoPago::RESTClient.post("/oauth/token", data.to_json, {}, {}).body
+      return MercadoPago::RESTClient.post("/oauth/token", json_data: data.to_json).body
     end
 
     def self.refresh_credentials

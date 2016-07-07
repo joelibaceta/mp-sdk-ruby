@@ -137,16 +137,16 @@ module ActiveREST
         headers = self.class.class_variable_get("@@custom_headers")
         str_url = self.class.create_url.url
 
-        @attributes.map{ |k,v| str_url = str_url.gsub(":#{k}", v.to_s) }
+        @attributes.map{|k,v| str_url = str_url.gsub(":#{k}", v.to_s)}
 
-        response = MercadoPago::RESTClient.post(str_url, self.to_json, params, headers)
+        response = MercadoPago::RESTClient.post(str_url, json_data: self.to_json, url_query: params, headers: headers)
         
         if response.code.to_s == "200" || response.code.to_s == "201"
           self.fill_from_response(response.body) 
         end
-        if block_given?
-          yield response
-        end
+        
+        yield response if block_given?
+        
       else
         raise ARError, "This class can't save remotely, Check the Resource Definition"
       end

@@ -10,15 +10,15 @@ describe MercadoPago do
     end
     
     it "do post request" do
-      MercadoPago::RESTClient.post("/dummy_post", {data: "hello world"})
+      MercadoPago::RESTClient.post("/dummy_post", json_data: "hello world")
     end
     
     it "do put request" do
-      MercadoPago::RESTClient.put("/dummy_put", {data: "hello world 2"})
+      MercadoPago::RESTClient.put("/dummy_put", json_data: "hello world 2")
     end
     
     it "do deleted request" do
-      MercadoPago::RESTClient.delete("/dummy_delete", {id: "15"})
+      MercadoPago::RESTClient.delete("/dummy_delete", id: "15")
     end
     
     it "do a request with custom headers" do

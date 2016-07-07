@@ -62,9 +62,10 @@ describe MercadoPago do
     end
 
     it "for a Advanced Setup" do
-      MercadoPago::Settings.CLIENT_ID = "CLIENT_ID"
+      MercadoPago::Settings.CLIENT_ID     = "CLIENT_ID"
       MercadoPago::Settings.CLIENT_SECRET = "CLIENT_SECRET"
-      expect(MercadoPago::Settings.CLIENT_ID).to eql("CLIENT_ID")
+      
+      expect(MercadoPago::Settings.CLIENT_ID).to     eql("CLIENT_ID")
       expect(MercadoPago::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET")
     end
 
@@ -77,8 +78,12 @@ describe MercadoPago do
     end
 
     it "should get mp connect url " do
+      base_url      = "https://auth.mercadopago.com.ar/authorization"
+      redirect_uri  = "http%3A%2Flocalhost%3A3000%2Fmp-connect-callback"
+      query         = "client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=#{redirect_uri}"
+      
       MercadoPago::Settings.APP_ID = "APP_ID"
-      expect(MercadoPago.mp_connect_link_path("http://localhost:3000")).to eql("https://auth.mercadopago.com.ar/authorization?client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fmp-connect-callback")
+      expect(MercadoPago.mp_connect_link_path("http://localhost:3000")).to eql("#{base_url}?#{query}")
     end
     
   end

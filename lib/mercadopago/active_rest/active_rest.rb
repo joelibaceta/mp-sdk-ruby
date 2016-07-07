@@ -60,7 +60,8 @@ module ActiveREST
       self.prepare_rest_params # Run the stacked blocks
       klass     = self
       str_url   = replace_url_variables(self.list_url.url, url_values) 
-      response  = get(str_url, url_params(self.list_url), custom_headers).body
+      response  = get(str_url, url_query: url_params(self.list_url), headers:custom_headers).body
+       
       response.map { |attrs| klass.append(klass.new(attrs)) }
     end
   end
@@ -119,8 +120,8 @@ module ActiveREST
     unless self.read_url.nil?
       self.prepare_rest_params
       str_url   = replace_url_variables(self.read_url.url, url_values)
-      response  = get(str_url, url_params(self.read_url), custom_headers).body
-
+      response  = get(str_url, url_query: url_params(self.read_url), headers: custom_headers).body
+      
       object = self.append(self.new(response))
 
       if block_given?
@@ -195,7 +196,7 @@ module ActiveREST
     }.compact.join("&")
   end
 
-  # When a missing method is called try to call it as an Array method
+  # When a method_missing method is called try to call it as an Array method
   def method_missing(method, *args, &block)
     _kind, value = kind_of_method(method)
     case _kind

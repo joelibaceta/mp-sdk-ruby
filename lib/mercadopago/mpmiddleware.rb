@@ -16,8 +16,6 @@ class MPMiddleware
   def call(env)
     path, query = env['PATH_INFO'], env['QUERY_STRING']
     params = query.split('&').map{|q| {q.split('=')[0].to_sym => q.split('=')[1]}}.reduce Hash.new, :merge
-    
-    puts "PATH: #{path}"
 
     if path == '/mp-notifications-middleware'
       notification = MercadoPago::Notification.new(params)
@@ -52,8 +50,7 @@ class MPMiddleware
   end
 
 
-  def manage_connect_callback(authorization_code, redirect_uri)
-    
+  def manage_connect_callback(authorization_code, redirect_uri)    
     puts "MPConnect Callback received"
 
     data  = {:grant_type    => 'authorization_code',
@@ -61,12 +58,12 @@ class MPMiddleware
              :client_secret => MercadoPago::Settings.ACCESS_TOKEN,
              :redirect_uri  => "https://#{redirect_uri}"}
 
-    res   = post("/oauth/token", data.to_json).body 
+    res   = post("/oauth/token", json_data: data.to_json).body 
     user  = MercadoPago::User.new(res) 
     user.local_save 
     return user 
   end
-
+  
   def build_merchant_order(params)
     MercadoPago::MerchantOrder.load({id: params[:id]}) do |merchant_order|
       path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.merchant_order"
@@ -75,7 +72,7 @@ class MPMiddleware
       file.close
     end
   end
-
+  
   def build_payment(params)
 
     MercadoPago::Payment.load({id: params[:id]}) do |payment|
