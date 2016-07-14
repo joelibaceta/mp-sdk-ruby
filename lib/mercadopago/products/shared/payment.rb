@@ -14,7 +14,7 @@ module MercadoPago
     has_rest_method update: '/payments/id'
 
     # For flavor 3
-    has_strong_attribute :id
+    has_strong_attribute :id,                 primary_key: true
     has_strong_attribute :site_id,            idempotency_parameter: true
     has_strong_attribute :operation_type
     has_strong_attribute :order_id,           idempotency_parameter: true

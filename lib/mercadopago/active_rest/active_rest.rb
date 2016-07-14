@@ -134,6 +134,8 @@ module ActiveREST
     end
     
   end
+  
+  
 
 
   def find(id); return find_by(:id, id); end

@@ -29,6 +29,10 @@ class FakeAPIHub < Sinatra::Base
   get '/v1/customers/211713195-rvTmbHpnqmwdKK' do
     json_response 200, 'customer_211713195-rvTmbHpnqmwdKK.json'
   end
+  
+  put '/v1/customers/211713195-rvTmbHpnqmwdKK' do
+    json_response 200, 'customer_211713195-rvTmbHpnqmwdKK_updated.json'
+  end
 
   get '/collections/notifications/00000' do
     json_response 200, 'notification_00000.json'
@@ -40,6 +44,10 @@ class FakeAPIHub < Sinatra::Base
   
   post '/v1/customers/' do
     json_response 200, 'new_customer.json'
+  end
+  
+  post '/money_requests' do
+    json_response 200, 'money_request.json'
   end
   
   post '/dummy_post' do

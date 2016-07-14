@@ -24,6 +24,7 @@ module MercadoPago
       #
       #   get: '/slug/method' | post: '/path/ ...
       #
+      
       method, request_path  = options.first
       verb                  = VERB_MAP[method]
       headers               =  options[:headers]
@@ -47,15 +48,13 @@ module MercadoPago
 
       headers.each { |field, value| request.add_field(field, value) } if headers
       
-      data = URI.encode_www_form(form_data) if form_data
-      data = json_data                      if json_data
-      request.body          = data          if data != {}
+      data                  = URI.encode_www_form(form_data)  if form_data
+      data                  = json_data                       if json_data
+      request.body          = data                            if data != {} 
+      response              = http.request(request) 
+      body                  = response.body
       
       puts "http Request: #{verb}, Path: #{request_path}, Url_params: #{url_query}, Form_params: #{data}, uri: #{uri}"
-      
-      response          = http.request(request)
-      
-      body = response.body
       
       if response.code.to_s == "200" || response.code.to_s == "201"
         body = response.body.class     == Hash ? response.body : JSON.parse(response.body) rescue Hash.new

@@ -9,7 +9,7 @@ module MercadoPago
     has_rest_method remove: '/v1/customers/:id'
 
     has_strong_attribute :id
-    has_strong_attribute :email
+    has_strong_attribute :email,                   primary_key: true
     has_strong_attribute :first_name
     has_strong_attribute :last_name
     has_strong_attribute :phone
