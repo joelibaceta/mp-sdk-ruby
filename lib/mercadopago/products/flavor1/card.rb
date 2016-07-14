@@ -5,9 +5,7 @@ module MercadoPago
     has_rest_method read:     '/v1/customers/:customer_id/cards/:id'
     has_rest_method update:   '/v1/customers/:customer_id/cards/:id'
     has_rest_method destroy:  '/v1/customers/:customer_id/cards/:id'
-
-    has_relation  belongs_to: 'customer'
-
+ 
     has_strong_attribute :id
     has_strong_attribute :customer_id,        allow_null: false
     has_strong_attribute :expiration_month

@@ -87,11 +87,19 @@ module ActiveREST
   # Append a Class to Objects Collection
   #
   def append(object)
+    
     founded = false
-    res_coll.each{|item| (founded = true) if item.id == object.id }
-    unless founded
-      res_coll << object
+    
+    res_coll.each{|item| (founded = true) if item.primary_keys_hash == object.primary_keys_hash }
+    
+    if founded
+      item   = object.class.find_by_primary_keys_hash(object.primary_keys_hash)
+      object.attributes.each { |k,v| item.__send__("#{k}=", v) }
+      object = item
+    else
+      res_coll << object 
     end
+    
     return object
   end
 

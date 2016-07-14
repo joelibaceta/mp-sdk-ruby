@@ -1,8 +1,6 @@
 module MercadoPago
   class User < ActiveREST::Base
-
-
-
+    
     has_strong_attribute :access_token
     has_strong_attribute :public_key
     has_strong_attribute :refresh_token

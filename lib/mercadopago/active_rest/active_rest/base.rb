@@ -46,6 +46,7 @@ module ActiveREST
       if method[-1] == '='
         set_variable(method[0..-2], args[0])
       else
+        
         return @attributes[method.to_s]
       end
     end
@@ -176,6 +177,14 @@ module ActiveREST
     def self.prepare_rest_params
       self.prepare_request_stack.map {|isq| isq.call}
     end
+    
+    def primary_keys_hash  
+      response = self.attributes.map do |k, v|
+        begin; v if class_header_attributes[k.to_sym].is_primary_key?
+        rescue; nil; end
+      end
+      Digest::SHA256.hexdigest(response.compact.join) 
+    end 
 
     private
     # Private helpers to made a clean code
@@ -199,13 +208,7 @@ module ActiveREST
       end
     end 
     
-    def primary_keys_hash  
-      response = @attributes.map do |k, v|  
-        begin; v if class_header_attributes[k.to_sym].is_primary_key?  
-        rescue; nil; end 
-      end
-      Digest::SHA256.hexdigest(response.compact.join) 
-    end 
+    
     
     # Return a unique hash_code which represents the object
     def hash_code; Digest::SHA256.hexdigest(@attributes.values.join); end 

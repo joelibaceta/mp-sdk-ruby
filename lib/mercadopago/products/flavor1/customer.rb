@@ -1,7 +1,6 @@
 module MercadoPago
   class Customer < ActiveREST::Base
-
-
+    
     has_rest_method read:   '/v1/customers/:id'
     has_rest_method search: '/v1/customers/search'
     has_rest_method create: '/v1/customers/'
