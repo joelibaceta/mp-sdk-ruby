@@ -209,7 +209,6 @@ module ActiveREST
     end 
     
     
-    
     # Return a unique hash_code which represents the object
     def hash_code; Digest::SHA256.hexdigest(@attributes.values.join); end 
     def custom_headers; self.class.class_variable_get("@@custom_headers"); end
