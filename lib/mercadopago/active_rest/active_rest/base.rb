@@ -216,7 +216,7 @@ module ActiveREST
     def global_rest_params; self.class.class_variable_get("@@global_rest_params"); end 
     def allow_dynamic_attributes; self.class.class_variable_get("@@dynamic_attributes"); end
     
-    private 
+      
     def do_request(url, method)
       self.class.prepare_rest_params
       params  = self.class.create_url.params.merge(global_rest_params)
