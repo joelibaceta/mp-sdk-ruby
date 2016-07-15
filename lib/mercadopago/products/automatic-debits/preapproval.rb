@@ -5,6 +5,7 @@ module MercadoPago
     has_rest_method read: '/preapproval/:id'
     has_rest_method update: '/preapproval/:id'
     
+    has_strong_attribute :id,                   primary_key: true
     has_strong_attribute :payer_email
     has_strong_attribute :back_url
     has_strong_attribute :reason

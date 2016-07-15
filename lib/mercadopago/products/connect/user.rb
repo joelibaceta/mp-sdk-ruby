@@ -5,7 +5,7 @@ module MercadoPago
     has_strong_attribute :public_key
     has_strong_attribute :refresh_token
     has_strong_attribute :live_mode
-    has_strong_attribute :user_id
+    has_strong_attribute :user_id,                   primary_key: true
     has_strong_attribute :token_type
     has_strong_attribute :expires_in
     has_strong_attribute :scope

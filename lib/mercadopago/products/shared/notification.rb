@@ -2,6 +2,8 @@ module MercadoPago
 
   class Notification < ActiveREST::Base
     
+    has_strong_attribute :id,                 primary_key: true
+    
     @proc_on_payment        = nil
     @proc_on_merchant_order = nil
 
