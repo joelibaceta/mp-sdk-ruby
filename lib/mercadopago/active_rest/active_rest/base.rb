@@ -112,7 +112,7 @@ module ActiveREST
       
       response = nil
       
-      if (self.class.find_by_primary_keys_hash(self.primary_keys_hash)) # If the object exists previusly
+      if (self.class.find_by_primary_keys_hash(self.primary_keys_hash) || self.primary_keys_hash != nil) # If the object exists previusly
         update(base)
       else
         base.remote_save { |_response| response = _response }  

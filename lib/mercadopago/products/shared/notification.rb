@@ -18,17 +18,17 @@ module MercadoPago
       end
     end
     
-    def local_save(&block)
-      super(block)
-    end
+    # def local_save(&block)
+  #     super(block)
+  #   end
     
-    def self.on_payment(&block)
-      @proc_on_payment == block
-    end
-    
-    def self.on_merchant_order(&block)
-      @proc_on_merchant_order == block
-    end
+    # def self.on_payment(&block)
+#       @proc_on_payment == block
+#     end
+#
+#     def self.on_merchant_order(&block)
+#       @proc_on_merchant_order == block
+#     end
 
   end
 

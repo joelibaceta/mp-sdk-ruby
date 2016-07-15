@@ -72,17 +72,19 @@ describe MercadoPago do
   end
   
   context "General Tests" do
+    
     it "get_live_objects_as_html should return an html with the instance objects" do
       expect(MercadoPago.get_live_objects_as_html.class).to eql(String)
       expect(MercadoPago.get_live_objects_as_html).not_to eql("")
     end
 
     it "should get mp connect url " do
-      base_url      = "https://auth.mercadopago.com.ar/authorization"
-      redirect_uri  = "http%3A%2Flocalhost%3A3000%2Fmp-connect-callback"
-      query         = "client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=#{redirect_uri}"
       
-      MercadoPago::Settings.APP_ID = "APP_ID"
+      base_url                      = "https://auth.mercadopago.com.ar/authorization"
+      redirect_uri                  = "http%3A%2Flocalhost%3A3000%2Fmp-connect-callback"
+      query                         = "client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=#{redirect_uri}"
+      
+      MercadoPago::Settings.APP_ID  = "APP_ID"
       expect(MercadoPago.mp_connect_link_path("http://localhost:3000")).to eql("#{base_url}?#{query}")
     end
     
