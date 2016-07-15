@@ -194,12 +194,16 @@ module ActiveREST
       if (klass_name.to_class) # If is an object or a collection
         if value.class == Array 
           return name.to_s.pluralize, value.map{|item| build_object(name, item)[1]}
-        end
+        end 
         if value.class == Hash
-          klass = klass_name.to_class
-          object = klass.new(value)
-          klass.append(object)
-          return name.to_s, object
+          begin
+            klass = klass_name.to_class
+            object = klass.new(value)
+            klass.append(object)
+            return name.to_s, object
+          rescue
+            return name.to_s, value
+          end
         end
         
         return (value.attributes rescue nil) ? [name.to_s, value.attributes] : [name.to_s, value] 
