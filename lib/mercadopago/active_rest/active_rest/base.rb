@@ -76,8 +76,7 @@ module ActiveREST
       @attributes = Hash.new if @attributes == nil
       if method[-1] == '='
         set_variable(method[0..-2], args[0])
-      else
-        
+      else 
         return @attributes[method.to_s]
       end
     end

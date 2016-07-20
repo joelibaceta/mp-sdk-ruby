@@ -18,6 +18,8 @@ describe MercadoPago do
       })
     }
 
+
+
     it "Read parameters supported" do
       expect(dummy_variable.name).to      eql("dummy")
       expect(dummy_variable.type).to      eql(String)

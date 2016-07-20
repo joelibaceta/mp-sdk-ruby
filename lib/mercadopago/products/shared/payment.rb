@@ -61,7 +61,7 @@ module MercadoPago
         set_param :access_token, @user_token
       end
     }
-
+    
     def self.all # Overwritting all method
       super do |payment_list|
         if payment_list.empty?
