@@ -21,7 +21,7 @@ module MercadoPago
     has_strong_attribute :external_reference
     has_strong_attribute :status
     has_strong_attribute :status_detail
-    has_strong_attribute :payment_type
+    has_strong_attribute :payment_type,       type: String
     has_strong_attribute :date_created
     has_strong_attribute :last_modified
     has_strong_attribute :date_approved
@@ -30,10 +30,10 @@ module MercadoPago
     has_strong_attribute :transaction_amount, type: Float
     has_strong_attribute :shipping_cost
     has_strong_attribute :total_paid_amount,  idempotency_parameter: true
-    has_strong_attribute :finance_charge
+    has_strong_attribute :finance_charge,     type: Float
     has_strong_attribute :net_received_amount
     has_strong_attribute :marketplace
-    has_strong_attribute :marketplace_fee
+    has_strong_attribute :marketplace_fee,    type: Float
     has_strong_attribute :reason
     has_strong_attribute :payer
     has_strong_attribute :collector

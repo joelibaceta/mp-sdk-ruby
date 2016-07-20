@@ -9,7 +9,7 @@ module MercadoPago
     has_strong_attribute :date_created,     type: Date
     has_strong_attribute :phone,            type: Hash
     has_strong_attribute :identification,   type: Hash
-    has_strong_attribute :address,           type: Hash
+    has_strong_attribute :address,          type: Hash
 
   end
 end

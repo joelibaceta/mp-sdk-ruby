@@ -44,7 +44,7 @@ module MercadoPago
       http.verify_mode      = connection_params[:verify_mode] if connection_params[:verify_mode]
       http.ca_file          = connection_params[:ca_file]     if connection_params[:ca_file]
 
-      request = addr.to_s != "" ? verb.new(uri, header, addr, port) : verb.new(uri, header)
+      request               = addr.to_s != "" ? verb.new(uri, header, addr, port) : verb.new(uri, header)
 
       headers.each { |field, value| request.add_field(field, value) } if headers
       
@@ -54,7 +54,7 @@ module MercadoPago
       response              = http.request(request) 
       body                  = response.body
       
-      puts "http Request: #{verb}, Path: #{request_path}, Url_params: #{url_query}, Form_params: #{data}, uri: #{uri}"
+      #puts "http Request: #{verb}, Path: #{request_path}, Url_params: #{url_query}, Form_params: #{data}, uri: #{uri}"
       
       if response.code.to_s == "200" || response.code.to_s == "201"
         body = response.body.class     == Hash ? response.body : JSON.parse(response.body) rescue Hash.new

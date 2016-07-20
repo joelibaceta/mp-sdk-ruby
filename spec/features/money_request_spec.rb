@@ -8,12 +8,15 @@ describe MercadoPago do
       money_request.payer_email   = "custom@email.com"
       money_request.description   = "PulpoBot Request"
       money_request.concept_type  = "off_platform"
+      
       money_request.save do |_response|
         response = _response
       end
       
       expect(money_request.class).to eql(MercadoPago::MoneyRequest)
-      expect(money_request.response.code).to eql("201") 
+       
+      
+      expect(response.code).to eql("200") 
       
     end
     

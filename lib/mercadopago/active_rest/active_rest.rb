@@ -10,7 +10,6 @@ module ActiveREST
   # Struct for saving REST methods params
   Struct.new("REST_URL", :name, :url, :params)
 
-
   RESERVED_PARAMS = [:idempotency] # Params with reserved word name
   CIPHER          = lambda {|alg, msg| Object.const_get("Digest::#{alg}").__send__(hexdigest, msg)} # Cipher Method
   
@@ -66,8 +65,6 @@ module ActiveREST
     end
   end
   
-  
-
   # This is a helper method which allow to build a nested objects structure from a hashmap
   #
   def build_object(klass, attrs)
@@ -88,8 +85,7 @@ module ActiveREST
   #
   def append(object)
     
-    founded = false
-    
+    founded = false 
     res_coll.each{|item| (founded = true) if item.primary_keys_hash == object.primary_keys_hash }
     
     if founded
@@ -199,12 +195,7 @@ module ActiveREST
   end
   module_function :has_rest_method
 
-  # Get a String with the idempotency fields concatenated
-  def idempotency_fields
-    attributes_definition.map { |definition|
-      definition.idempotency_parameter ? self.instance_eval("#{definition}.name") : nil
-    }.compact.join("&")
-  end
+  
 
   # When a method_missing method is called try to call it as an Array method
   def method_missing(method, *args, &block)

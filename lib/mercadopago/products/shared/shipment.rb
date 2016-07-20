@@ -1,7 +1,7 @@
 module MercadoPago
   class Shipment < ActiveREST::Base
 
-    has_strong_attribute :id,                 primary_key: true
+    has_strong_attribute :id,                        primary_key: true
     has_strong_attribute :mode,                      type: String,    valid_values: ["custom", "me2", "not_specified"]
     has_strong_attribute :local_pickup,              valid_values: [true, false]
     has_strong_attribute :dimensions,                type: String

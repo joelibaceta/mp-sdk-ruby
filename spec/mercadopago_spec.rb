@@ -54,13 +54,8 @@ describe MercadoPago do
     end
   end
 
-  context "User Setup" do
-
-    it "for a Basic Setup" do
-      MercadoPago::Settings.ACCESS_TOKEN = "ACCESS_TOKEN"
-      expect(MercadoPago::Settings.ACCESS_TOKEN).to eql("ACCESS_TOKEN")
-    end
-
+  context "User Setup" do 
+    
     it "for a Advanced Setup" do
       MercadoPago::Settings.CLIENT_ID     = "CLIENT_ID"
       MercadoPago::Settings.CLIENT_SECRET = "CLIENT_SECRET"

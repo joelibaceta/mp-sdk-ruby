@@ -77,8 +77,7 @@ class MPMiddleware
 
     MercadoPago::Payment.load({id: params[:id]}) do |payment|
       path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.payment"
-      file = File.open(path, 'wb')
-      p "Payment: #{payment}"
+      file = File.open(path, 'wb') 
       payment.binary_dump_in_file(file)
       file.close
     end

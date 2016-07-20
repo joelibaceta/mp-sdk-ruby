@@ -7,7 +7,7 @@ module MercadoPago
     has_rest_method destroy:  '/v1/customers/:customer_id/cards/:id'
     
     has_strong_attribute :id,                   primary_key: true
-    has_strong_attribute :customer_id,        allow_null: false
+    has_strong_attribute :customer_id,          allow_null: false
     has_strong_attribute :expiration_month
     has_strong_attribute :expiration_year
     has_strong_attribute :first_six_digits
@@ -20,13 +20,6 @@ module MercadoPago
     has_strong_attribute :date_last_updated
 
     before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
-
-
-    def destroy
-      super do
-        MercadoPago::Customer.clean
-      end
-    end
-
+    
   end
 end

@@ -22,6 +22,10 @@ class StrongVariable
     end
   end
 
+  def to_h
+    return @type
+  end
+  
   def to_hash
     response = Hash.new
     response[:name]         = @name         if @name
@@ -32,7 +36,7 @@ class StrongVariable
     response[:valid_values] = @valid_values if @valid_values
     response[:format]       = format        if @format
     return response
-  end
+  end 
   
   def is_primary_key?
     return @primary_key == true

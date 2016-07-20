@@ -27,8 +27,7 @@ describe MercadoPago do
     end
     
     it "creating a customer" do
-      customer = MercadoPago::Customer.create({email: "mail2@demo.com"})
-      pp customer
+      customer = MercadoPago::Customer.create({email: "mail2@demo.com"}) 
       expect(customer.class).to eql(MercadoPago::Customer)
       customer = MercadoPago::Customer.find_by_email("mail2@demo.com")
       expect(customer.class).to eql(MercadoPago::Customer)
