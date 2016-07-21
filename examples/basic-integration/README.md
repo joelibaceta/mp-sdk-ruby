@@ -50,6 +50,7 @@ with the preference resource attrbutes created
 
 **Opening Modes**
 
+Mode|Result
 ------------ | -------------
 modal window:| popup 
 pop-up:      | window
