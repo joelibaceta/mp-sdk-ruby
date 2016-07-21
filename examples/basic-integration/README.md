@@ -46,10 +46,10 @@ Use the init_point attribute to build a payment button
 <a href="<%= preference.init_point %>" mp-mode="blank"> Pay </a>
 ```
 
-Opening Modes |
+Opening Modes | 
 ------------ | -------------
-  - modal window:  | popup 
-  - pop-up:        | window
-  - blank:         | new window or tab
-  - redirect:      | same window
+modal window:| popup 
+pop-up:      | window
+blank:       | new window or tab
+redirect:    | same window
 
