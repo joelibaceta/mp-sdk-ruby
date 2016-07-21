@@ -139,8 +139,6 @@ module ActiveREST
     
   end
   
-  
-
 
   def find(id); return find_by(:id, id); end
 
@@ -250,7 +248,6 @@ module ActiveREST
 
   # Clear the objects collection
 
-
   def res_coll
     class_variable_get("@@list")
   end
@@ -262,7 +259,7 @@ module ActiveREST
   def global_rest_params
     class_variable_get("@@global_rest_params")
   end
-
+  
   def url_params(uri)
     uri.params.merge(global_rest_params)
   end
@@ -270,7 +267,6 @@ module ActiveREST
   def dynamic_attributes_allowed?
     class_variable_get("@@dynamic_attributes")
   end
-
 
   def custom_headers
     class_variable_get("@@custom_headers")

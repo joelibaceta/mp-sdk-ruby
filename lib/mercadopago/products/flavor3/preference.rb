@@ -3,7 +3,7 @@ module MercadoPago
 
     #   Not allow dynamic attributes
     not_allow_dynamic_attributes
-
+    
     has_rest_method create: '/checkout/preferences'
     has_rest_method read:   '/checkout/preferences/:id'
     has_rest_method update: '/checkout/preferences/:id'
@@ -11,13 +11,13 @@ module MercadoPago
     #   Setting the strong attributes
     has_strong_attribute :auto_return,          valid_values: ["approved", "all"]
     has_strong_attribute :back_urls,            type: Hash
-    has_strong_attribute :notification_url,     type: String,    length: 500
     has_strong_attribute :id,                   type: String,    read_only: true,   primary_key: true
     has_strong_attribute :init_point,           type: String,    read_only: true
     has_strong_attribute :sandbox_init_point,   type: String,    read_only: true
     has_strong_attribute :operation_type,       type: String,    read_only: true
     has_strong_attribute :additional_info,      type: String,    length: 600
     has_strong_attribute :external_reference,   type: String,    length: 256
+    has_strong_attribute :notification_url,     type: String,    length: 500
     has_strong_attribute :expires,              valid_values: [true, false]
     has_strong_attribute :expiration_date_from, type: Date
     has_strong_attribute :expiration_date_to,   type: Date
@@ -29,6 +29,7 @@ module MercadoPago
     has_strong_attribute :payment_methods,      type: Hash
     has_strong_attribute :items,                type: Array,     required: true
     has_strong_attribute :payer,                type: Object
+    
 
     before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
 
