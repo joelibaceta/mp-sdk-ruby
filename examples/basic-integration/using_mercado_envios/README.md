@@ -40,6 +40,7 @@ shipment          = MercadoPago::Shipment.new
 
 **The available values are:**
 
+ | 
 ------------ | -------------
 custom         |   Custom shipping
 me2            |   MercadoEnvíos
@@ -56,6 +57,7 @@ shipment.local_pickup = true
 
 **The available values are:**
 
+ | 
 ------------ | -------------
 OCA Estándar    | 73328
 OCA Prioritario | 73330
@@ -93,7 +95,8 @@ preference.save
 ```
 
 **Opening Modes**
- 
+
+ | 
 ------------ | -------------
 modal window | popup 
 pop-up       | window
