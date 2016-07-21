@@ -54,7 +54,7 @@ preference.save
 
 **Use the init_point attribute to build a payment button**
 
-```haml
+```html
 <a href="<%= preference.init_point %>" mp-mode="blank"> Pay </a>
 ```
 
