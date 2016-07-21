@@ -5,19 +5,25 @@ Install the mercadopago gem
 
 Require the mercadopago Gem
 
-`require 'mercadopago'`
+```ruby
+require 'mercadopago'
+```
 
 Set up your credentials ( https://www.mercadopago.com/mla/account/credentials?type=basic )
 
-* `mercadopago.client_id     = ENV['client_id']`
-* `mercadopago.client_secret = ENV['client_secret']`
+```ruby
+mercadopago.client_id     = ENV['client_id']
+mercadopago.client_secret = ENV['client_secret']
+```
 
 **Create a Preference**
-`preference = MercadoPago::Preference.new`
+```ruby
+preference = MercadoPago::Preference.new
+```
 
 **Create and Item**
 
-```
+```ruby
 item              = MercadoPago::Item.new
 item.id           = "item-ID-1234"
 item.title        = "Incredible Silk Pants"
@@ -31,7 +37,9 @@ item.unit_price   = 390
 
 **Add the Item to the preference Items array**
 
-`preference.items  = [item]`
+```ruby
+preference.items  = [item]
+```
 
 **Save the preference**
 
@@ -39,7 +47,9 @@ Save the preference to send a POST request to the endpoint
 and update the preference object 
 with the preference resource attrbutes created
  
-`preference.save`
+```ruby
+preference.save
+```
 
 
 **Use the init_point attribute to build a payment button**
