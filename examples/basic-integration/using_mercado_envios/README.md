@@ -35,6 +35,12 @@ item.currency_id  = 'ARS'
 item.quantity     = 1
 item.unit_price   = 390
 
+```
+
+### Setup Shipping Preferences
+
+```ruby
+
 shipment          = MercadoPago::Shipment.new
 ```
 
