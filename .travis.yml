@@ -9,3 +9,6 @@ rvm:
     - jruby-19mode
     - jruby-9.0.5.0
 script: bundle exec rspec
+addons:
+  code_climate:
+    repo_token: c61795af9d8fa38759bf9f380dfddcce2ab13ce6b9902d6b89086b016b28a1e0
