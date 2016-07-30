@@ -3,7 +3,7 @@ module MercadoPago
 
     has_rest_method list: '/v1/payment_methods'
 
-    has_strong_attribute :id
+    has_strong_attribute :id,                 primary_key: true
     has_strong_attribute :name
     has_strong_attribute :payment_type_id
     has_strong_attribute :status

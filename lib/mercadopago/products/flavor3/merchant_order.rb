@@ -6,7 +6,7 @@ module MercadoPago
     has_rest_method search: '/merchant_orders'
     has_rest_method update: '/merchant_orders/:id'
     
-    has_strong_attribute :id,                 type: Integer,   read_only: true
+    has_strong_attribute :id,                 type: Integer,   read_only: true,                 primary_key: true
     has_strong_attribute :preference_id,      type: String
     has_strong_attribute :date_created,       read_only: true
     has_strong_attribute :last_update,        read_only: true

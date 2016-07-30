@@ -9,6 +9,7 @@ class StrongVariable
   attr_accessor :valid_values
   attr_accessor :idempotency_parameter
   attr_accessor :format
+  attr_accessor :primary_key
 
   def initialize(*args)
       params = args[0].nil? ? [] : args[0]
@@ -21,16 +22,24 @@ class StrongVariable
     end
   end
 
+  def to_h
+    return @type
+  end
+  
   def to_hash
     response = Hash.new
     response[:name]         = @name         if @name
     response[:type]         = @type         if @type
     response[:length]       = @length       if @length
-    response[:read_only]    = @read_only    if @read_only
+    response[:read_only]    = @read_only
     response[:default]      = @default      if @default
     response[:valid_values] = @valid_values if @valid_values
     response[:format]       = format        if @format
     return response
+  end 
+  
+  def is_primary_key?
+    return @primary_key == true
   end
 
   def allow_this?(value)

@@ -12,61 +12,66 @@ module MercadoPago
         :delete => Net::HTTP::Delete
     }
 
-    @@default_connection = Hash.new
+    @@default_connection ||= Hash.new
 
     def self.included(base)
       base.class_variable_set("@@http_connection", Hash.new) # Create a class in the including class
     end
 
-    def request(verb, slug, url_params={}, data={}, headers={}, _class)
-      default_http_params, custom_http_params = @@default_connection, _class.class_variable_get("@@http_connection")
-      connection_params                       = default_http_params.merge!(custom_http_params)
+    def request(options={})
+      
+      # call:
+      #
+      #   get: '/slug/method' | post: '/path/ ...
+      #
 
-      str_url_params = url_params.map{|name, value| "#{name}=#{value}"}.join("&")
+      method, request_path  = options.first
+      verb                  = VERB_MAP[method]
+      headers               =  options[:headers]
+      url_query             =  options[:url_query]
+      form_data, json_data  =  options[:form_data], options[:json_data]  
+      default_http_params   = @@default_connection
+      
+      connection_params     = default_http_params #.merge(custom_http_params) rescue {}
+      query                 = url_query.map{|name, value| "#{name}=#{value}"}.join("&") if url_query
+      uri                   = URI.parse("#{connection_params[:address]}#{request_path}?#{query}") 
+      http                  = Net::HTTP.new(uri.host, uri.port) 
+      header                = {'Content-Type' =>'application/json'} 
+      
+      addr, port            = connection_params[:proxy_addr], connection_params[:proxy_port]
+      http.use_ssl          = connection_params[:use_ssl]     if connection_params[:use_ssl]
+      http.ssl_version      = connection_params[:ssl_version] if connection_params[:ssl_version]
+      http.verify_mode      = connection_params[:verify_mode] if connection_params[:verify_mode]
+      http.ca_file          = connection_params[:ca_file]     if connection_params[:ca_file]
 
-      uri = URI("#{connection_params[:address]}#{slug}?#{str_url_params}")
+      request               = addr.to_s != "" ? verb.new(uri, header, addr, port) : verb.new(uri, header)
 
-      puts "http request Method: #{verb}, Path: #{slug}, Url_params: #{url_params}, Form_params: #{data}, uri: #{uri}"
-
-      http = Net::HTTP.new(uri.host, uri.port)
-
-      http.use_ssl      = connection_params[:use_ssl]     if connection_params[:use_ssl]
-      http.ssl_version  = connection_params[:ssl_version] if connection_params[:ssl_version]
-      http.verify_mode  = connection_params[:verify_mode] if connection_params[:verify_mode]
-      http.ca_file      = connection_params[:ca_file]     if connection_params[:ca_file]
-
-      p "REQUEST: #{@@default_connection}"
-
-      request = VERB_MAP[verb].new(uri, {'Content-Type' =>'application/json'})
-
-      if connection_params[:proxy_addr].to_s != ""
-        request = VERB_MAP[verb].new(uri, {'Content-Type' =>'application/json'}, connection_params[:proxy_addr], connection_params[:proxy_port])
-      end
-
-
-      request = VERB_MAP[verb].new(uri, {'Content-Type' =>'application/json'})
-
-      headers.each do |field, value|
-        request.add_field(field, value)
-      end
-
-      request.body = data if data != {}
-      response = http.request(request)
-
-      if !(response.is_a?(Net::HTTPSuccess))
-        warn response.body
-        raise response.body
+      headers.each { |field, value| request.add_field(field, value) } if headers
+      
+      data                  = URI.encode_www_form(form_data)  if form_data
+      data                  = json_data                       if json_data
+      request.body          = data                            if data != {} 
+      response              = http.request(request) 
+      body                  = response.body
+      
+      #puts "http Request: #{verb}, Path: #{request_path}, Url_params: #{url_query}, Form_params: #{data}, uri: #{uri}"
+      
+      if response.code.to_s == "200" || response.code.to_s == "201"
+        body = response.body.class     == Hash ? response.body : JSON.parse(response.body) rescue Hash.new
       else
-        return JSON.parse(response.body)
+        warn body
       end
+      
+      return {code: response.code, message: response.message, body: body} 
     end
+    module_function :request
 
-    def set_http_param(param, value)
-      http_conn = self.class.class_variable_get("@@http_connection") rescue self.class.class_variable_set("@@http_connection", Hash.new)
-      http_conn[param] = value
-      self.class.class_variable_set("@@http_connection", http_conn)
-    end
-    module_function :set_http_param
+    #def set_http_param(param, value)
+    #  http_conn = self.class.class_variable_get("@@http_connection") rescue self.class.class_variable_set("@@http_connection", Hash.new)
+    #  http_conn[param] = value
+    #  self.class.class_variable_set("@@http_connection", http_conn)
+    #end
+    #module_function :set_http_param
 
     def http_param(param, value)
       @@default_connection[param] = value
@@ -78,33 +83,27 @@ module MercadoPago
     end
     module_function :config
 
+    def delete(slug, options={})
+      request({:delete => slug}.merge(options))
+    end
+    module_function :delete
+    
+    def get(slug, options={})
+      request({:get => slug}.merge(options))
+    end
+    module_function :get
 
-
-    def delete(slug, params={}, headers={},_class=self)
-      request(:delete, slug, params, {}, headers={},_class)
+    def post(slug, options={})
+      request({:post => slug}.merge(options))
     end
-    def get(slug, params={}, headers={}, _class=self)
-      request(:get, slug, params, {}, headers={},_class)
+    module_function :post
+    
+    def put(slug, options={})
+      request({:put => slug}.merge(options))
     end
-
-    def post(slug, data, get_params={}, headers={}, _class=self)
-      request(:post, slug, get_params, data, headers={},_class)
-    end
-    def put(slug, data, get_params={}, headers={}, _class=self)
-      request(:put, slug, get_params, data, headers={},_class)
-    end
+    module_function :put
 
   end
 
-  class RestError < StandardError
-    def initialize(msg=nil)
-      @message = msg
-      puts @message
-    end
-
-    def message
-      @message
-    end
-
-  end
+   
 end

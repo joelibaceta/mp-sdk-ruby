@@ -5,7 +5,7 @@ module MercadoPago
     relation_belongs_to    :preference
 
     # Setting the strong attributes
-    has_strong_attribute :id,           type: String
+    has_strong_attribute :id,           type: String,                 primary_key: true
     has_strong_attribute :title,        type: String
     has_strong_attribute :description,  type: String
     has_strong_attribute :category_id,  type: String

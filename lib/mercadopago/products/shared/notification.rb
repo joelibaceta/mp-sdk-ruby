@@ -1,6 +1,11 @@
 module MercadoPago
 
   class Notification < ActiveREST::Base
+    
+    has_strong_attribute :id,                 primary_key: true
+    
+    @proc_on_payment        = nil
+    @proc_on_merchant_order = nil
 
     def self.all # Overwritting all method
       super do |notification_list|
@@ -14,6 +19,18 @@ module MercadoPago
         end
       end
     end
+    
+    # def local_save(&block)
+  #     super(block)
+  #   end
+    
+    # def self.on_payment(&block)
+#       @proc_on_payment == block
+#     end
+#
+#     def self.on_merchant_order(&block)
+#       @proc_on_merchant_order == block
+#     end
 
   end
 

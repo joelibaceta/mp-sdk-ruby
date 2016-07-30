@@ -6,16 +6,17 @@ require 'mercadopago/version'
 Gem::Specification.new do |s|
   s.name          = 'mercadopago'
   s.version       = MercadoPago::VERSION
-  s.date          = '2016-06-01'
-  s.summary       = 'Mercado Pago (Flavor1 / Flavor3) Gem'
-  s.description   = 'Mercado Pago (Flavor1 / Flavor3) Gem'
-  s.authors       = ['Joel Ibaceta', 'Matias Compiano']
+  s.date          = Time.now
+  s.summary       = 'Mercado Pago Gem'
+  s.description   = 'Gema Oficial para el uso del API Rest de MercadoPago'
+  s.authors       = ['Joel Ibaceta']
   s.email         = 'joel.ibaceta@mercadolibre.com'
   s.homepage      = 'https://github.com/joelibaceta/mp-sdk-ruby'
   s.files         = `git ls-files`.split($/)
   s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
-  s.add_dependency 'activesupport'
-  s.add_development_dependency 'rspec'
-  s.license     = 'MIT'
+  s.add_runtime_dependency 'activesupport'
+  s.add_development_dependency 'simplecov', '~> 0'
+  s.add_development_dependency 'rspec', '~> 0'
+  s.license       = 'MIT'
 end

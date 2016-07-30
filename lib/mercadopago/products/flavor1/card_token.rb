@@ -8,7 +8,7 @@ module MercadoPago
     has_rest_method update: '/v1/card_tokens?public_key=:public_key'
 
     has_strong_attribute :public_key
-    has_strong_attribute :card_id
+    has_strong_attribute :card_id,                   primary_key: true
     has_strong_attribute :first_six_digits
     has_strong_attribute :luhn_validation
     has_strong_attribute :date_used
