@@ -10,9 +10,10 @@ module ActiveREST
   # Struct for saving REST methods params
   Struct.new("REST_URL", :name, :url, :params)
 
-
   RESERVED_PARAMS = [:idempotency] # Params with reserved word name
   CIPHER          = lambda {|alg, msg| Object.const_get("Digest::#{alg}").__send__(hexdigest, msg)} # Cipher Method
+  
+  include MercadoPago::RESTClient
 
   # This method is called when the module ActiveREST is extended from another Class
   #
@@ -53,24 +54,22 @@ module ActiveREST
 
   # Load resources from api rest list method
   #
-  def populate_from_api(url_values = {})
+  def populate_from_api(url_values = {}) 
     if self.list_url
       self.prepare_rest_params # Run the stacked blocks
       klass     = self
-      str_url   = replace_url_variables(self.list_url.url, url_values)
-      response  = get(str_url, url_params(self.list_url), custom_headers,klass)
-
-      response.map{|attrs|
-        klass.append(klass.new(attrs))
-      }
+      str_url   = replace_url_variables(self.list_url.url, url_values) 
+      response  = get(str_url, url_query: url_params(self.list_url), headers:custom_headers).body
+       
+      response.map { |attrs| klass.append(klass.new(attrs)) }
     end
   end
-
+  
   # This is a helper method which allow to build a nested objects structure from a hashmap
   #
   def build_object(klass, attrs)
     object = klass.new
-    attrs.each do |k, v|
+    attrs.each { |k, v|
       if k.to_s.to_class # If a key is a Class
         name  = klass.to_s.pluralize
         value = build_object(k.to_class, v)
@@ -78,44 +77,57 @@ module ActiveREST
       else
         object.set_variable(k, v.to_s)
       end
-    end
+    }
     return object
   end
 
   # Append a Class to Objects Collection
   #
   def append(object)
-    founded = false
-    res_coll.each{|item| (founded = true) if item.id == object.id }
-    unless founded
-      res_coll << object
+    
+    founded = false 
+    res_coll.each{|item| (founded = true) if item.primary_keys_hash == object.primary_keys_hash }
+    
+    if founded
+      item   = object.class.find_by_primary_keys_hash(object.primary_keys_hash)
+      object.attributes.each { |k,v| item.__send__("#{k}=", v) }
+      object = item
+    else
+      res_coll << object 
     end
+    
+    return object
   end
 
   # Create an Object Remotely is equal to use ( new + save ) methods
   #
   def create(hash={})
     begin
-      object = self.new(hash).remote_save
+      object = self.new(hash)
+      object.remote_save
+      
       if object
         yield  object if block_given?
         return object unless block_given?
       else; return nil; end
     rescue => error
-      raise ARError, "Can't create a #{self.class} object, " \
+      raise ARError, "Can't create a #{self} object, " \
                      "an unespected error has been raised: \n " \
                      "#{error.backtrace}"
     end
   end
-
+  
   # Get and object from a REST request using a GET method
   #
   def load(url_values = {})
+    
     unless self.read_url.nil?
       self.prepare_rest_params
       str_url   = replace_url_variables(self.read_url.url, url_values)
-      response  = get(str_url, url_params(self.read_url), custom_headers, self)
-      self.append(self.new(response))
+      response  = get(str_url, url_query: url_params(self.read_url), headers: custom_headers).body
+      
+      object = self.append(self.new(response))
+
       if block_given?
         yield object
       else
@@ -124,8 +136,9 @@ module ActiveREST
     else
       raise ARError, "The class #{self.class} doesn't has a read method"
     end
+    
   end
-
+  
 
   def find(id); return find_by(:id, id); end
 
@@ -180,14 +193,9 @@ module ActiveREST
   end
   module_function :has_rest_method
 
-  # Get a String with the idempotency fields concatenated
-  def idempotency_fields
-    attributes_definition.map { |definition|
-      definition.idempotency_parameter ? self.instance_eval("#{definition}.name") : nil
-    }.compact.join("&")
-  end
+  
 
-  # When a missing method is called try to call it as an Array method
+  # When a method_missing method is called try to call it as an Array method
   def method_missing(method, *args, &block)
     _kind, value = kind_of_method(method)
     case _kind
@@ -209,6 +217,10 @@ module ActiveREST
 
   def clear
     class_variable_set("@@list", Array.new)
+  end
+  
+  def syncronize
+    
   end
 
   # Public Accesors
@@ -236,7 +248,6 @@ module ActiveREST
 
   # Clear the objects collection
 
-
   def res_coll
     class_variable_get("@@list")
   end
@@ -248,7 +259,7 @@ module ActiveREST
   def global_rest_params
     class_variable_get("@@global_rest_params")
   end
-
+  
   def url_params(uri)
     uri.params.merge(global_rest_params)
   end
@@ -257,12 +268,11 @@ module ActiveREST
     class_variable_get("@@dynamic_attributes")
   end
 
-
   def custom_headers
     class_variable_get("@@custom_headers")
   end
 
-  def replace_url_variables(url, values)
+  def replace_url_variables(url, values={}) 
     _url = url
     values.map {|k,v| _url = _url.gsub(":#{k}", v)}
     return _url

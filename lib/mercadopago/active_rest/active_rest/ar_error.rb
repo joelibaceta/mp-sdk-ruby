@@ -1,7 +1,9 @@
+# Custom error class
+
 class ARError < StandardError
   def initialize(msg=nil)
     @message = msg
-    puts @message
+    warn @message
   end
 
   def message

@@ -1,4 +1,4 @@
-require_relative '../rspec_helper'
+require_relative '../spec_helper'
 
 describe MercadoPago do
   context "Preference" do
@@ -61,7 +61,7 @@ describe MercadoPago do
       preference.payer = payer
 
       #puts MercadoPago::Preference.friendly_print_structure
-      puts preference.to_json
+      #puts preference.to_json
     end
 
     it "create preference with wrong data " do

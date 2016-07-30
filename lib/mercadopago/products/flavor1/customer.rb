@@ -1,7 +1,6 @@
 module MercadoPago
   class Customer < ActiveREST::Base
-
-
+    
     has_rest_method read:   '/v1/customers/:id'
     has_rest_method search: '/v1/customers/search'
     has_rest_method create: '/v1/customers/'
@@ -9,7 +8,7 @@ module MercadoPago
     has_rest_method remove: '/v1/customers/:id'
 
     has_strong_attribute :id
-    has_strong_attribute :email
+    has_strong_attribute :email,                   primary_key: true
     has_strong_attribute :first_name
     has_strong_attribute :last_name
     has_strong_attribute :phone
@@ -26,6 +25,8 @@ module MercadoPago
     has_strong_attribute :addresses
 
     before_api_request { set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN }
+    
+    
 
   end
 end
