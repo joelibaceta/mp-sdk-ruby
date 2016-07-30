@@ -3,3 +3,6 @@
 .idea/*
 mercadopago-1.0.1.gem
 tmp/
+.idea/
+coverage/
+samples/
