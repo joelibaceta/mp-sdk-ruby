@@ -24,7 +24,7 @@ module MercadoPago
       #
       #   get: '/slug/method' | post: '/path/ ...
       #
-      
+
       method, request_path  = options.first
       verb                  = VERB_MAP[method]
       headers               =  options[:headers]

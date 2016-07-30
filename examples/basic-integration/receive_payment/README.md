@@ -1,7 +1,6 @@
-### Receive Payment
+# Receive Payment
 
-Create a MercadoPago account 
-Install the mercadopago gem 
+Create a MercadoPago account Install the mercadopago Gem 
 
 Require the mercadopago Gem
 

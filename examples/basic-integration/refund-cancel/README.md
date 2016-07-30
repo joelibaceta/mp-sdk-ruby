@@ -1,4 +1,4 @@
-## Refund or Cancel a Payment
+# Refund or Cancel a Payment
 
 
 Create a MercadoPago account 

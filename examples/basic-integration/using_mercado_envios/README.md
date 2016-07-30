@@ -1,4 +1,4 @@
-### Receive Payment
+# Receive Payment
 
 Create a MercadoPago account 
 Install the mercadopago gem 

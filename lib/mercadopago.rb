@@ -16,7 +16,8 @@ module MercadoPago
   
   # It's method allow to get a mp connect link
   def mp_connect_link_path(root)
-    base_url  = "https://auth.mercadopago.com.ar/authorization"
+    #TODO: Made MP Connect dinamic
+    base_url  = "https://auth.mercadopago.com/authorization"
     str_link  = "#{base_url}?client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=REDIRECT_URI"
     str_link  = str_link.gsub("APP_ID",       MercadoPago::Settings.APP_ID)
     str_link  = str_link.gsub("REDIRECT_URI", CGI.escape("#{root}mp-connect-callback"))
