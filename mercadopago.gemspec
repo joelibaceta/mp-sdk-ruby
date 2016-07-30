@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.version       = MercadoPago::VERSION
   s.date          = Time.now
   s.summary       = 'Mercado Pago Gem'
-  s.description   = 'This gem allow to use the MercadoPago API in a Ruby Application easily'
-  s.authors       = ['Joel Ibaceta', 'Matias Compiano']
+  s.description   = 'Gema Oficial para el uso del API Rest de MercadoPago'
+  s.authors       = ['Joel Ibaceta']
   s.email         = 'joel.ibaceta@mercadolibre.com'
   s.homepage      = 'https://github.com/joelibaceta/mp-sdk-ruby'
   s.files         = `git ls-files`.split($/)

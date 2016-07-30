@@ -18,7 +18,6 @@ gem 'webmock',          require: false
 gem 'faker',            require: false
 gem 'factory_girl'
 gem 'colorize'
-gem "codeclimate-test-reporter", group: :test, require: nil
 
 #Documentation
 
