@@ -8,6 +8,9 @@ require 'colorize'
 require 'webmock/rspec'
 require 'active_support'
 require 'mercadopago/mpmiddleware'
+require "codeclimate-test-reporter"
+
+CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods

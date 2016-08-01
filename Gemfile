@@ -20,8 +20,10 @@ gem 'factory_girl'
 gem 'colorize'
 
 #Documentation
-
 gem 'yard',             require: false
+
+#Continuos Integration
+gem "codeclimate-test-reporter", group: :test, require: nil
 
 #Test
 gem 'simplecov',        require: false
