@@ -8,14 +8,6 @@ require 'colorize'
 require 'webmock/rspec'
 require 'active_support'
 require 'mercadopago/mpmiddleware'
-require 'codecov'
-
-SimpleCov.start
-
-
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
-
-
 
 
 RSpec.configure do |config|
