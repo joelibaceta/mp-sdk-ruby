@@ -8,17 +8,15 @@ require 'colorize'
 require 'webmock/rspec'
 require 'active_support'
 require 'mercadopago/mpmiddleware'
-require "codeclimate-test-reporter"
-
-CodeClimate::TestReporter.configure do |config|
-  config.logger.level = Logger::WARN
-end
+require 'codecov'
 
 SimpleCov.start
 
-CodeClimate::TestReporter::Formatter.new.format(SimpleCov.result)
 
-CodeClimate::TestReporter.start
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
+
+
+
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods

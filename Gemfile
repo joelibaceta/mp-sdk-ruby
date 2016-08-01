@@ -23,7 +23,7 @@ gem 'colorize'
 gem 'yard',             require: false
 
 #Continuos Integration
-gem "codeclimate-test-reporter", group: :test, require: nil
+gem 'codecov', :require => false, :group => :test
 
 #Test
 gem 'simplecov', :require => false
