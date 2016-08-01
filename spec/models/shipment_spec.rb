@@ -7,7 +7,7 @@ describe MercadoPago do
       shipment = MercadoPago::Shipment.new
       shipment
     end
-    
+
     it 'create a shipment from hash' do
       shipment = MercadoPago::Shipment.new({
         mode: "me2",
