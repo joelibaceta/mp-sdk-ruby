@@ -58,17 +58,19 @@ describe MercadoPago do
       dummy.price         = 9.5
       dummy.quantity      = 10
       dummy.uuid          = "bad85eb9-0713-4da7-8d36-07a8e4b00eab"
-      dummy.registered_at = "14/02/2015"
+      #dummy.registered_at = "14/02/2015"
       
       expected_values = {
         "title"         =>  "I'm a Dummy", 
         "desc"          =>  "Lorem Ipsum", 
         "price"         =>  9.5, 
-        "quantity"      =>  10, 
-        "registered_at" =>  "2015-02-14T00:00:00-03:00",
+        "quantity"      =>  10,
         "uuid"          =>  "bad85eb9-0713-4da7-8d36-07a8e4b00eab"
       }
-      
+
+
+      #"registered_at" =>  "2015-02-14T00:00:00-03:00",
+
       expect(dummy.attributes).to eql(expected_values)
     end
     
