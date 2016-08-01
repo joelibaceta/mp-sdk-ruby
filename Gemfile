@@ -4,7 +4,7 @@ gem 'bundler'
 gem 'rake'
 
 # Dependencies
-gem 'activesupport'
+gem 'activesupport', '~> 3.0.0'
 
 # Gems for testing
 gem 'mercadopago', path: '.'
@@ -18,6 +18,7 @@ gem 'webmock',          require: false
 gem 'faker',            require: false
 gem 'factory_girl'
 gem 'colorize'
+gem 'json',  '~> 1.8.2'
 
 #Documentation
 gem 'yard',             require: false
