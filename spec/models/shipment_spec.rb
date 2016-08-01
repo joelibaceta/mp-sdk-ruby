@@ -15,7 +15,7 @@ describe MercadoPago do
         local_pickup: true,
         
       })
-      expect(shipment.class).eql to(MercadoPago::Shipment)
+      expect(shipment.class).to eql(MercadoPago::Shipment)
     end
     
     it 'update a shipment' do
