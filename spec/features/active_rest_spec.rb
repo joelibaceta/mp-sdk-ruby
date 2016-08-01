@@ -68,7 +68,6 @@ describe MercadoPago do
         "uuid"          =>  "bad85eb9-0713-4da7-8d36-07a8e4b00eab"
       }
 
-
       #"registered_at" =>  "2015-02-14T00:00:00-03:00",
 
       expect(dummy.attributes).to eql(expected_values)
