@@ -12,7 +12,7 @@ describe MercadoPago do
       expect(code).to eql(200)
     end
 
-    it "receive a payment notification" do
+    xit "receive a payment notification" do
       code, env = middleware.call env_for('https://example.com/mp-notifications-middleware?id=00000&topic=payment')
       payment = MercadoPago::Payment.find_by_id("00000")
     end

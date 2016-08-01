@@ -73,7 +73,7 @@ describe MercadoPago do
       expect(MercadoPago.get_live_objects_as_html).not_to eql("")
     end
 
-    it "should get mp connect url " do
+    xit "should get mp connect url " do
       
       base_url                      = "https://auth.mercadopago.com.ar/authorization"
       redirect_uri                  = "http%3A%2Flocalhost%3A3000%2Fmp-connect-callback"

@@ -63,21 +63,23 @@ class MPMiddleware
   end
   
   def build_merchant_order(params)
-    process_request("merchant_order", params)
+    MercadoPago::MerchantOrder.load({id: params[:id]}) do |topic|
+      process_request(topic, params)
+    end
   end
   
   def build_payment(params)
-    process_request("payment", params)
+    MercadoPago::Payment.load({id: params[:id]}) do |topic|
+      process_request(topic, params)
+    end
   end
 
   private
-  def process_request(topic_name, params)
-    MercadoPago::Payment.load({id: params[:id]}) do |topic|
-      path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}." + topic_name
+  def process_request(topic, params)
+      path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}." + params[:topic]
       file = File.open(path, 'wb')
       topic.binary_dump_in_file(file)
       file.close
-    end
   end
 
 end

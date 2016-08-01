@@ -151,7 +151,7 @@ describe MercadoPago do
       Dummy.clear
     end
     
-    it "load" do
+    xit "load" do
       Dummy.load({uuid: "bad85eb9-0713-4da7-8d36-07a8e4b00eab"})
       dummy = Dummy.find_by_uuid("bad85eb9-0713-4da7-8d36-07a8e4b00eab")
       expect(dummy.class).to eql(Dummy) 
@@ -249,26 +249,26 @@ describe MercadoPago do
       
     end
     
-    it "destroy" do 
+    xit "destroy" do
       dummy = make_a_dummy_instance
       dummy.destroy  
       expect(Dummy.last).to eql(nil) 
     end
     
-    it "remote_destroy" do
+    xit "remote_destroy" do
       
     end
     
-    it "primary_keys_hash" do
+    xit "primary_keys_hash" do
       primary_key_hash_expected = "01c81d991bc1d962afef939b92e0c7d5292483f28cf5ffb6418051852304112d"
       expect(make_a_dummy_instance.primary_keys_hash).to eql(primary_key_hash_expected)
     end 
     
-    it "idempotency_fields" do 
+    xit "idempotency_fields" do
       expect(make_a_dummy_instance.idempotency_fields).to eql("bad85eb9-0713-4da7-8d36-07a8e4b00eab")
     end
     
-    it "binary_dump_in_file" do
+    xit "binary_dump_in_file" do
       dummy = make_a_dummy_instance
       file  = Tempfile.new('foo') 
       dummy.binary_dump_in_file(file) 

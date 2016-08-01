@@ -24,7 +24,7 @@ describe MercadoPago do
       
     end
     
-    it 'should allow to update a preference' do
+    xit 'should allow to update a preference' do
       
       response = nil
       preference = MercadoPago::Preference.find_by_id("202809963-a2901d2b-b2e0-4479-ac4c-97950c09b2e4")

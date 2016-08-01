@@ -41,7 +41,7 @@ describe MercadoPago do
       expect(customer.email).to eql("mail3@demo.com")
     end
     
-    it "destroy customer" do
+    xit "destroy customer" do
       customer = MercadoPago::Customer.find_by_email("mail3@demo.com")
       customer.destroy
       customer = MercadoPago::Customer.find_by_email("mail3@demo.com")
