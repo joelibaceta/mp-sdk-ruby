@@ -14,7 +14,8 @@ describe MercadoPago do
         dimensions: "30x30x30,500",
         local_pickup: true,
         
-      }) 
+      })
+      expect(shipment.class).eql to(Shipment)
     end
     
     it 'update a shipment' do

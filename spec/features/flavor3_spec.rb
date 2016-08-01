@@ -7,7 +7,7 @@ describe MercadoPago do
   context "Create a preference" do
     
     before do
-      @items            = (0..3).map{|i| build(:valid_item)}
+      @items            = (0..3).map{build(:valid_item)}
       @additional_item  = build(:valid_item)
       @payer            = build(:valid_payer_with_minimal_data) 
     end
