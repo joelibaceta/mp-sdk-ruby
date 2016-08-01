@@ -34,15 +34,13 @@ class MPMiddleware
 
       [200, {}, ['Request received successfully']]
     elsif path == '/mp-connect-callback'
-      
+
       uri       = "#{env['HTTP_HOST']}#{env['PATH_INFO']}" 
       params    = CGI::parse(env["QUERY_STRING"]) 
       user      = manage_connect_callback(params["code"][0], uri)
-      
+
       env['QUERY_STRING'] = "user_id=#{user.user_id}"
-      
       @app.call(env)
-      
     else
       @app.call(env)
     end
@@ -65,20 +63,19 @@ class MPMiddleware
   end
   
   def build_merchant_order(params)
-    MercadoPago::MerchantOrder.load({id: params[:id]}) do |merchant_order|
-      path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.merchant_order"
-      file = File.open(path, 'wb')
-      merchant_order.binary_dump_in_file(file)
-      file.close
-    end
+    process_request("merchant_order", params)
   end
   
   def build_payment(params)
+    process_request("payment", params)
+  end
 
-    MercadoPago::Payment.load({id: params[:id]}) do |payment|
-      path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}.payment"
-      file = File.open(path, 'wb') 
-      payment.binary_dump_in_file(file)
+  private
+  def process_request(topic_name, params)
+    MercadoPago::Payment.load({id: params[:id]}) do |topic|
+      path = "#{File.expand_path(__dir__)}/dumps/#{params[:id]}." + topic_name
+      file = File.open(path, 'wb')
+      topic.binary_dump_in_file(file)
       file.close
     end
   end
