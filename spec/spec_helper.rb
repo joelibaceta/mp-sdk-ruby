@@ -10,6 +10,14 @@ require 'active_support'
 require 'mercadopago/mpmiddleware'
 require "codeclimate-test-reporter"
 
+CodeClimate::TestReporter.configure do |config|
+  config.logger.level = Logger::WARN
+end
+
+SimpleCov.start
+
+CodeClimate::TestReporter::Formatter.new.format(SimpleCov.result)
+
 CodeClimate::TestReporter.start
 
 RSpec.configure do |config|

@@ -26,4 +26,4 @@ gem 'yard',             require: false
 gem "codeclimate-test-reporter", group: :test, require: nil
 
 #Test
-gem 'simplecov',        require: false
+gem 'simplecov', :require => false

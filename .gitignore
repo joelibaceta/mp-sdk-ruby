@@ -1,8 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .gitignore
 .idea/*
-doc/
-coverage/
+doc/ 
 mercadopago-1.0.1.gem
 tmp/
 .idea/
