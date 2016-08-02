@@ -7,12 +7,11 @@ class FakeAPIHub < Sinatra::Base
     case body["grant_type"]
       when "client_credentials"
         if body["client_id"] == "CLIENT_ID" && body["client_secret"]
-          json_response 200, 'oauth/get_token.json'
+          json_response   200, 'oauth/get_token.json'
         end
       when "refresh_token"
-        json_response 200, 'oauth/refresh_token.json'
-      else
-        json_response 200, 'mp_connect.json'
+        json_response     200, 'oauth/refresh_token.json'
+      else; json_response 200, 'mp_connect.json'
     end
   end
 
@@ -61,20 +60,20 @@ class FakeAPIHub < Sinatra::Base
   end
   
   post '/dummy_post' do
-
+    json_response 200, 'dummy/post.json'
   end
   
   get '/dummy_get' do
-
+    json_response 200, 'dummy/get.json'
   end
   
   put '/dummy_put' do
-
+    json_response 200, 'dummy/put.json'
   end
   
-  delete '/dummy_delete' do 
+  delete '/dummy_delete' do
+    json_response 200, 'dummy/delete.json'
   end
-  
 
   private
 
