@@ -3,7 +3,17 @@ require 'sinatra/base'
 class FakeAPIHub < Sinatra::Base
 
   post '/oauth/token' do
-    json_response 200, 'mp_connect.json'
+    body = JSON.parse(request.body.read)
+    case body["grant_type"]
+      when "client_credentials"
+        if body["client_id"] == "CLIENT_ID" && body["client_secret"]
+          json_response 200, 'oauth/get_token.json'
+        end
+      when "refresh_token"
+        json_response 200, 'oauth/refresh_token.json'
+      else
+        json_response 200, 'mp_connect.json'
+    end
   end
 
   get '/v1/payment_methods' do

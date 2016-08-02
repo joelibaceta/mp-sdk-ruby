@@ -7,7 +7,8 @@ require "#{File.dirname(__FILE__)}/mercadopago/settings"
 Dir["#{File.dirname(__FILE__)}/mercadopago/products/**/*.rb"].each { |f| load f }
 
 module MercadoPago
-  
+
+  # Define the basic Rest Client configuration
   RESTClient.config do
     http_param :address, MercadoPago::Settings.base_url
     http_param :use_ssl, true
@@ -16,7 +17,6 @@ module MercadoPago
   
   # It's method allow to get a mp connect link
   def mp_connect_link_path(root)
-    #TODO: Made MP Connect dinamic
     base_url  = "https://auth.mercadopago.com/authorization"
     str_link  = "#{base_url}?client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=REDIRECT_URI"
     str_link  = str_link.gsub("APP_ID",       MercadoPago::Settings.APP_ID)
@@ -24,8 +24,9 @@ module MercadoPago
     return str_link
   end
   module_function :mp_connect_link_path
-  
-  # @return [String]
+
+  # This method is used Only for debug purposes
+  #
   def get_live_objects_as_html
     response = Hash.new
     Dir["#{File.dirname(__FILE__)}/mercadopago/products/**/*.rb"].each do |filename| 
@@ -36,7 +37,8 @@ module MercadoPago
     return self.get_html_from_hash(response)
   end
   module_function :get_live_objects_as_html
-  
+
+  private
   def get_html_from_hash(obj)
     klass, response = obj.class, ""
     case klass.to_s

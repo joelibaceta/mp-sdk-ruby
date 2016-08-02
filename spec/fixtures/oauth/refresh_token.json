@@ -1,0 +1,9 @@
+{
+  "access_token":   "REFRESHED_TOKEN",
+  "refresh_token":  "NEW_REFRESH_TOKEN",
+  "live_mode":      false,
+  "user_id":        123456789,
+  "token_type":     "bearer",
+  "expires_in":     15768000,
+  "scope":          "offline_access read write"
+}

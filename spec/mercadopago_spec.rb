@@ -1,47 +1,58 @@
 require_relative 'spec_helper'
+require 'tempfile'
 
 describe MercadoPago do
+
   context "Environment Setup" do
 
-    it "with default settings" do
-      expect(MercadoPago::Settings.base_url).to eql("https://api.mercadopago.com")
-      expect(MercadoPago::Settings.sandbox_mode).to eql(true)
-      expect(MercadoPago::Settings.CLIENT_ID).to eql("")
-      expect(MercadoPago::Settings.CLIENT_SECRET).to eql("")
-      expect(MercadoPago::Settings.ACCESS_TOKEN).to eql("")
-      expect(MercadoPago::Settings.APP_ID).to eql("")
+    it "Should return empty strings and mercadopago default base_url" do
+      expect(MercadoPago::Settings.base_url).to       eql("https://api.mercadopago.com")
+      expect(MercadoPago::Settings.CLIENT_ID).to      eql("")
+      expect(MercadoPago::Settings.CLIENT_SECRET).to  eql("")
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to   eql("")
+      expect(MercadoPago::Settings.REFRESH_TOKEN).to  eql("")
+      expect(MercadoPago::Settings.APP_ID).to         eql("")
     end
 
-    it "should have default settings after a wrong setup" do
+    it "Should have default settings after to try with a wrong setup" do
       MercadoPago::Settings.configure({base_url_wrong: "https://custom.com"})
       expect(MercadoPago::Settings.base_url).to eql("https://api.mercadopago.com")
     end
 
-    it "should have default settings after a wrong setup from YAML file" do
-      MercadoPago::Settings.configure_with("./spec/settings_wrong.yml")
+    it "Should have default settings after a wrong setup from a YAML file" do
+      temp_file = Tempfile.new('wrong.yml')
+      MercadoPago::Settings.configure_with("temp_file")
       expect(MercadoPago::Settings.base_url).to eql("https://api.mercadopago.com")
     end
 
-    it "with custom settings from hash" do
-      MercadoPago::Settings.configure({ base_url: "https://custom.com",
-                                        CLIENT_ID: "RANDOM_ID",
-                                        CLIENT_SECRET: "RANDOM_SECRET",
-                                        APP_ID: "APP_ID",
-                                        ACCESS_TOKEN: "RANDOM_TOKEN" })
+    it "With custom settings from hash" do
+      MercadoPago::Settings.configure({
+                                          base_url:       "https://custom.com",
+                                          CLIENT_ID:      "RANDOM_ID",
+                                          CLIENT_SECRET:  "RANDOM_SECRET",
+                                          APP_ID:         "APP_ID",
+                                          ACCESS_TOKEN:   "RANDOM_TOKEN",
+                                          REFRESH_TOKEN:  "REFRESH_TOKEN"
+                                      })
 
-      expect(MercadoPago::Settings.base_url).to eql("https://custom.com")
-      expect(MercadoPago::Settings.CLIENT_ID).to eql("RANDOM_ID")
-      expect(MercadoPago::Settings.CLIENT_SECRET).to eql("RANDOM_SECRET")
-      expect(MercadoPago::Settings.APP_ID).to eql("APP_ID")
-      expect(MercadoPago::Settings.ACCESS_TOKEN).to eql("RANDOM_TOKEN")
+      expect(MercadoPago::Settings.base_url).to       eql("https://custom.com")
+      expect(MercadoPago::Settings.CLIENT_ID).to      eql("RANDOM_ID")
+      expect(MercadoPago::Settings.CLIENT_SECRET).to  eql("RANDOM_SECRET")
+      expect(MercadoPago::Settings.APP_ID).to         eql("APP_ID")
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to   eql("RANDOM_TOKEN")
+      expect(MercadoPago::Settings.REFRESH_TOKEN).to  eql("REFRESH_TOKEN")
+
       MercadoPago::Settings.base_url = "https://api.mercadopago.com"
     end
 
     it "with custom settings from Yaml file" do
       MercadoPago::Settings.configure_with("./spec/settings.yml")
-      expect(MercadoPago::Settings.CLIENT_ID).to eql("CLIENT_ID_YAML")
-      expect(MercadoPago::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET_YAML")
-      expect(MercadoPago::Settings.ACCESS_TOKEN).to eql("CLIENT_ACCESS_TOKEN_YAML")
+
+      expect(MercadoPago::Settings.CLIENT_ID).to        eql("CLIENT_ID_YAML")
+      expect(MercadoPago::Settings.CLIENT_SECRET).to    eql("CLIENT_SECRET_YAML")
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to     eql("CLIENT_ACCESS_TOKEN_YAML")
+      expect(MercadoPago::Settings.REFRESH_TOKEN).to    eql("REFRESH_ACCESS_TOKEN_YAML")
+
       MercadoPago::Settings.base_url = "https://api.mercadopago.com"
     end
 
@@ -51,6 +62,29 @@ describe MercadoPago do
       rescue => error
         expect(error.class).to eql(NoMethodError)
       end
+    end
+
+  end
+
+  context "Setting up Credentials" do
+
+    it "Setting invalid basic credentials" do
+      MercadoPago::Settings.CLIENT_ID     = "WRONG_CLIENT_ID"
+      MercadoPago::Settings.CLIENT_SECRET = "WRONG_CLIENT_SECRET"
+
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to  eql(nil)
+    end
+
+    it "Setting valid basic credentials" do
+      MercadoPago::Settings.CLIENT_ID     = "CLIENT_ID"
+      MercadoPago::Settings.CLIENT_SECRET = "CLIENT_SECRET"
+
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to  eql("ACCESS_TOKEN")
+    end
+
+    it "After to refresh credentials should can get the refreshed token" do
+      MercadoPago::Settings.refresh_credentials
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to  eql("REFRESHED_TOKEN")
     end
   end
 
@@ -62,6 +96,7 @@ describe MercadoPago do
       
       expect(MercadoPago::Settings.CLIENT_ID).to     eql("CLIENT_ID")
       expect(MercadoPago::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET")
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to  eql("ACCESS_TOKEN")
     end
 
   end
