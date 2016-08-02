@@ -35,13 +35,17 @@ class FakeAPIHub < Sinatra::Base
   post '/checkout/preferences' do
     json_response 200, 'preference_post.json'
   end
+
+  post '/v1/customers/' do
+    json_response 200, 'v1/customers/create_customer.json'
+  end
   
   get '/v1/customers/211713195-rvTmbHpnqmwdKK' do
-    json_response 200, 'customer_211713195-rvTmbHpnqmwdKK.json'
+    json_response 200, 'v1/customers/get_customer.json'
   end
   
   put '/v1/customers/211713195-rvTmbHpnqmwdKK' do
-    json_response 200, 'customer_211713195-rvTmbHpnqmwdKK_updated.json'
+    json_response 200, 'v1/customers/update_customer.json'
   end
 
   get '/collections/notifications/00000' do
@@ -51,22 +55,21 @@ class FakeAPIHub < Sinatra::Base
   get '/merchant_orders/00001' do
     json_response 200, 'merchant_order_00001.json'
   end
-  
-  post '/v1/customers/' do
-    json_response 200, 'new_customer.json'
-  end
-  
+
   post '/money_requests' do
     json_response 200, 'money_request.json'
   end
   
   post '/dummy_post' do
+
   end
   
   get '/dummy_get' do
+
   end
   
-  put '/dummy_put' do 
+  put '/dummy_put' do
+
   end
   
   delete '/dummy_delete' do 

@@ -86,21 +86,14 @@ describe MercadoPago do
       MercadoPago::Settings.refresh_credentials
       expect(MercadoPago::Settings.ACCESS_TOKEN).to  eql("REFRESHED_TOKEN")
     end
-  end
 
-  context "User Setup" do 
-    
-    it "for a Advanced Setup" do
-      MercadoPago::Settings.CLIENT_ID     = "CLIENT_ID"
-      MercadoPago::Settings.CLIENT_SECRET = "CLIENT_SECRET"
-      
-      expect(MercadoPago::Settings.CLIENT_ID).to     eql("CLIENT_ID")
-      expect(MercadoPago::Settings.CLIENT_SECRET).to eql("CLIENT_SECRET")
-      expect(MercadoPago::Settings.ACCESS_TOKEN).to  eql("ACCESS_TOKEN")
+    xit "Setting Custom Credentials" do
+      MercadoPago::Settings.ACCESS_TOKEN = "TEST_ACCESS_TOKEN"
+      expect(MercadoPago::Settings.ACCESS_TOKEN).to  eql("TEST_ACCESS_TOKEN")
     end
 
   end
-  
+
   context "General Tests" do
     
     it "get_live_objects_as_html should return an html with the instance objects" do
@@ -110,9 +103,9 @@ describe MercadoPago do
 
     xit "should get mp connect url " do
       
-      base_url                      = "https://auth.mercadopago.com.ar/authorization"
-      redirect_uri                  = "http%3A%2Flocalhost%3A3000%2Fmp-connect-callback"
-      query                         = "client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=#{redirect_uri}"
+      base_url         = "https://auth.mercadopago.com.ar/authorization"
+      redirect_uri     = "http%3A%2Flocalhost%3A3000%2Fmp-connect-callback"
+      query            = "client_id=APP_ID&response_type=code&platform_id=mp&redirect_uri=#{redirect_uri}"
       
       MercadoPago::Settings.APP_ID  = "APP_ID"
       expect(MercadoPago.mp_connect_link_path("http://localhost:3000")).to eql("#{base_url}?#{query}")

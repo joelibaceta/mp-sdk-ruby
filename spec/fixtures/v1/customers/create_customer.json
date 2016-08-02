@@ -1,4 +1,4 @@
-{ 
+{
   "id": "211713195-rvTmbHpnqmwdKK",
   "email": "mail2@demo.com",
   "first_name": null,
@@ -21,7 +21,7 @@
   "description": null,
   "date_created": "2016-04-19T00:00:00.000-04:00",
   "date_last_updated": "2016-06-23T00:00:00.000-04:00",
-  "metadata": {}, 
+  "metadata": {},
   "addresses": [],
   "live_mode": false
 }
