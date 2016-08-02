@@ -1,4 +1,5 @@
 describe MercadoPago do
+
   context "MPMiddleware" do
     let(:app) { ->(env) { [200, env, "app"] } }
 
@@ -31,4 +32,5 @@ describe MercadoPago do
     end
 
   end
+
 end

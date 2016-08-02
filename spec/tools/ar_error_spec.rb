@@ -4,4 +4,5 @@ describe MercadoPago do
       expect { raise ARError.new("An Error") }.to raise_error(ARError, "An Error")
     end
   end
+
 end

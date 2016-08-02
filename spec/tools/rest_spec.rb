@@ -2,7 +2,6 @@ require_relative '../spec_helper'
 
 
 describe MercadoPago do
-  
    
   context "Rest Client" do
     it "do get request" do
@@ -21,20 +20,29 @@ describe MercadoPago do
       MercadoPago::RESTClient.delete("/dummy_delete", id: "15")
     end
     
-    it "do a request with custom headers" do
-      
+    xit "do a request with custom headers" do
     end
     
-    it "do a failed request" do
+    xit "do a failed request" do
     end
     
-    it "do a forbidden request" do
+    xit "do a forbidden request" do
     end
     
-    it "do a not found request" do 
+    xit "do a not found request" do
+    end
+
+    xit "has a request with custom header" do
     end
     
-    
-    
+    xit "has a request with json_data" do
+    end
+
+    xit "has a request with form data" do
+    end
+
+    xit "has a request with extra url params" do
+    end
+
   end
 end

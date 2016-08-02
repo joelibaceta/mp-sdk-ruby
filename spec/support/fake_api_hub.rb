@@ -19,12 +19,12 @@ class FakeAPIHub < Sinatra::Base
     json_response 200, 'payment_methods.json'
   end
 
+  #json_response 200, 'payment_methods.json'
   post '/v1/payment_method' do
-    #json_response 200, 'payment_methods.json'
   end
 
+  #json_response 200, 'payment_methods.json'
   post '/v1/create' do
-    #json_response 200, 'payment_methods.json'
   end
   
   get '/v1/identification_types' do
@@ -83,7 +83,6 @@ class FakeAPIHub < Sinatra::Base
 
     File.open(File.dirname(__FILE__) + '/../fixtures/' + file_name, 'rb').read
   end
-
 
 end
 

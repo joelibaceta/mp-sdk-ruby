@@ -47,8 +47,6 @@ describe MercadoPago do
       customer = MercadoPago::Customer.find_by_email("mail3@demo.com")
       expect(customer).to eql(nil)   
     end
-    
-    
-    
+
   end
 end
