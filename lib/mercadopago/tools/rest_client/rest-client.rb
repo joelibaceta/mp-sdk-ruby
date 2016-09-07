@@ -36,7 +36,7 @@ module MercadoPago
       query                 = url_query.map{|name, value| "#{name}=#{value}"}.join("&") if url_query
       uri                   = URI.parse("#{connection_params[:address]}#{request_path}?#{query}") 
       http                  = Net::HTTP.new(uri.host, uri.port) 
-      header                = {'Content-Type' =>'application/json'} 
+      header                = {'Content-Type' =>'application/json', 'User-Agent' => "MercadoPago Ruby SDK v1.0.1" } 
       
       addr, port            = connection_params[:proxy_addr], connection_params[:proxy_port]
       http.use_ssl          = connection_params[:use_ssl]     if connection_params[:use_ssl]
