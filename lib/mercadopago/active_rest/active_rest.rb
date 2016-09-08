@@ -164,7 +164,9 @@ module ActiveREST
   module_function :before_api_request
 
   #
-  def set_param(k, v); global_rest_params[k] = v; end
+  def set_param(k, v)
+    global_rest_params[k] = v
+  end
   module_function :set_param
 
   #

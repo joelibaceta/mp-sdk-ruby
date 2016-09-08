@@ -29,7 +29,7 @@ module MercadoPago
       verb                  = VERB_MAP[method]
       headers               =  options[:headers]
       url_query             =  options[:url_query]
-      form_data, json_data  =  options[:form_data], options[:json_data]  
+      form_data, json_data  =  options[:form_data], options[:json_data]
       default_http_params   = @@default_connection
       
       connection_params     = default_http_params #.merge(custom_http_params) rescue {}
@@ -47,6 +47,7 @@ module MercadoPago
       request               = addr.to_s != "" ? verb.new(uri, header, addr, port) : verb.new(uri, header)
 
       headers.each { |field, value| request.add_field(field, value) } if headers
+      
       
       data                  = URI.encode_www_form(form_data)  if form_data
       data                  = json_data                       if json_data

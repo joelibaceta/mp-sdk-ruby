@@ -6,7 +6,7 @@ module ActiveREST
   # Base class used by the classes to adquire the ActiveREST improvements
   #
   class Base
- 
+
     # Hash which manage the attributes for the object
     #
     attr_accessor :attributes
@@ -206,27 +206,31 @@ module ActiveREST
         item.remote_destroy
       end 
     end
+    
+    def set_param(k, v)
+      params = self.class.class_variable_get("@@global_rest_params")
+      params[k] = v
+      self.class_variable_set(params)
+    end
 
     # Remove an object from the local collections and
     # send a DELETE request to endpoint to delate a remote resource
     #
     def remote_destroy
-      self.class.prepare_rest_params
+      prepare_rest_params
       str_url = self.class.remove_url.url
       @attributes.map{ |k,v|  (str_url = str_url.gsub(":#{k}", v.to_s)) }
 
       if self.class.remove_url
         response = MercadoPago::RESTClient.delete(str_url, url_query: global_rest_params, headers: custom_headers)
-        if block_given?
-          yield response
-        end
+        yield response if block_given?
       end
     end
     alias_method :remote!, :remote_destroy
 
     
-    def self.prepare_rest_params
-      self.prepare_request_stack.map {|isq| isq.call}
+    def prepare_rest_params
+      self.class.prepare_request_stack.map {|isq| self.instance_eval &isq}
     end
     
     def primary_keys_hash
@@ -281,10 +285,12 @@ module ActiveREST
     
       
     def do_request(url, method)
-      self.class.prepare_rest_params
+      prepare_rest_params
+      
       params  = self.class.create_url.params.merge(global_rest_params)
       headers = self.class.class_variable_get("@@custom_headers")
       str_url = self.class.__send__(url).url
+       
       
       @attributes.map{|k,v| str_url = str_url.gsub(":#{k}", v.to_s)}
       

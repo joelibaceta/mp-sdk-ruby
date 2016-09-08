@@ -4,6 +4,7 @@ module MercadoPago
     #   Algorithms avaiblables
     #   SHA256, SHA384, SHA512, HMAC, SHA1, RMD160, MD5
     #
+    
     set_idempotency_algorithm 'SHA256'
 
     attr_accessor :user_token
@@ -53,12 +54,12 @@ module MercadoPago
     has_strong_attribute :coupon_amount
     has_strong_attribute :installments, type: Integer
     has_strong_attribute :token
-
-    before_api_request {
-      if @user_token.nil? || @user_token.empty?
+    
+    before_api_request {  
+      if self.user_token.nil? || self.user_token.empty? 
         set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN
-      else
-        set_param :access_token, @user_token
+      else  
+        set_param :access_token, self.user_token
       end
     }
     

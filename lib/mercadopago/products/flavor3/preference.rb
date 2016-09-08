@@ -33,11 +33,11 @@ module MercadoPago
     has_strong_attribute :payer,                type: Object
 
 
-    before_api_request {
-      if @user_token.nil? || @user_token.empty?
+    before_api_request {  
+      if self.user_token.nil? || self.user_token.empty? 
         set_param :access_token, MercadoPago::Settings.ACCESS_TOKEN
-      else
-        set_param :access_token, @user_token
+      else  
+        set_param :access_token, self.user_token
       end
     }
 
