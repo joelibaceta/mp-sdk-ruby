@@ -118,7 +118,7 @@ module ActiveREST
           when "Float";   return Float(value)
           when "Integer"; return Integer(value.to_i)
           when "String";  return String(value)
-          when "Date";    return Time.parse(value).iso8601
+          when "Date";    return Time.parse(value).iso8601 rescue value
         end
       rescue
         raise ARError,  "Type Error: Can't Parse #{value.class} " \
